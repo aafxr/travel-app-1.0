@@ -1,11 +1,11 @@
 import axios, {AxiosInstance} from 'axios'
 import {ACCESS_TOKEN, REFRESH_TOKEN, UNAUTHORIZED, USER_AUTH} from "../constants";
 import {APIResponseType} from "../api/fetch/types/APIResponseType";
-import clearUserData from "../utils/clearUserData";
 import {StoreName} from "../types/StoreName";
-import {UserType} from "../types/UserType";
 import {DB} from "../core/db/DB";
 import sleep from "../utils/sleep";
+import {User} from "../core/classes";
+import clearUserData from "../utils/clearUserData";
 
 
 interface AxiosInstanceWithFlag extends AxiosInstance{
@@ -46,7 +46,7 @@ type UserAuthType = {
 
 /**
  * Функция сохраняет токеныв indexedDB
- * @param {UserType} userAuth
+ * @param userAuth
  * @return {Promise<Awaited<number|string|Date|ArrayBufferView|ArrayBuffer|IDBValidKey[]>[]>}
  */
 async function saveTokensToDB(userAuth:UserAuthType) {
@@ -130,7 +130,7 @@ function refreshAuth() {
 
             await getTokensFromDB()
 
-            const response = await axios.post<APIResponseType<UserType>>(baseURL + '/user/auth/refresh/', {refresh_token}, {
+            const response = await axios.post<APIResponseType<User>>(baseURL + '/user/auth/refresh/', {refresh_token}, {
                 headers: {Authorization: refresh_token ? `Bearer ${refresh_token}` : ''}
             })
 
