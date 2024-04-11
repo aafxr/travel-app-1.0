@@ -1,10 +1,9 @@
 import aFetch from "../../axios";
-import {SectionType} from "../../types/SectionType";
-import {Section} from "../../classes/StoreEntities";
+import {Section} from "../../core/classes";
 
 type SectionAPIResponse = {
     ok: boolean
-    data: SectionType[]
+    data: Section[]
 }
 
 export async function fetchSections() {

@@ -1,6 +1,6 @@
-import {User} from "../../classes/StoreEntities";
+import {REFRESH_TOKEN} from "../../constants";
+import {User} from "../../core/classes";
 import aFetch from "../../axios";
-import {REFRESH_TOKEN} from "../../static/constants";
 
 export async function fetchRemoveUserAuth(user:User){
     await aFetch.post('/user/auth/remove/', {
