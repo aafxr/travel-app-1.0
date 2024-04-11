@@ -1,5 +1,6 @@
 import {DBFlagType} from "../../../types/DBFlagType";
 import {ExpenseVariantType} from "../../../types/ExpenseVariantType";
+import {nanoid} from "nanoid";
 
 /**
  * данный класс позволяет работать с расходами
@@ -41,7 +42,7 @@ export class Expense {
     constructor(expense?: Partial<Expense>) {
         if(!expense) expense = {}
 
-        this.id                 = expense.id !== undefined ? expense.id : ''
+        this.id                 = expense.id !== undefined ? expense.id : nanoid(7)
         this.entity_id          = expense.entity_id !== undefined ? expense.entity_id : ''
         this.entity_type        = expense.entity_type !== undefined ? expense.entity_type : ''
         this.primary_entity_id  = expense.primary_entity_id !== undefined ? expense.primary_entity_id : ''

@@ -1,7 +1,9 @@
-import {DBFlagType} from "../../../types/DBFlagType";
+import {nanoid} from "nanoid";
+
 import {MovementType} from "../../../types/MovementType";
+import {TravelPermission} from "../TravelPermission";
+import {DBFlagType} from "../../../types/DBFlagType";
 import {Preference} from "../Preference";
-import {TravelPermission} from "../Permission";
 
 /**
  * представление основной сущности путешествия
@@ -70,7 +72,7 @@ export class Travel {
     constructor(travel?: Partial<Travel>) {
         if(!travel) travel = {}
 
-        this.id             = travel.id !== undefined ? travel.id : ''
+        this.id             = travel.id !== undefined ? travel.id : nanoid(7)
         this.code           = travel.code !== undefined ? travel.code : ''
         this.description    = travel.description !== undefined ? travel.description : ''
         this.direction      = travel.direction !== undefined ? travel.direction : ''

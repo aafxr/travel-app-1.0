@@ -1,4 +1,5 @@
 import {DBFlagType} from "../../../types/DBFlagType";
+import {nanoid} from "nanoid";
 
 
 /**
@@ -27,7 +28,7 @@ export class Limit {
     constructor(limit?: Partial<Limit>) {
         if(!limit) limit = {}
 
-        this.id                 = limit.id !== undefined ? limit.id : ''
+        this.id                 = limit.id !== undefined ? limit.id : nanoid(7)
         this.personal           = limit.personal !== undefined ? limit.personal : 0
         this.section_id         = limit.section_id !== undefined ? limit.section_id : ''
         this.value              = limit.value !== undefined ? limit.value : 0

@@ -22,5 +22,6 @@ export enum StoreName{
     ERRORS = 'errors',
     UPDATED_TRAVEL_INFO = 'updatedTravelInfo',
     ACTION = 'Action',
-    MESSAGE = 'Message'
+    MESSAGE = 'Message',
+    UNINITIALIZED = 'uninitialized'
 }
