@@ -1,5 +1,6 @@
 import {DBFlagType} from "../../../types/DBFlagType";
 import {nanoid} from "nanoid";
+import {LimitDTO} from "../dto/Limit.dto";
 
 
 /**
@@ -25,7 +26,7 @@ export class Limit {
     value: number
     primary_entity_id: string;
 
-    constructor(limit?: Partial<Limit>) {
+    constructor(limit?: Partial<Limit> | LimitDTO) {
         if(!limit) limit = {}
 
         this.id                 = limit.id !== undefined ? limit.id : nanoid(7)

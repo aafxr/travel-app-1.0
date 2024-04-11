@@ -2,6 +2,7 @@ import {nanoid} from "nanoid";
 import {ActionType} from "../../../types/ActionType";
 import {StoreName} from "../../../types/StoreName";
 import {DBFlagType} from "../../../types/DBFlagType";
+import {ActionDto} from "../dto/Action.dto";
 
 
 /**
@@ -36,7 +37,7 @@ export class Action<T extends object> {
     synced: DBFlagType;
     user_id = '';
 
-    constructor(action?: Partial<Action<T>>) {
+    constructor(action?: Partial<Action<T>> | ActionDto) {
         if(!action) action = {}
 
         this.id         = action.id !== undefined ? action.id : nanoid(16)

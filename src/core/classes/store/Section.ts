@@ -1,4 +1,5 @@
 import {DBFlagType} from "../../../types/DBFlagType";
+import {SectionDto} from "../dto/Section.dto";
 
 /**
  * класс для работы с сущностью Section
@@ -18,7 +19,7 @@ export class Section{
     title: string;
     hidden: DBFlagType;
 
-    constructor(section?: Partial<Section>) {
+    constructor(section?: Partial<Section> | SectionDto) {
         if(!section) section = {}
 
         this.id     = section.id !== undefined ? section.id : ''

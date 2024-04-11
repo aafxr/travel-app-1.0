@@ -1,5 +1,6 @@
 import {Member} from "./Member";
 import {UserSettingsType} from "../../../types/UserSettingsType";
+import {UserDto} from "../dto";
 
 /**
  * представление пользователя приложения
@@ -38,11 +39,14 @@ export class User extends Member {
         day: 1
     };
 
-    constructor(user: Partial<User>) {
+    constructor(user: Partial<User> | UserDto) {
         super(user);
 
-        this.token = user.token ? user.token : ''
-        this.refresh_token = user.refresh_token ? user.refresh_token : ''
+        this.token = ''
+        this.refresh_token = ''
+
+        if('token' in user && user.token !== undefined) this.token =  user.token
+        if('refresh_token' in user && user.refresh_token !== undefined) this.refresh_token = user.refresh_token
     }
 
 }

@@ -1,3 +1,5 @@
+import {MemberDto} from "../dto";
+
 /**
  * представление пользователя приложения
  *
@@ -21,7 +23,7 @@ export class Member {
     age: number;
 
 
-    constructor(member: Partial<Member>) {
+    constructor(member: Partial<Member> | MemberDto) {
         this.id = member.id ? member.id : ''
         this.username = member.username ? member.username : ''
         this.first_name = member.first_name ? member.first_name : ''

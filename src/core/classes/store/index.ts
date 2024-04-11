@@ -1,5 +1,6 @@
 export * from './Section'
 export * from './Expense'
+export * from './Message'
 export * from './Member'
 export * from './Travel'
 export * from './Action'

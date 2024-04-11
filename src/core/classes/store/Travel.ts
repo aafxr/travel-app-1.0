@@ -4,6 +4,7 @@ import {MovementType} from "../../../types/MovementType";
 import {TravelPermission} from "../TravelPermission";
 import {DBFlagType} from "../../../types/DBFlagType";
 import {Preference} from "../Preference";
+import {TravelDTO} from "../dto/Travel.dto";
 
 /**
  * представление основной сущности путешествия
@@ -69,7 +70,7 @@ export class Travel {
     preference: Preference;
     permission: TravelPermission;
 
-    constructor(travel?: Partial<Travel>) {
+    constructor(travel?: Partial<Travel> | TravelDTO) {
         if(!travel) travel = {}
 
         this.id             = travel.id !== undefined ? travel.id : nanoid(7)

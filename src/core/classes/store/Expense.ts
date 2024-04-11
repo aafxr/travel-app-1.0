@@ -1,6 +1,7 @@
 import {DBFlagType} from "../../../types/DBFlagType";
 import {ExpenseVariantType} from "../../../types/ExpenseVariantType";
 import {nanoid} from "nanoid";
+import {ExpenseDTO} from "../dto/Expense.dto";
 
 /**
  * данный класс позволяет работать с расходами
@@ -39,7 +40,7 @@ export class Expense {
     value: number;
     variant?: ExpenseVariantType = "expenses_actual";
 
-    constructor(expense?: Partial<Expense>) {
+    constructor(expense?: Partial<Expense> | ExpenseDTO) {
         if(!expense) expense = {}
 
         this.id                 = expense.id !== undefined ? expense.id : nanoid(7)
@@ -56,6 +57,6 @@ export class Expense {
         this.datetime           = expense.datetime !== undefined ? new Date(expense.datetime) : new Date(0)
         this.created_at         = expense.created_at !== undefined ? new Date(expense.created_at) : new Date()
 
-        if(expense.variant) this.variant = expense.variant
+        if('variant' in expense) this.variant = expense.variant
     }
 }
