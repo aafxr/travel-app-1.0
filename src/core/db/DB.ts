@@ -1,8 +1,8 @@
-import {Action, StoreEntity} from "../StoreEntities";
 import {openIDBDatabase} from "./openIDBDatabaase";
 import {StoreName} from "../../types/StoreName";
 import {IndexName} from "../../types/IndexName";
-import {ActionName} from "../../types/ActionsType";
+import {ActionType} from "../../types/ActionType";
+import {Action} from "../classes";
 
 /**
  * @class DB
@@ -49,8 +49,7 @@ export class DB {
         const db = await openIDBDatabase()
         const tx = db.transaction(storeName, "readwrite")
         const store = tx.objectStore(storeName)
-        if (data instanceof StoreEntity) store.put(data.dto())
-        else store.put(data)
+        store.put(data)
     }
 
     /**
@@ -58,12 +57,11 @@ export class DB {
      * @param storeName
      * @param data
      */
-    static async delete<T extends StoreEntity | IDBValidKey>(storeName: StoreName, data: T) {
+    static async delete<T extends IDBValidKey>(storeName: StoreName, data: T) {
         const db = await openIDBDatabase()
         const tx = db.transaction(storeName, "readwrite")
         const store = tx.objectStore(storeName)
-        if (data instanceof StoreEntity) store.delete(data.dto().id)
-        else store.delete(data)
+        store.delete(data)
     }
 
     /**
@@ -178,35 +176,18 @@ export class DB {
     }
 
 
-    /**
-     * принимает массив инстансов __наследников класса StoreEntity__ и записывает все элементы в соответствующий массив
-     * @param elements
-     * @deprecated
-     */
-    static async writeAll<T extends Pick<StoreEntity, 'dto' | 'storeName'>>(elements: T[] = []) {
-        if (!elements.length) return
-        const storeNames = elements.map(el => el.storeName)
-        const set = new Set(storeNames)
-        const db = await openIDBDatabase()
-        const tx = db.transaction([...set], 'readwrite')
-        for (const el of elements) {
-            const store = tx.objectStore(el.storeName)
-            store.put(el.dto())
-        }
-    }
-
-    static async writeWithAction<T extends Object>(storeName:StoreName, item: T, user_id: string, actionType:ActionName){
-        const action = new Action(item, user_id, storeName, actionType)
+    static async writeWithAction<T extends Object>(storeName:StoreName, item: T, user_id: string, actionType:ActionType){
+        const action = Action.getAction(item, user_id, storeName, actionType)
         const db = await openIDBDatabase()
         const tx = db.transaction([storeName, StoreName.ACTION], 'readwrite')
         const itemStore = tx.objectStore(storeName)
         const actionStore = tx.objectStore(StoreName.ACTION)
         switch (actionType){
-            case ActionName.ADD:
+            case ActionType.ADD:
                 itemStore.add(item)
                 actionStore.add(action)
                 return
-            case ActionName.UPDATE:
+            case ActionType.UPDATE:
                 itemStore.put(item)
                 actionStore.put(action)
                 return

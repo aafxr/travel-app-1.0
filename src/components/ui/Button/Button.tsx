@@ -1,8 +1,9 @@
 import React, {ButtonHTMLAttributes} from "react";
 import clsx from "clsx";
 
-import './Button.css'
 import Loader from "../../Loader/Loader";
+
+import './Button.css'
 
 
 interface ButtonPropsType extends ButtonHTMLAttributes<HTMLButtonElement> {

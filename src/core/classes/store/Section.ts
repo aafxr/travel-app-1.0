@@ -1,5 +1,5 @@
 import {DBFlagType} from "../../../types/DBFlagType";
-import {SectionDto} from "../dto/Section.dto";
+import {SectionDto} from "../dto";
 
 /**
  * класс для работы с сущностью Section

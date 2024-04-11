@@ -1,5 +1,5 @@
 import aFetch from "../../axios";
-import {Action} from "../../classes/StoreEntities";
+import {Action} from "../../core/classes";
 
 type ResponseType<T extends {}> = {
     ok:boolean
@@ -12,7 +12,7 @@ const dateKeys = ['created_at', 'updated_at']
 export async function fetchActions<T extends {}>(time_ms:number){
     const result = (await aFetch.post<ResponseType<T>>('/actions/get/', {time: time_ms})).data
     if(result.ok && result.data){
-        const actions = result.data.map(a => new Action<T>(a.data, a.user_id, a.entity, a.action))
+        const actions = result.data.map(a => new Action<T>(a))
         actions.forEach(a => {
             Object.keys(a.data)
                 .forEach(key => {
