@@ -1,3 +1,3 @@
 export * from './store'
-export * from './Permission'
+export * from './TravelPermission'
 export * from './Preference'
