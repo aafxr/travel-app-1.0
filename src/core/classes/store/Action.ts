@@ -39,24 +39,22 @@ export class Action<T extends object> {
     constructor(action?: Partial<Action<T>>) {
         if(!action) action = {}
 
-        this.id = action.id !== undefined ? action.id : nanoid(16)
-        this.uid = action.uid !== undefined ? action.uid : this.id
-        this.action = action.action !== undefined ? action.action : ActionType.ADD
-        this.data = action.data !== undefined ? action.data : {}
-        this.datetime = action.datetime !== undefined ? new Date(action.datetime) : new Date()
-        this.entity = action.entity !== undefined ? action.entity : StoreName.UNINITIALIZED
-        this.synced = action.synced !== undefined ? action.synced : 0
-        this.user_id = action.user_id !== undefined ? action.user_id : ''
+        this.id         = action.id !== undefined ? action.id : nanoid(16)
+        this.uid        = action.uid !== undefined ? action.uid : this.id
+        this.action     = action.action !== undefined ? action.action : ActionType.ADD
+        this.data       = action.data !== undefined ? action.data : {}
+        this.datetime   = action.datetime !== undefined ? new Date(action.datetime) : new Date()
+        this.entity     = action.entity !== undefined ? action.entity : StoreName.UNINITIALIZED
+        this.synced     = action.synced !== undefined ? action.synced : 0
+        this.user_id    = action.user_id !== undefined ? action.user_id : ''
     }
 
     static getAction<T extends object>(data: T, user_id: string, entity: StoreName, actionType: ActionType){
         const action = new Action()
-
         if(data) action.data = data
         if(user_id) action.user_id = user_id
         if(entity) action.entity = entity
         if(actionType) action.action = actionType
-
         return action
     }
 }
