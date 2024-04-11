@@ -1,0 +1,49 @@
+{
+  "recurseDepth": 20,
+  "source": {
+    "includePattern": "\\.(jsx|js|ts|tsx)$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": [
+      "jsdoc",
+      "closure"
+    ]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "search": true,
+    "default": {
+      "staticFiles": {
+        "include": [
+          "./style.css"
+        ]
+      }
+    },
+    "better-docs": {
+      "title": "TravelerApp",
+      "css": "style.css",
+      "name": "TravelerApp Documentation",
+      "component": {
+        "entry": [
+          "import 'babel-polyfill';",
+          "import 'bulma/css/bulma.css';",
+          "import './style.css';"
+        ]
+      }
+    }
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/typescript",
+    "node_modules/better-docs/category"
+  ],
+  "title": "TravelerApp Documentation",
+  "opts": {
+    "template": "node_modules/better-docs"
+  },
+  "categoryfile": "jsdoc_category_file.json"
+}

@@ -1,0 +1,21 @@
+{
+    "ignorePatterns": [
+        "*.test.{js,jsx}"
+    ],
+    "rules": {
+        "prefer-rest-params": "off",
+        "testing-library/no-node-access": "off",
+        "no-useless-computed-key": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "no-restricted-globals": "off",
+        "no-unused-vars": "off"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module"
+    },
+    "extends": [
+        "react-app",
+        "react-app/jest"
+    ]
+}

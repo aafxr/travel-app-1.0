@@ -1,0 +1,1 @@
+export type RouteFilterType = 'byDays' | 'onMap' | 'allPlaces'

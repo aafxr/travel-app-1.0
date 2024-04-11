@@ -1,0 +1,50 @@
+.checkbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 8px 0;
+
+}
+
+.checkbox label {
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.checkbox.left label {
+    /*padding-left: 0.5rem;*/
+}
+
+.checkbox.right label {
+    padding-right: 0.5rem;
+    justify-content: flex-start;
+}
+
+.checkbox-dot {
+    flex: 0 0 auto;
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.checkbox.left{
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.checkbox .mark {
+    visibility: hidden;
+}
+
+.checkbox.checked .mark {
+    visibility: visible;
+}
+
+.checkbox .circle {
+    visibility: visible;
+}
+
+.checkbox.checked .circle {
+    visibility: hidden;
+}

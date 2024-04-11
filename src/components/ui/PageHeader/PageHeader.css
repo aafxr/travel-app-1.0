@@ -1,0 +1,76 @@
+.page-header-container {
+    position: relative;
+    display: flex;
+    padding: 0.5rem 0;
+    /*stroke: var(--color-icon);*/
+    /*fill: var(--color-text);*/
+    pointer-events: none;
+}
+
+.page-header-container > * {
+    pointer-events: all;
+}
+
+.travel-details-header{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    background-color: transparent;
+}
+
+.page-header {
+    flex: 1;
+    pointer-events: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.page-header-icon, .page-header-icons {
+    position: relative;
+    flex: none;
+    min-width: var(--x);
+    height: var(--x);
+    pointer-events: all;
+    /*color: var(--color-icon);*/
+}
+
+.page-header-icons svg,.page-header-icons img{
+    width: var(--icon-size);
+    height: var(--icon-size);
+}
+
+.page-header-icon{
+    /*color: var(--color-icon);*/
+    cursor: pointer;
+}
+
+.page-header-icon svg{
+    position: absolute;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.icons-container{
+    position: absolute;
+    visibility: hidden;
+    overflow-x: hidden;
+    transform: translateX(-100%);
+}
+
+.icons-container.open{
+    visibility: visible;
+}
+
+@keyframes icons-animation {
+    from{
+        max-width: 0;
+    }
+    to{
+        max-width: 100%;
+    }
+}
+

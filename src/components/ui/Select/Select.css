@@ -1,0 +1,76 @@
+.select{
+    --select-icon-width:24px;
+    --select-padding:10px;
+
+    position: relative;
+    border-radius: var(--border-radius);
+    transition: max-height .3s, box-shadow .3s;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.select.active{
+    box-shadow: var(--box-shadow);
+}
+
+.select.border{
+    border: 2px solid var(--color-grey);
+}
+
+.select-header{
+    position: relative;
+    cursor: pointer;
+    min-width: 40px;
+}
+
+.select-item,
+.select-value,
+.select-chevron{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding:  var(--select-padding) 0 var(--select-padding) var(--select-padding);
+    background-color: var(--color-background);
+}
+
+.select-value{
+    padding-right: var(--select-icon-width);
+    height: 2.55rem;
+}
+
+.select-item{
+    cursor: pointer;
+    height: calc(var(--select-padding) * 2 + var(--select-icon-width));
+}
+
+.select-options{
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--color-secondary);
+}
+
+
+.select-item span{
+    flex: none;
+    width: var(--select-icon-width);
+}
+
+.select-chevron{
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    width: var(--select-icon-width);
+    height: var(--select-icon-width);
+    color: var(--color-text);
+
+    transform: translateY(-50%) rotate(0);
+    transition: transform .3s;
+    object-fit: contain;
+}
+
+.select.active .select-chevron{
+    transform: translateY(-50%) rotate(-180deg);
+}

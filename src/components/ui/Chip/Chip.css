@@ -1,0 +1,70 @@
+.chip{
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+    padding: 8px 9px;
+
+    color: var(--color-text);
+    stroke: white;
+    font-size: .7rem;
+    line-height: 1;
+    font-weight: 700;
+    white-space: nowrap;
+
+    border-radius: 9px;
+    transition: opasity .3s;
+    cursor: default;
+}
+
+.chip-with-icon{
+    padding: 4px 9px;
+}
+
+.chip-text{
+    position: relative;
+    /*top: -0.07rem;*/
+}
+
+.chip-icon{
+    position: relative;
+    flex: 0 0 auto;
+    width: var(--icon-size-small);
+    height: var(--icon-size-small);
+}
+
+.chip.chip-icon{
+    padding: 4px 9px;
+}
+
+.chip-rounded{
+    border-radius: 30.5rem;
+}
+.chip-orange {
+    color: #fff;
+    background-color: var(--color-primary);
+}
+.chip-green {
+    background-color: var(--color-green);
+}
+
+.chip-grey{
+    color: var(--color-black);
+    background-color: var(--color-grey-light);
+}
+
+.chip-light-orange{
+    color: black;
+    background-color: var(--color-primary-light);
+}
+
+.chip-red{
+    color: #ffffff;
+    background-color: var(--color-red);
+}
+.chip-light-orange img{
+    /*stroke: var(--color-text);*/
+}
+
+.chip-pointer{
+    cursor: pointer;
+}
