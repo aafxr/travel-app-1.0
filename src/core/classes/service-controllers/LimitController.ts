@@ -1,7 +1,8 @@
 import {Limit} from "../store";
+import {Context} from "../Context";
 
 export class LimitController{
-    static async create(limit: Limit){
+    static async create(ctx: Context, limit: Limit){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class LimitController{
         }
     }
 
-    static async read(limitID:string){
+    static async read(ctx: Context, limitID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class LimitController{
         }
     }
 
-    static async readAll(...limitIDs:string[]){
+    static async readAll(ctx: Context, ...limitIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class LimitController{
         }
     }
 
-    static async update(limit:Limit){
+    static async update(ctx: Context, limit:Limit){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class LimitController{
         }
     }
 
-    static async delete(limit:Limit){
+    static async delete(ctx: Context, limit:Limit){
         try {
 
         }catch (e){

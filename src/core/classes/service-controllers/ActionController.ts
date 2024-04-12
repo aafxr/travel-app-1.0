@@ -1,7 +1,8 @@
 import {Action} from "../store";
+import {Context} from "../Context";
 
 export class ActionController{
-    static async create<T extends {}>(expense: Action<T>){
+    static async create<T extends {}>(ctx: Context, expense: Action<T>){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class ActionController{
         }
     }
 
-    static async read(expenseID:string){
+    static async read(ctx: Context, expenseID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class ActionController{
         }
     }
 
-    static async readAll(...expenseIDs:string[]){
+    static async readAll(ctx: Context, ...expenseIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class ActionController{
         }
     }
 
-    static async update<T extends {}>(expense:Action<T>){
+    static async update<T extends {}>(ctx: Context, expense:Action<T>){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class ActionController{
         }
     }
 
-    static async delete<T extends {}>(expense:Action<T>){
+    static async delete<T extends {}>(ctx: Context, expense:Action<T>){
         try {
 
         }catch (e){

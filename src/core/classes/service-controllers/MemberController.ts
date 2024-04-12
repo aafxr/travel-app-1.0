@@ -1,7 +1,8 @@
 import {Member} from "../store";
+import {Context} from "../Context";
 
 export class MemberController{
-    static async create(member: Member){
+    static async create(ctx: Context, member: Member){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class MemberController{
         }
     }
 
-    static async read(memberID:string){
+    static async read(ctx: Context, memberID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class MemberController{
         }
     }
 
-    static async readAll(...memberIDs:string[]){
+    static async readAll(ctx: Context, ...memberIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class MemberController{
         }
     }
 
-    static async update(member:Member){
+    static async update(ctx: Context, member:Member){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class MemberController{
         }
     }
 
-    static async delete(member:Member){
+    static async delete(ctx: Context, member:Member){
         try {
 
         }catch (e){

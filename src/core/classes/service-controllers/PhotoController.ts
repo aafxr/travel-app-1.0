@@ -1,7 +1,8 @@
 import {Photo} from "../store";
+import {Context} from "../Context";
 
 export class PhotoController{
-    static async create(photo: Photo){
+    static async create(ctx: Context, photo: Photo){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class PhotoController{
         }
     }
 
-    static async read(photoID:string){
+    static async read(ctx: Context, photoID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class PhotoController{
         }
     }
 
-    static async readAll(...photoIDs:string[]){
+    static async readAll(ctx: Context, ...photoIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class PhotoController{
         }
     }
 
-    static async update(photo:Photo){
+    static async update(ctx: Context, photo:Photo){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class PhotoController{
         }
     }
 
-    static async delete(photo:Photo){
+    static async delete(ctx: Context, photo:Photo){
         try {
 
         }catch (e){

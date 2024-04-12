@@ -1,7 +1,8 @@
 import {Expense} from "../store";
+import {Context} from "../Context";
 
 export class ExpenseController{
-    static async create(expense: Expense){
+    static async create(ctx: Context, expense: Expense){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class ExpenseController{
         }
     }
 
-    static async read(expenseID:string){
+    static async read(ctx: Context, expenseID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class ExpenseController{
         }
     }
 
-    static async readAll(...expenseIDs:string[]){
+    static async readAll(ctx: Context, ...expenseIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class ExpenseController{
         }
     }
 
-    static async update(expense:Expense){
+    static async update(ctx: Context, expense:Expense){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class ExpenseController{
         }
     }
 
-    static async delete(expense:Expense){
+    static async delete(ctx: Context, expense:Expense){
         try {
 
         }catch (e){

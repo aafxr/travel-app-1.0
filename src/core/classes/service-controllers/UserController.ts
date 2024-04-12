@@ -1,7 +1,8 @@
 import {User} from "../store";
+import {Context} from "../Context";
 
 export class UserController{
-    static async create(user: User){
+    static async create(ctx: Context, user: User){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class UserController{
         }
     }
 
-    static async read(userID:string){
+    static async read(ctx: Context, userID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class UserController{
         }
     }
 
-    static async readAll(...userIDs:string[]){
+    static async readAll(ctx: Context, ...userIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class UserController{
         }
     }
 
-    static async update(user:User){
+    static async update(ctx: Context, user:User){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class UserController{
         }
     }
 
-    static async delete(user:User){
+    static async delete(ctx: Context, user:User){
         try {
 
         }catch (e){

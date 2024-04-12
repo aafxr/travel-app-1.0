@@ -1,7 +1,8 @@
 import {Travel} from "../store";
+import {Context} from "../Context";
 
 export class TravelController{
-    static async create(travel:Travel){
+    static async create(ctx: Context, travel:Travel){
         try {
 
         }catch (e){
@@ -9,7 +10,7 @@ export class TravelController{
         }
     }
 
-    static async read(travelID:string){
+    static async read(ctx: Context, travelID:string){
         try {
 
         }catch (e){
@@ -17,7 +18,7 @@ export class TravelController{
         }
     }
 
-    static async readAll(...travelIDs:string[]){
+    static async readAll(ctx: Context, ...travelIDs:string[]){
         try {
 
         }catch (e){
@@ -25,7 +26,7 @@ export class TravelController{
         }
     }
 
-    static async update(travel:Travel){
+    static async update(ctx: Context, travel:Travel){
         try {
 
         }catch (e){
@@ -33,7 +34,7 @@ export class TravelController{
         }
     }
 
-    static async delete(travel:Travel){
+    static async delete(ctx: Context, travel:Travel){
         try {
 
         }catch (e){
