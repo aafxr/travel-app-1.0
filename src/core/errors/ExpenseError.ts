@@ -11,7 +11,11 @@ export class ExpenseError extends CustomError {
         return new ExpenseError(`Отказ в доступе на изменение расхода`, ErrorCode.EXPENSE_PERMISSION_DENIED)
     }
 
-    static updateBeforeCreate() {
-        return new ExpenseError(`Обновление до создания расхода`, ErrorCode.EXPENSE_UPDATE_BEFORE_CREATE)
+    static updateExpenseNotExist() {
+        return new ExpenseError(`Обновление до создания расхода`, ErrorCode.UPDATE_EXPENSE_NOT_EXIST)
+    }
+
+    static deleteExpenseNotExist() {
+        return new ExpenseError(`Удаление до создания расхода`, ErrorCode.DELETE_EXPENSE_NOT_EXIST)
     }
 }

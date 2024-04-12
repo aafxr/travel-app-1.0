@@ -19,4 +19,12 @@ export class LimitError extends CustomError{
         return new LimitError('Обновление лимита до создания', ErrorCode.LIMIT_UPDATE_BEFORE_CREATE)
     }
 
+    static updatingLimitNotExist(){
+        return new LimitError('Обновление лимита до создания', ErrorCode.UPDATING_LIMIT_NOT_EXIST)
+    }
+
+    static deleteLimitNotExist(){
+        return new LimitError('Удаляемого лимита нет в бд', ErrorCode.DELETE_LIMIT_NOT_EXIST)
+    }
+
 }
