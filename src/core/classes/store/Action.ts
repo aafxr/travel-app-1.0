@@ -25,13 +25,13 @@ import {ActionDto} from "../dto/Action.dto";
  * __synced__,
  * __user_id__,
  */
-export class Action<T extends object> {
+export class Action<T extends Record<string, any>> {
 
     id:string;
     uid: string;
     action: ActionType;
     /** dto object */
-    data: {};
+    data: T;
     datetime: Date;
     entity: StoreName;
     synced: DBFlagType;
@@ -43,7 +43,7 @@ export class Action<T extends object> {
         this.id         = action.id !== undefined ? action.id : nanoid(16)
         this.uid        = action.uid !== undefined ? action.uid : this.id
         this.action     = action.action !== undefined ? action.action : ActionType.ADD
-        this.data       = action.data !== undefined ? action.data : {}
+        this.data       = action.data !== undefined ? action.data as T: {} as T
         this.datetime   = action.datetime !== undefined ? new Date(action.datetime) : new Date()
         this.entity     = action.entity !== undefined ? action.entity : StoreName.UNINITIALIZED
         this.synced     = action.synced !== undefined ? action.synced : 0
