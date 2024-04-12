@@ -1,1 +1,3 @@
-export type ExpenseVariantType = 'expenses_actual' | 'expenses_plan'
+import {StoreName} from "./StoreName";
+
+export type ExpenseVariantType = StoreName.EXPENSES_ACTUAL | StoreName.EXPENSES_PLAN
