@@ -106,5 +106,6 @@ export class ExpenseService{
             console.error(e)
             throw NetworkError.connectionError()
         }
+        return expense
     }
 }

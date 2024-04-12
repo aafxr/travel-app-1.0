@@ -107,5 +107,6 @@ export class LimitService {
             console.error(e)
             throw NetworkError.connectionError()
         }
+        return limit
     }
 }
