@@ -3,6 +3,7 @@ import {StoreName} from "../../types/StoreName";
 import {IndexName} from "../../types/IndexName";
 import {ActionType} from "../../types/ActionType";
 import {Action} from "../classes";
+import {PredicateType} from "../../types/Predicate";
 
 /**
  * @class DB
@@ -221,14 +222,17 @@ export class DB {
      * @param storeName
      * @param query
      * @param direction
+     * @param predicate - callback которыый отфильтрует подходящие данные
      */
-    static async* openCursor<T>(storeName: StoreName, query?: IDBValidKey | IDBKeyRange, direction?: IDBCursorDirection) {
+    static async* openCursor<T>(storeName: StoreName, query?: IDBValidKey | IDBKeyRange, direction?: IDBCursorDirection, predicate?: PredicateType<T>) {
         const db = await openIDBDatabase()
         const tx = db.transaction(storeName)
         const store = tx.objectStore(storeName)
         let cursor = await store.openCursor(query, direction)
         while (cursor) {
-            yield cursor.value as T
+            const item = cursor.value as T
+            if(!predicate) yield item
+            else if(predicate(item)) yield item
             cursor = await cursor.continue()
         }
     }
@@ -246,13 +250,16 @@ export class DB {
      * @param indexName
      * @param query
      * @param direction
+     * @param predicate - callback которыый отфильтрует подходящие данные
      */
-    static async* openIndexCursor<T>(storeName: StoreName,indexName: IndexName, query?: IDBValidKey | IDBKeyRange, direction?: IDBCursorDirection) {
+    static async* openIndexCursor<T>(storeName: StoreName,indexName: IndexName, query?: IDBValidKey | IDBKeyRange, direction?: IDBCursorDirection, predicate?: PredicateType<T>) {
         const db = await openIDBDatabase()
         const index = db.transaction(storeName).objectStore(storeName).index(indexName)
         let cursor = await index.openCursor(query, direction)
         while (cursor) {
-            yield cursor.value as T
+            const item = cursor.value as T
+            if(!predicate) yield item
+            else if(predicate(item)) yield item
             cursor = await cursor.continue()
         }
     }
