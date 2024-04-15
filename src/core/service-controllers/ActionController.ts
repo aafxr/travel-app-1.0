@@ -1,5 +1,4 @@
-import {Action} from "../classes/store";
-import {Context} from "../classes/Context";
+import {Action, Context} from "../classes";
 
 export class ActionController{
     static async create<T extends {}>(ctx: Context, expense: Action<T>){
