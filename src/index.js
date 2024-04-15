@@ -6,13 +6,14 @@ import {BrowserRouter} from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import {AppContextProvider} from "./contexts/AppContextProvider/AppContextProvider";
-import ThemeContextProvider from "./contexts/ThemeContextProvider";
+import defaultHandleError from "./utils/error-handlers/defaultHandleError";
+import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
+import {ThemeContextProvider} from "./contexts/ThemeContextProvider";
 import {pushAlertMessage} from "./components/Alerts";
 import {CACHE_VERSION, THEME} from "./constants";
 import setFixedVH from "./utils/setFixedVH";
-
 import App from './App';
-import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
+
 
 
 let theme = localStorage.getItem(THEME)
@@ -49,7 +50,7 @@ if (+version !== CACHE_VERSION) {
             cacheNames.map(cacheName => caches.delete(cacheName))
         )
             .then(() => window.location.reload())
-    }).catch(err => errorReport.sendError(err))
+    }).catch(defaultHandleError)
 }
 
 serviceWorkerRegistration.register()

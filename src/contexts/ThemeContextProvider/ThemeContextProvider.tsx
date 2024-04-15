@@ -15,7 +15,7 @@ const defaultThemeContext = {
 export const ThemeContext = createContext(defaultThemeContext)
 
 
-export default function ThemeContextProvider({children}: PropsWithChildren) {
+export function ThemeContextProvider({children}: PropsWithChildren) {
     const context = useContext(ThemeContext)
     const [state, setState] = useState(defaultThemeContext)
 

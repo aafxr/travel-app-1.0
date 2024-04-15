@@ -1,12 +1,9 @@
-import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
-
-
+import Container from "./components/Container/Container";
 
 function App() {
 
-
     return (
-        <></>
+        <Container>asd</Container>
     );
 }
 

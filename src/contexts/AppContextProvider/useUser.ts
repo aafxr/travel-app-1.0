@@ -1,6 +1,6 @@
 import {useAppContext} from "./useAppContext";
 import {useEffect, useState} from "react";
-import {User} from "../../classes/StoreEntities";
+import {User} from "../../core/classes";
 
 export function useUser(){
     const [state, setState] = useState<{ user:User | null }>({user:null})

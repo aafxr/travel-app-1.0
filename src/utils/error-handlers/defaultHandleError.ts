@@ -1,7 +1,6 @@
-import {pushAlertMessage} from "../../components/Alerts/Alerts";
-import ErrorReport from "../../controllers/ErrorReport";
+import {pushAlertMessage} from "../../components/Alerts";
 import {StoreName} from "../../types/StoreName";
-import {DB} from "../../classes/db/DB";
+import {DB} from "../../core/db/DB";
 
 
 function saveErrorToDB(e: Error) {
@@ -22,7 +21,7 @@ export default function defaultHandleError(err: Error, message?: string) {
     if (err.message.match(/Failed to fetch/i)) {
         pushAlertMessage({type: "info", message: 'Проверьте подключение к интернету'})
     } else {
-        ErrorReport.sendError(err).catch(console.error)
+        // ErrorReport.sendError(err).catch(console.error)
         pushAlertMessage({type: "info", message: message || err.message})
         saveErrorToDB(err)
     }
