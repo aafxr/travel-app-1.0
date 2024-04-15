@@ -1,4 +1,5 @@
 export * from './fetcchPlaceByID'
+export * from './fetchHotelByID'
 export * from './fetchExchangeCource'
 export * from './fetchPhoto'
 export * from './fetchPlaces'
