@@ -1,6 +1,6 @@
 import {DBStoreDescriptionType} from "../../types/DBStoreDescriptionType";
 import {DB_NAME, DB_STORES, DB_VERSION} from "./db-constants";
-import {pushAlertMessage} from "../../components/Alerts/Alerts";
+// import {pushAlertMessage} from "../../components/Alerts/Alerts";
 import {openDB} from "idb";
 
 
@@ -56,23 +56,23 @@ export async function openIDBDatabase(dbname: string = DB_NAME, version = DB_VER
         },
         blocked(currentVersion, blockedVersion, event) {
             // …
-            pushAlertMessage({
-                type: 'danger',
-                message: `[DB blocked] currentVersion: ${currentVersion}, blockedVersion${blockedVersion}`
-            })
+            // pushAlertMessage({
+            //     type: 'danger',
+            //     message: `[DB blocked] currentVersion: ${currentVersion}, blockedVersion${blockedVersion}`
+            // })
 
             console.warn(event)
         },
         blocking(currentVersion, blockedVersion, event) {
             // …
-            pushAlertMessage({
-                type: 'danger',
-                message: `[DB blocking] currentVersion: ${currentVersion}, blockedVersion${blockedVersion}`
-            })
+            // pushAlertMessage({
+            //     type: 'danger',
+            //     message: `[DB blocking] currentVersion: ${currentVersion}, blockedVersion${blockedVersion}`
+            // })
         },
         terminated() {
             // …
-            pushAlertMessage({type: 'danger', message: `[DB terminated]`})
+            // pushAlertMessage({type: 'danger', message: `[DB terminated]`})
         },
     });
 }
