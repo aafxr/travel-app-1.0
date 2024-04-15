@@ -31,4 +31,6 @@ export enum ErrorCode{
 
     PLACE_ALREADY_EXIST = 700,
 
+    HOTEL_ALREADY_EXIST = 800,
+
 }

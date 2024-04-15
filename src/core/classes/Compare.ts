@@ -1,5 +1,4 @@
-import {Expense, Limit, Photo, Travel, User} from "./store";
-import {Place} from "./store/Place";
+import {Expense, Hotel, Limit, Photo, Travel, User, Place} from "./store";
 
 export class Compare{
     static travel(oldTravel: Travel, newTravel: Travel){
@@ -120,8 +119,25 @@ export class Compare{
         if(oldPlace.location !== newPlace.location) result.location = newPlace.location
 
         if(oldPlace.day !== newPlace.day) result.day = newPlace.day
-        if(oldPlace.date_start !== newPlace.date_start) result.date_start = newPlace.date_start
-        if(oldPlace.date_end !== newPlace.date_end) result.date_end = newPlace.date_end
+        if(oldPlace.date_start.getTime() !== newPlace.date_start.getTime()) result.date_start = new Date(newPlace.date_start)
+        if(oldPlace.date_end.getTime() !== newPlace.date_end.getTime()) result.date_end = new Date(newPlace.date_end)
+
+        return result
+    }
+
+    static hotel(oldHotel: Hotel, newHotel: Hotel){
+        const result: Partial<Hotel> = {id: newHotel.id}
+
+        if(oldHotel.name !== newHotel.name) result.name = newHotel.name
+        if(oldHotel.photo !== newHotel.photo) result.photo = newHotel.photo
+        if(!oldHotel.position.every((c, idx) => c === newHotel.position[idx])) result.position = newHotel.position
+        if(oldHotel.price !== newHotel.price) result.price = newHotel.price
+        if(oldHotel.rate !== newHotel.rate) result.rate = newHotel.rate
+        if(!oldHotel.tags.every((el, idx) => el === newHotel.tags[idx])) result.tags = newHotel.tags
+
+        if(oldHotel.day !== newHotel.day) result.day = newHotel.day
+        if(oldHotel.date_start.getTime() !== newHotel.date_start.getTime()) result.date_start = new Date(newHotel.date_start)
+        if(oldHotel.date_end.getTime() !== newHotel.date_end.getTime()) result.date_end = new Date(newHotel.date_end)
 
         return result
     }
