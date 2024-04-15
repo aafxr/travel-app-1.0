@@ -1,0 +1,82 @@
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    left: 20px;
+
+    pointer-events: none;
+    z-index: 3000;
+}
+
+.alert-item {
+    position: relative;
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    border-radius: 5px;
+    background-color: var(--color-background);
+    box-shadow: 0 0 3px var(--alert-shadow-color);
+    animation: var(--alert-animation-duration) alert-animation;
+    overflow: hidden;
+}
+
+.alert-item::after{
+    opacity: .3;
+    background-color: var(--color-primary);
+}
+
+.alert-icon{
+    width: var(--icon-size);
+    height: var(--icon-size);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.close-svg {
+    position: absolute;
+    top: .25rem;
+    right: .25rem;
+    width: calc(var(--x) / 4);
+    height: calc(var(--x) / 4);
+    background: url("../../../public/icons/close.svg") no-repeat center;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.alert-line {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    animation: var(--alert-animation-duration) alert-line-animation;
+}
+
+
+@keyframes alert-animation {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+@keyframes alert-line-animation {
+    0%, 10% {
+        width: 100%;
+    }
+    90%, 100% {
+        width: 0;
+    }
+}

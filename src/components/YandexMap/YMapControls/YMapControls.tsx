@@ -4,7 +4,7 @@ import type {Map} from 'ymaps/index'
 
 import userLocation from "../../../utils/userLocation";
 import {UserLocationIcon, MinusIcon} from "../../svg";
-import {pushAlertMessage} from "../../Alerts/Alerts";
+import {pushAlertMessage} from "../../Alerts";
 import {PlusIcon} from "../../svg";
 import {useYMap} from "../useYMap";
 
