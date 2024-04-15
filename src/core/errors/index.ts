@@ -9,3 +9,6 @@ export * from './ExpenseError'
 export * from './LimitError'
 export * from './NetworkError'
 export * from './UserError'
+export * from './PlaceError'
+export * from './HotelError'
+

@@ -1,4 +1,4 @@
-import {PlaceDto} from "../dto/PlaceDto";
+import {PlaceDto} from "../dto";
 
 export class Place{
     id: string
