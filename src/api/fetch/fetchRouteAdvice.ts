@@ -1,6 +1,5 @@
 import aFetch from "../../axios";
 import {DBFlagType} from "../../types/DBFlagType";
-import {Route} from "../../classes/StoreEntities/route/Route";
 
 type PreferencesType = {
     history?: DBFlagType
@@ -106,10 +105,10 @@ type ResponseParamsType = {
     routes: APIRouteType[]
 }
 
-export async function fetchRouteAdvice(query: RequestParamsType): Promise<Route[]> {
-    const response: ResponseParamsType = (await aFetch.post('/travel/wizard/test2.php', query)).data
+export async function fetchRouteAdvice(query: RequestParamsType){
+    const response: ResponseParamsType = (await aFetch.post<ResponseParamsType>('/travel/wizard/test2.php', query)).data
     console.log(response)
     if (response)
-        return response.routes.map(r => new Route(r))
+        return response
     return []
 }
