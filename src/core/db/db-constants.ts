@@ -3,7 +3,7 @@ import {StoreName} from "../../types/StoreName";
 import {IndexName} from "../../types/IndexName";
 
 export const DB_NAME = 'travelAppStore'
-export const DB_VERSION = 38
+export const DB_VERSION = 39
 
 export const DB_STORES: DBStoreDescriptionType[] = [
     {
@@ -25,6 +25,11 @@ export const DB_STORES: DBStoreDescriptionType[] = [
     },
     {
         name: StoreName.USERS,
+        key: 'id',
+        indexes: [],
+    },
+    {
+        name: StoreName.PLACE,
         key: 'id',
         indexes: [],
     },

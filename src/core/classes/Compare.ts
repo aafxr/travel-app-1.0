@@ -1,4 +1,5 @@
 import {Expense, Limit, Photo, Travel, User} from "./store";
+import {Place} from "./store/Place";
 
 export class Compare{
     static travel(oldTravel: Travel, newTravel: Travel){
@@ -107,6 +108,21 @@ export class Compare{
     static photo(oldPhoto: Photo, newPhoto: Photo){
         const result: Partial<Photo> = {id: newPhoto.id}
         if(oldPhoto.base64 !== newPhoto.base64) result.base64 = newPhoto.base64
+        return result
+    }
+
+    static place(oldPlace: Place, newPlace: Place){
+        const result: Partial<Place> = {id: newPlace.id}
+
+        if(oldPlace.name !== newPlace.name) result.name = newPlace.name
+        if(oldPlace.formatted_address !== newPlace.formatted_address) result.formatted_address = newPlace.formatted_address
+        if(oldPlace.photos !== newPlace.photos) result.photos = newPlace.photos
+        if(oldPlace.location !== newPlace.location) result.location = newPlace.location
+
+        if(oldPlace.day !== newPlace.day) result.day = newPlace.day
+        if(oldPlace.date_start !== newPlace.date_start) result.date_start = newPlace.date_start
+        if(oldPlace.date_end !== newPlace.date_end) result.date_end = newPlace.date_end
+
         return result
     }
 }
