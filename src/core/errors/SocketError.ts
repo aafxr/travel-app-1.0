@@ -1,6 +1,6 @@
 import {CustomError} from "./CustomError";
-import {Action} from "../StoreEntities";
 import {ErrorCode} from "./ErrorCode";
+import {Action} from "../classes";
 
 
 export class SocketError extends CustomError{

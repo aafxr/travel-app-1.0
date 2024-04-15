@@ -1,5 +1,5 @@
-import {Travel} from "../../classes/StoreEntities";
 import aFetch from "../../axios";
+import {Travel} from "../../core/classes";
 
 type ResponseSendTravelType = {
     ok:boolean

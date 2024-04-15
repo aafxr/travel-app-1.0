@@ -1,5 +1,5 @@
 import aFetch from "../../axios";
-import {Travel} from "../../classes/StoreEntities";
+import {Travel} from "../../core/classes";
 
 type GetListResposneType = {
     ok: boolean

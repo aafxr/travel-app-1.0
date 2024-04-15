@@ -11,11 +11,11 @@
 
 
 import {precacheAndRoute, createHandlerBoundToURL} from 'workbox-precaching';
-import {StaleWhileRevalidate, CacheFirst, NetworkFirst} from 'workbox-strategies';
+import {StaleWhileRevalidate, CacheFirst} from 'workbox-strategies';
 import {ExpirationPlugin} from 'workbox-expiration';
 import {registerRoute} from 'workbox-routing';
+import {CACHE_VERSION, GLOBAL_DB_VERSION} from "../constants";
 
-import {CACHE_VERSION, GLOBAL_DB_VERSION} from "./static/constants";
 
 declare let self: ServiceWorkerGlobalScope
 

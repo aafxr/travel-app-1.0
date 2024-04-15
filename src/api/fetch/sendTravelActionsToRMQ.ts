@@ -1,5 +1,5 @@
-import {Action} from "../../classes/StoreEntities";
 import aFetch from "../../axios";
+import {Action} from "../../core/classes";
 
 /**
  * отправляет action в очередь rabitmq
