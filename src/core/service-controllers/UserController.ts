@@ -1,5 +1,5 @@
-import {User} from "../store";
-import {Context} from "../Context";
+import {User} from "../classes/store";
+import {Context} from "../classes/Context";
 import {UserService} from "../services";
 
 export class UserController{

@@ -1,6 +1,6 @@
-import {Context} from "../Context";
+import {Context} from "../classes/Context";
 import {PlaceService} from "../services";
-import {Place} from "../store";
+import {Place} from "../classes/store";
 
 export class PlaceController{
     static async create(ctx: Context, place: Place){

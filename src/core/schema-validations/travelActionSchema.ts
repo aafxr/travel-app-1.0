@@ -1,5 +1,5 @@
 import Joi from "joi";
-import {StoreName} from "../../../types/StoreName";
+import {StoreName} from "../../types/StoreName";
 
 export const travelActionSchema = Joi.object({
     id: Joi.string().required(),

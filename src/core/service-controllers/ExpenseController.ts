@@ -1,8 +1,8 @@
-import {Expense} from "../store";
-import {Context} from "../Context";
+import {Expense} from "../classes/store";
+import {Context} from "../classes/Context";
 import {ExpenseService} from "../services";
-import {CustomError} from "../../errors/CustomError";
-import {ErrorCode} from "../../errors/ErrorCode";
+import {CustomError} from "../errors/CustomError";
+import {ErrorCode} from "../errors/ErrorCode";
 
 export class ExpenseController{
     static async create(ctx: Context, expense: Expense){

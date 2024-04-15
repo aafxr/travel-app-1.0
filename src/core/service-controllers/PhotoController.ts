@@ -1,5 +1,5 @@
-import {Photo} from "../store";
-import {Context} from "../Context";
+import {Photo} from "../classes/store";
+import {Context} from "../classes/Context";
 
 export class PhotoController{
     static async create(ctx: Context, photo: Photo){

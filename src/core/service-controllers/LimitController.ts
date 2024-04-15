@@ -1,7 +1,7 @@
-import {Limit} from "../store";
-import {Context} from "../Context";
-import {CustomError} from "../../errors/CustomError";
-import {ErrorCode} from "../../errors/ErrorCode";
+import {Limit} from "../classes/store";
+import {Context} from "../classes/Context";
+import {CustomError} from "../errors/CustomError";
+import {ErrorCode} from "../errors/ErrorCode";
 import {LimitService} from "../services";
 
 export class LimitController{

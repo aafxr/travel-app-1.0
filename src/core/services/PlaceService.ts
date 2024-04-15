@@ -1,28 +1,28 @@
-import {Context} from "../Context";
-import {Hotel} from "../store";
-import {Action} from "../store";
-import {ActionType} from "../../../types/ActionType";
-import {StoreName} from "../../../types/StoreName";
-import {DB} from "../../db/DB";
-import {HotelError} from "../../errors";
-import {ActionDto} from "../dto";
-import {sendActions} from "../../../api/fetch/sendActions";
-import {NetworkError} from "../../errors";
-import {fetchHotelByID} from "../../../api/fetch";
-import {Compare} from "../Compare";
+import {Context} from "../classes/Context";
+import {Action} from "../classes/store";
+import {ActionType} from "../../types/ActionType";
+import {StoreName} from "../../types/StoreName";
+import {Place} from "../classes/store/Place";
+import {DB} from "../db/DB";
+import {PlaceError} from "../errors/PlaceError";
+import {sendActions} from "../../api/fetch/sendActions";
+import {ActionDto} from "../classes/dto";
+import {NetworkError} from "../errors";
+import {fetchPlaceByID} from "../../api/fetch";
+import {Compare} from "../classes/Compare";
 
-export class HotelService{
-    static async create(ctx: Context, hotel: Hotel){
+export class PlaceService{
+    static async create(ctx: Context, place: Place){
         const action = new Action({
             action:ActionType.ADD,
             entity: StoreName.PLACE,
-            data: hotel
+            data: place
         })
 
         try {
-            await DB.add(StoreName.PLACE, hotel)
+            await DB.add(StoreName.PLACE, place)
         }catch (e){
-            throw HotelError.hotelAlreadyExist(hotel)
+            throw PlaceError.placeAlreadyExist(place)
         }
         await DB.add(StoreName.ACTION, action)
         try {
@@ -35,40 +35,40 @@ export class HotelService{
         } catch (e){
             throw NetworkError.connectionError()
         }
-        return hotel
+        return place
     }
 
-    static async read(ctx: Context, hotelID:string){
-        let hotel = await DB.getOne<Hotel>(StoreName.PLACE, hotelID)
-        if (hotel) return
+    static async read(ctx: Context, placeID:string){
+        let place = await DB.getOne<Place>(StoreName.PLACE, placeID)
+        if (place) return
 
-        const id = hotelID.split(':').pop()
+        const id = placeID.split(':').pop()
         if(id !== undefined) {
-            const response = await fetchHotelByID(id)
+            const response = await fetchPlaceByID(id)
             if(response.ok){
-                hotel = new Hotel(response.data)
-                await DB.add(StoreName.PLACE, hotel)
-                return hotel
+                place = new Place(response.data)
+                await DB.add(StoreName.PLACE, place)
+                return place
             }
         }
     }
 
-    static async readAll(ctx: Context, ...hotelIDs:string[]){
-        const hotels = []
-        for (const hotelID of hotelIDs){
+    static async readAll(ctx: Context, ...placeIDs:string[]){
+        const places = []
+        for (const placeID of placeIDs){
             try {
-                const hotel = await HotelService.read(ctx, hotelID)
-                if(hotel) hotels.push(hotel)
+                const place = await PlaceService.read(ctx, placeID)
+                if(place) places.push(place)
             } catch (e){
                 console.error(e)
             }
         }
-        return hotels
+        return places
     }
 
-    static async update(ctx: Context, hotel: Hotel){
-        const ext = await DB.getOne<Hotel>(StoreName.PLACE, hotel.id) || new Hotel({})
-        const dif = Compare.hotel(ext, hotel)
+    static async update(ctx: Context, place: Place){
+        const ext = await DB.getOne<Place>(StoreName.PLACE, place.id) || new Place({})
+        const dif = Compare.place(ext, place)
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.PLACE,
@@ -86,11 +86,11 @@ export class HotelService{
         } catch (e){
             throw NetworkError.connectionError()
         }
-        return hotel
+        return place
     }
 
-    static async delete(ctx: Context, hotel: Hotel){
-        const {id} = hotel
+    static async delete(ctx: Context, place: Place){
+        const {id} = place
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.PLACE,
@@ -109,6 +109,6 @@ export class HotelService{
         } catch (e){
             throw NetworkError.connectionError()
         }
-        return hotel
+        return place
     }
 }

@@ -1,12 +1,12 @@
-import {Context} from "../Context";
-import {Action, Expense} from "../store";
-import {ActionType} from "../../../types/ActionType";
-import {ExpenseError, NetworkError, UserError} from "../../errors";
-import {DB} from "../../db/DB";
-import {StoreName} from "../../../types/StoreName";
-import {ActionDto} from "../dto";
-import {sendActions} from "../../../api/fetch/sendActions";
-import {Compare} from "../Compare";
+import {Context} from "../classes/Context";
+import {Action, Expense} from "../classes/store";
+import {ActionType} from "../../types/ActionType";
+import {ExpenseError, NetworkError, UserError} from "../errors";
+import {DB} from "../db/DB";
+import {StoreName} from "../../types/StoreName";
+import {ActionDto} from "../classes/dto";
+import {sendActions} from "../../api/fetch/sendActions";
+import {Compare} from "../classes/Compare";
 
 export class ExpenseService{
     static async create(ctx: Context, expense: Expense){

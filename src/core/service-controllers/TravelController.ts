@@ -1,5 +1,5 @@
-import {Travel} from "../store";
-import {Context} from "../Context";
+import {Travel} from "../classes/store";
+import {Context} from "../classes/Context";
 
 export class TravelController{
     static async create(ctx: Context, travel:Travel){

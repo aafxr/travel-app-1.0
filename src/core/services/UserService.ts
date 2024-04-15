@@ -1,12 +1,12 @@
-import {Context} from "../Context";
-import {Action, User} from "../store";
-import {DB} from "../../db/DB";
-import {StoreName} from "../../../types/StoreName";
-import {Compare} from "../Compare";
-import {ActionType} from "../../../types/ActionType";
-import {ActionDto} from "../dto";
-import {sendActions} from "../../../api/fetch/sendActions";
-import {NetworkError, UserError} from "../../errors";
+import {Context} from "../classes/Context";
+import {Action, User} from "../classes/store";
+import {DB} from "../db/DB";
+import {StoreName} from "../../types/StoreName";
+import {Compare} from "../classes/Compare";
+import {ActionType} from "../../types/ActionType";
+import {ActionDto} from "../classes/dto";
+import {sendActions} from "../../api/fetch/sendActions";
+import {NetworkError, UserError} from "../errors";
 
 export class UserService{
     static async create(ctx: Context, user: User){

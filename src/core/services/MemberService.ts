@@ -1,7 +1,7 @@
-import {Context} from "../Context";
-import {Member} from "../store";
-import {DB} from "../../db/DB";
-import {StoreName} from "../../../types/StoreName";
+import {Context} from "../classes/Context";
+import {Member} from "../classes/store";
+import {DB} from "../db/DB";
+import {StoreName} from "../../types/StoreName";
 
 export class MemberService{
     static async create(ctx: Context, member: Member){

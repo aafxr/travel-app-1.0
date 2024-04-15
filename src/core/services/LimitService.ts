@@ -1,12 +1,12 @@
-import {Context} from "../Context";
-import {Action, Limit} from "../store";
-import {ActionType} from "../../../types/ActionType";
-import {StoreName} from "../../../types/StoreName";
-import {LimitError, NetworkError, UserError} from "../../errors";
-import {DB} from "../../db/DB";
-import {sendActions} from "../../../api/fetch/sendActions";
-import {ActionDto} from "../dto";
-import {Compare} from "../Compare";
+import {Context} from "../classes/Context";
+import {Action, Limit} from "../classes/store";
+import {ActionType} from "../../types/ActionType";
+import {StoreName} from "../../types/StoreName";
+import {LimitError, NetworkError, UserError} from "../errors";
+import {DB} from "../db/DB";
+import {sendActions} from "../../api/fetch/sendActions";
+import {ActionDto} from "../classes/dto";
+import {Compare} from "../classes/Compare";
 
 export class LimitService {
     static async create(ctx: Context, limit: Limit) {

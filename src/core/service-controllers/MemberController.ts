@@ -1,5 +1,5 @@
-import {Member} from "../store";
-import {Context} from "../Context";
+import {Member} from "../classes/store";
+import {Context} from "../classes/Context";
 import {MemberService} from "../services";
 
 export class MemberController{
