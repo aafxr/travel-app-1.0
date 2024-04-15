@@ -28,6 +28,7 @@ export enum ErrorCode{
     Unexpected_Action_Entity_Type = 500,
 
     PHOTO_LOADING_ERROR = 600,
+    PHOTO_ALREADY_EXIST ,
 
     PLACE_ALREADY_EXIST = 700,
 

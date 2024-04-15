@@ -11,4 +11,5 @@ export * from './NetworkError'
 export * from './UserError'
 export * from './PlaceError'
 export * from './HotelError'
+export * from './PhotoError'
 
