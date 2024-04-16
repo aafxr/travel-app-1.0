@@ -1,26 +1,43 @@
-import {Context} from "../classes/Context";
-import {Hotel} from "../classes/store";
-import {Action} from "../classes/store";
+import {Context} from "../classes";
+import {Hotel} from "../classes";
+import {Action} from "../classes";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../db/DB";
-import {HotelError} from "../errors";
+import {HotelError, PlaceError, TravelError} from "../errors";
 import {ActionDto} from "../classes/dto";
 import {sendActions} from "../../api/fetch/sendActions";
 import {NetworkError} from "../errors";
 import {fetchHotelByID} from "../../api/fetch";
-import {Compare} from "../classes/Compare";
+import {Compare} from "../classes";
+import {TravelService} from "./TravelService";
+import {CustomError} from "../errors/CustomError";
+import {ErrorCode} from "../errors/ErrorCode";
 
 export class HotelService{
     static async create(ctx: Context, hotel: Hotel){
+        const travelID = hotel.id.split(':')[1]
+        if(!travelID) throw PlaceError.unbindedPlace()
+
+        const travel = await TravelService.read(ctx, travelID)
+        if(!travel) throw TravelError.unexpectedTravelId(travelID)
+
         const action = new Action({
             action:ActionType.ADD,
-            entity: StoreName.PLACE,
+            entity: StoreName.HOTELS,
             data: hotel
         })
 
         try {
-            await DB.add(StoreName.PLACE, hotel)
+            travel.hotels_id.push(hotel.id)
+            await TravelService.update(ctx, travel)
+        } catch (e){
+            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+            else throw e
+        }
+
+        try {
+            await DB.add(StoreName.HOTELS, hotel)
         }catch (e){
             throw HotelError.hotelAlreadyExist(hotel)
         }
@@ -39,7 +56,7 @@ export class HotelService{
     }
 
     static async read(ctx: Context, hotelID:string){
-        let hotel = await DB.getOne<Hotel>(StoreName.PLACE, hotelID)
+        let hotel = await DB.getOne<Hotel>(StoreName.HOTELS, hotelID)
         if (hotel) return
 
         const id = hotelID.split(':').pop()
@@ -47,7 +64,7 @@ export class HotelService{
             const response = await fetchHotelByID(id)
             if(response.ok){
                 hotel = new Hotel(response.data)
-                await DB.add(StoreName.PLACE, hotel)
+                await DB.add(StoreName.HOTELS, hotel)
                 return hotel
             }
         }
@@ -67,11 +84,11 @@ export class HotelService{
     }
 
     static async update(ctx: Context, hotel: Hotel){
-        const ext = await DB.getOne<Hotel>(StoreName.PLACE, hotel.id) || new Hotel({})
+        const ext = await DB.getOne<Hotel>(StoreName.HOTELS, hotel.id) || new Hotel({})
         const dif = Compare.hotel(ext, hotel)
         const action = new Action({
             action:ActionType.UPDATE,
-            entity: StoreName.PLACE,
+            entity: StoreName.HOTELS,
             data: dif
         })
 
@@ -90,14 +107,28 @@ export class HotelService{
     }
 
     static async delete(ctx: Context, hotel: Hotel){
+        const travelID = hotel.id.split(':')[1]
+        if(!travelID) throw PlaceError.unbindedPlace()
+
+        const travel = await TravelService.read(ctx, travelID)
+        if(!travel) throw TravelError.unexpectedTravelId(travelID)
+
         const {id} = hotel
         const action = new Action({
             action:ActionType.UPDATE,
-            entity: StoreName.PLACE,
+            entity: StoreName.HOTELS,
             data: {id}
         })
 
-        await DB.delete(StoreName.PLACE, id)
+        try {
+            travel.hotels_id = travel.hotels_id.filter(id => id !== hotel.id)
+            await TravelService.update(ctx, travel)
+        } catch (e){
+            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+            else throw e
+        }
+
+        await DB.delete(StoreName.HOTELS, id)
         await DB.add(StoreName.ACTION, action)
         try {
             const dto = new ActionDto(action)

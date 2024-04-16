@@ -7,12 +7,22 @@ import {DB} from "../db/DB";
 import {PlaceError} from "../errors/PlaceError";
 import {sendActions} from "../../api/fetch/sendActions";
 import {ActionDto} from "../classes/dto";
-import {NetworkError} from "../errors";
+import {NetworkError, TravelError} from "../errors";
 import {fetchPlaceByID} from "../../api/fetch";
 import {Compare} from "../classes/Compare";
+import {TravelService} from "./TravelService";
+import {CustomError} from "../errors/CustomError";
+import {ErrorCode} from "../errors/ErrorCode";
 
 export class PlaceService{
+
     static async create(ctx: Context, place: Place){
+        const travelID = place.id.split(':')[1]
+        if(!travelID) throw PlaceError.unbindedPlace()
+
+        const travel = await TravelService.read(ctx, travelID)
+        if(!travel) throw TravelError.unexpectedTravelId(travelID)
+
         const action = new Action({
             action:ActionType.ADD,
             entity: StoreName.PLACE,
@@ -24,6 +34,15 @@ export class PlaceService{
         }catch (e){
             throw PlaceError.placeAlreadyExist(place)
         }
+
+        try {
+            travel.places_id.push(place.id)
+            await TravelService.update(ctx, travel)
+        } catch (e){
+            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+            else throw e
+        }
+
         await DB.add(StoreName.ACTION, action)
         try {
             const dto = new ActionDto(action)
@@ -90,12 +109,26 @@ export class PlaceService{
     }
 
     static async delete(ctx: Context, place: Place){
+        const travelID = place.id.split(':')[1]
+        if(!travelID) throw PlaceError.unbindedPlace()
+
+        const travel = await TravelService.read(ctx, travelID)
+        if(!travel) throw TravelError.unexpectedTravelId(travelID)
+
         const {id} = place
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.PLACE,
             data: {id}
         })
+
+        try {
+            travel.places_id = travel.places_id.filter(id => id !== place.id)
+            await TravelService.update(ctx, travel)
+        } catch (e){
+            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+            else throw e
+        }
 
         await DB.delete(StoreName.PLACE, id)
         await DB.add(StoreName.ACTION, action)
