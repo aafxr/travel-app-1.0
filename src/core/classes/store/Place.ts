@@ -1,5 +1,12 @@
 import {PlaceDto} from "../dto";
+import {Travel} from "./Travel";
+import {nanoid} from "nanoid";
 
+
+/**
+ * place should have id format like uniqHash:travelID:placeIDFromApi
+ * hash  в ид используется для случаев если указанное место будет посещено несколько раз
+ */
 export class Place{
     id: string
     name: string
@@ -27,5 +34,9 @@ export class Place{
         this.day = place.day !== undefined ? place.day : 0
         this.date_start = place.date_start !== undefined ? new Date(place.date_start) : new Date(0)
         this.date_end = place.date_end !== undefined ? new Date(place.date_end) : new Date(0)
+    }
+
+    static getID(travel: Travel, apiPlace: Place){
+        return `${nanoid(7)}:${travel.id}:${apiPlace.id}`
     }
 }

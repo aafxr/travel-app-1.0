@@ -61,6 +61,7 @@ export class Travel {
 
     movementTypes: MovementType[];
     places_id: string[];
+    hotels_id: string[];
     waypoints_id: string[];
 
     admins: string[];
@@ -94,6 +95,7 @@ export class Travel {
 
         this.movementTypes  = travel.movementTypes !== undefined ? [...travel.movementTypes] : [ MovementType.CAR ]
         this.places_id      = travel.places_id !== undefined ? [...travel.places_id] : []
+        this.hotels_id      = travel.hotels_id !== undefined ? [...travel.hotels_id] : []
         this.waypoints_id   = travel.waypoints_id !== undefined ? [...travel.waypoints_id] : []
 
         this.preference     = travel.preference !== undefined ? Object.assign({}, travel.preference) : new Preference()

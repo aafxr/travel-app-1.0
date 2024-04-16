@@ -1,5 +1,12 @@
-import {HotelDto} from "../dto/Hotel.dto";
+import {HotelDto} from "../dto";
+import {Travel} from "./Travel";
+import {nanoid} from "nanoid";
 
+
+/**
+ * hotel should have id format like uniqHash:travelID:hotelIDFromApi
+ * hash  в ид используется для случаев если указанный отель будет посещено несколько раз
+ */
 export class Hotel{
     id: string
     name: string
@@ -36,5 +43,10 @@ export class Hotel{
         if('day' in hotel && hotel.day !== undefined) this.day = hotel.day
         if('date_start' in hotel && hotel.date_start !== undefined) this.date_start = new Date(hotel.date_start)
         if('date_end' in hotel && hotel.date_end !== undefined) this.date_end = new Date(hotel.date_end)
+    }
+
+
+    static getID(travel: Travel, apiHotel: Hotel){
+        return `${nanoid(7)}:${travel.id}:${apiHotel.id}`
     }
 }
