@@ -1,7 +1,7 @@
 import aFetch from "../../axios";
 import {Travel} from "../../core/classes";
 
-type GetListResposneType = {
+type GetListResponseType = {
     ok: boolean
     data: Travel[]
     message?: string
@@ -9,7 +9,7 @@ type GetListResposneType = {
 
 export async function fetchTravels(): Promise<Travel[]>{
     try {
-        const request = (await aFetch.get<GetListResposneType>('/travel/getList/')).data
+        const request = (await aFetch.get<GetListResponseType>('/travel/getList/')).data
         let travels:Travel[] = request.ok ? request.data : []
         travels = travels.map(t => new Travel(t))
         return travels
