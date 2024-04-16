@@ -19,7 +19,7 @@ export class Member {
     username: string;
     first_name: string;
     last_name: string;
-    photo?: Record<string, any>;
+    photo?: string;
     age: number;
 
 
@@ -28,7 +28,7 @@ export class Member {
         this.username = member.username ? member.username : ''
         this.first_name = member.first_name ? member.first_name : ''
         this.last_name = member.last_name ? member.last_name : ''
-        this.photo = member.photo ? member.photo : {}
+        this.photo = member.photo ? member.photo : ''
         this.age = member.age ? member.age : 18
     }
 }

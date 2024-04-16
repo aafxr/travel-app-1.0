@@ -1,0 +1,58 @@
+.curtain{
+    position: relative;
+    height: 100%;
+    pointer-events: none;
+}
+
+.curtain-header{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+.curtain-container{
+    position: absolute;
+    /*top: 0;*/
+    right: 0;
+    /*bottom: 0;*/
+    left: 0;
+    height: 100%;
+    background: var(--color-background);
+    box-shadow: 0 -10px 30px 0 rgba(0, 0, 0, 0.10);
+    z-index: 2;
+    /*transition: top .3s, max-height .3s;*/
+    pointer-events: all;
+}
+
+.curtain-container.scrolled{
+    border-radius: var(--br-20) var(--br-20) 0 0;
+}
+
+.curtain-top-btn{
+     margin: 1rem auto;
+     width: 67px;
+     height: 4px;
+     background-color: var(--color-grey);
+     border-radius: var(--br-16);
+     border: none;
+     outline: none;
+     cursor: pointer;
+}
+
+.curtain-top-btn--direction{
+    margin: 0.3rem auto ;
+    padding: 0 10px;
+    max-width: 70%;
+    font-size: .8rem;
+    font-weight: 600;
+    color: black;
+    border-radius: var(--br-16);
+    background-color: var(--color-grey-light);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}

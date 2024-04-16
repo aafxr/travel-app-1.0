@@ -1,0 +1,91 @@
+:root, .light-theme {
+    --color-green: #52CF37;
+    --color-primary: #FF8E09;
+    --color-primary-text: #FFF;
+    --color-primary-light: #FFF3E4;
+    --color-secondary: #FFF;
+    --color-background: #FFF;
+    --color-background-alt: var(--color-grey-light);
+    --color-background-input: #fff;
+    --color-grey: #A2A2A2;
+    --color-grey-light: #F0F0F0;
+    --color-text: #000;
+    --color-text-50: rgba(30, 30, 30, 0.50);
+    --color-text-secondary: #000;
+    --color-text-light: #1E1E1E;
+    --color-blue: #0075FF;
+    --color-black: #000000;
+    --color-navigation-bg: var(--color-secondary);
+    --color-placeholder: #c9c9c9;
+    --color-link: var(--color-primary);
+    --color-star: #E3CD00;
+    --color-whatsapp: #25D366;
+    --color-telegram: #0088CC;
+    --color-share-link: var(--color-grey-light);
+    --color-banner: #AAACCF;
+    --color-blur-backdrop: rgba(255,255,255,.4);
+
+    --color-icon: var(--color-text);
+    --color-icon-alt: #000;
+    --color-primary-button: #fff;
+
+    --color-success: #52CF37;
+    --color-warning: #E3CD00;
+    --color-danger: #FF0909;
+    --color-red: #ff4c4c;
+
+    --box-shadow: 0 0 16px rgba(205,205,205, .7);
+    --alert-shadow-color: rgba(0,0,0,.3);
+    --border: 2px solid var(--color-grey);
+
+    --modal-bg: rgba(0,0,0,.6);
+    --input-highlight-color: rgba(255, 142,	9, 0.7);
+
+    --controls-shadow: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.10));
+
+    --right-msg-bg: #519df5;
+    --right-msg-text: #fff;
+    --left-msg-bg: var(--color-grey-light);
+    --left-msg-text: #000;
+
+
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-primary: #FF8E09;
+        --color-secondary: #000;
+        --color-text-secondary: var(--color-grey);
+        --color-text-light: #E1E1E1;
+
+        --color-text: #fff;
+        --color-text-50: rgba(235, 235, 235, 0.50);
+        --color-background: rgb(30,30,30);
+        --color-background-alt: #333;
+        --color-navigation-bg: rgb(30,30,30);
+        --color-icon: var(--color-text);
+        --color-icon-alt: #000;
+        --box-shadow: 0 0 16px rgba(90,90,90, .7);
+        --alert-shadow-color: rgba(255,255,255,.3);
+        --color-blur-backdrop: rgba(0,0,0,.4);
+    }
+}
+
+
+.dark-theme{
+    --color-primary: #FF8E09;
+    --color-secondary: #000;
+    --color-text-secondary: var(--color-grey);
+    --color-text-light: #E1E1E1;
+
+    --color-text: #fff;
+    --color-text-50: rgba(235, 235, 235, 0.50);
+    --color-background: rgb(30,30,30);
+    --color-background-alt: #333;
+    --color-navigation-bg: rgb(30,30,30);
+    --color-icon: var(--color-text);
+    --color-icon-alt: #000;
+    --box-shadow: 0 0 16px rgba(90,90,90, .7);
+    --alert-shadow-color: rgba(255,255,255,.3);
+    --color-blur-backdrop: rgba(0,0,0,.4);
+}

@@ -2,8 +2,8 @@ import clsx from "clsx";
 import {useSwipeable} from "react-swipeable";
 import React, {PropsWithChildren, useEffect, useState} from "react";
 
-import useOutside from "../../../hooks/useOutside";
 import {CheckIcon, TrashIcon} from "../../svg";
+import {useOutside} from "../../../hooks";
 
 import './Swipe.css'
 

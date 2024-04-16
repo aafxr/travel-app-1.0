@@ -6,7 +6,7 @@ export class MemberDto implements Partial<Member>{
     first_name?: string;
     last_name?: string;
     username?: string;
-    photo?: Record<string, any>;
+    photo?: string;
 
     constructor(member: Partial<Member>) {
         if(member.id) this.id = member.id

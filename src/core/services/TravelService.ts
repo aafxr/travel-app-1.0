@@ -6,6 +6,7 @@ import {NetworkError, TravelError} from "../errors";
 import {ActionDto} from "../classes/dto";
 import {sendActions} from "../../api/fetch/sendActions";
 import {fetchTravelByID} from "../../api/fetch/fetchTravelByID";
+import {fetchTravels} from "../../api/fetch";
 
 export class TravelService{
     static async create(ctx: Context, travel: Travel){
@@ -56,6 +57,15 @@ export class TravelService{
             if(travel) result.push(travel)
         }
         return result
+    }
+
+    static async getList(ctx: Context){
+        const result = await fetchTravels()
+        const travels = result.map(t => new Travel(t))
+        for (const t of travels){
+            await DB.update(StoreName.TRAVEL, t)
+        }
+        return travels
     }
 
     static async update(ctx: Context, travel: Travel){

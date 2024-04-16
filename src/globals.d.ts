@@ -10,6 +10,8 @@ declare global {
 
 
     interface Window {
+        opr?: any
+        chrome?: any
         Travel: Travel.prototype
         travel: Travel
         Place: Place.prototype

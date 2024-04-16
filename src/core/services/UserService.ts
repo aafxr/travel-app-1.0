@@ -7,6 +7,9 @@ import {ActionType} from "../../types/ActionType";
 import {ActionDto} from "../classes/dto";
 import {sendActions} from "../../api/fetch/sendActions";
 import {NetworkError, UserError} from "../errors";
+import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
+import {fetchRemoveUserAuth, fetchUserAuthTg} from "../../api/fetch";
+import {ACCESS_TOKEN, REFRESH_TOKEN, USER_AUTH} from "../../constants";
 
 export class UserService{
     static async create(ctx: Context, user: User){
@@ -74,5 +77,35 @@ export class UserService{
             throw NetworkError.connectionError()
         }
         return user
+    }
+
+    /**
+     * метод получает информацию о пользователе от сервиса telegramAuthWidget и формирует запрос к апи для прохождения
+     * процедуры аутентификации. Затем, в случае успешной верификации, сохраняет информацию в бд
+     * @param ctx
+     * @param tg_authData информацию от telegramAuthWidget
+     */
+    static async logIn(ctx: Context, tg_authData: TelegramAuthPayloadType){
+        const user = await fetchUserAuthTg(tg_authData)
+        if (user) {
+            await DB.update(StoreName.USERS, user)
+            await DB.update(StoreName.STORE, {name: ACCESS_TOKEN, value: user.token})
+            await DB.update(StoreName.STORE, {name: REFRESH_TOKEN, value: user.refresh_token})
+            localStorage.setItem(USER_AUTH, JSON.stringify(user))
+        }
+        return user
+    }
+
+    /**
+     * метод удаляет информацию о залогиненом пользователе
+     * @param ctx
+     * @param user
+     */
+    static async logOut(ctx: Context, user: User) {
+        localStorage.removeItem(USER_AUTH)
+        await DB.delete(StoreName.USERS, user.id)
+        await DB.delete(StoreName.STORE, ACCESS_TOKEN)
+        await DB.delete(StoreName.STORE, REFRESH_TOKEN)
+        await fetchRemoveUserAuth(user)
     }
 }

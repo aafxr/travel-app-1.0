@@ -7,3 +7,5 @@ export const THEME = 'theme'
 
 export const CACHE_VERSION = 39
 export const GLOBAL_DB_VERSION = 39
+
+export const DEFAULT_IMG_URL = process.env.PUBLIC_URL + '/images/travel-placeholder.jpg'

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import clsx from "clsx";
 
-import useOutside from "../../../hooks/useOutside";
+import {useOutside} from "../../../hooks";
 
 import './Select.css'
 

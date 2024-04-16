@@ -15,7 +15,7 @@ export class Photo {
         this.base64 = photo.base64
     }
 
-    static fromFile(file: File) {
+    static fromFile(file: Blob): Promise<Photo> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader()
 
