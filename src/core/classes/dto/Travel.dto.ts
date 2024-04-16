@@ -25,6 +25,7 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
     owner_id?: string;
     permission;
     places_id?: string[];
+    hotels_id?: string[];
     preference?: Preference;
     previewPhotoId?: string;
     title?: string;
@@ -51,6 +52,7 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
         if(travel.movementTypes !== undefined) this.movementTypes = travel.movementTypes
         if(travel.owner_id !== undefined) this.owner_id = travel.owner_id
         if(travel.places_id !== undefined) this.places_id = travel.places_id
+        if(travel.hotels_id !== undefined) this.hotels_id = travel.hotels_id
         if(travel.previewPhotoId !== undefined) this.previewPhotoId = travel.previewPhotoId
         if(travel.title !== undefined) this.title = travel.title
         if(travel.waypoints_id !== undefined) this.waypoints_id = travel.waypoints_id

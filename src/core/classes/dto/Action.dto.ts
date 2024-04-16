@@ -5,6 +5,8 @@ import {DBFlagType} from "../../../types/DBFlagType";
 import {TravelDTO} from "./Travel.dto";
 import {LimitDTO} from "./Limit.dto";
 import {ExpenseDTO} from "./Expense.dto";
+import {PlaceDto} from "./Place.dto";
+import {HotelDto} from "./Hotel.dto";
 
 export class ActionDto implements Omit<Action<any>, 'datetime'>{
     id: string;
@@ -35,6 +37,12 @@ export class ActionDto implements Omit<Action<any>, 'datetime'>{
             case 'expenses_actual':
             case 'expenses_plan':
                 this.data = new ExpenseDTO(action.data)
+                break
+            case StoreName.PLACE:
+                this.data = new PlaceDto(action.data)
+                break
+            case StoreName.HOTELS:
+                this.data = new HotelDto(action.data)
                 break
             default:
                 this.data = action.data
