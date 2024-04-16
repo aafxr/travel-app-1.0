@@ -1,5 +1,6 @@
 import {CustomError} from "./CustomError";
 import {ErrorCode} from "./ErrorCode";
+import {Travel} from "../classes";
 
 
 /**
@@ -24,5 +25,13 @@ export class TravelError extends CustomError {
 
     static updateBeforeCreate(){
         return new TravelError(`Обновление путешествия до созлания`, ErrorCode.TRAVEL_UPDATE_BEFORE_CREATE)
+    }
+
+    static deleteBeforeCreate(){
+        return new TravelError(`Удаление путешествия до созлания`, ErrorCode.TRAVEL_DELETE_BEFORE_CREATE)
+    }
+
+    static travelWithIDAlreadyExist(travel: Travel){
+        return new TravelError(`Путешествие с id=${travel.id} уже существует`, ErrorCode.TRAVEL_WITH_ID_ALREADY_EXIST)
     }
 }
