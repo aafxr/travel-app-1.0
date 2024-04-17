@@ -1,8 +1,10 @@
 import {nanoid} from "nanoid";
+
+import {PartialExpense, PartialHotel, PartialMessage, PartialPlace, PartialTravel, PartialUser} from "./partial";
 import {ActionType} from "../../../types/ActionType";
 import {StoreName} from "../../../types/StoreName";
 import {DBFlagType} from "../../../types/DBFlagType";
-import {ActionDto} from "../dto/Action.dto";
+import {ActionDto} from "../dto";
 
 
 /**
@@ -43,11 +45,35 @@ export class Action<T extends Record<string, any>> {
         this.id         = action.id !== undefined ? action.id : nanoid(16)
         this.uid        = action.uid !== undefined ? action.uid : this.id
         this.action     = action.action !== undefined ? action.action : ActionType.ADD
-        this.data       = action.data !== undefined ? action.data as T: {} as T
+
         this.datetime   = action.datetime !== undefined ? new Date(action.datetime) : new Date()
         this.entity     = action.entity !== undefined ? action.entity : StoreName.UNINITIALIZED
         this.synced     = action.synced !== undefined ? action.synced : 0
         this.user_id    = action.user_id !== undefined ? action.user_id : ''
+
+        switch(this.entity){
+            case StoreName.TRAVEL:
+                this.data = new PartialTravel(action.data) as T
+                break
+            case StoreName.EXPENSES_ACTUAL:
+            case StoreName.EXPENSES_PLAN:
+                this.data = new PartialExpense(action.data) as T
+                break
+            case StoreName.HOTELS:
+                this.data = new PartialHotel(action.data || {}) as T
+                break
+            case StoreName.PLACE:
+                this.data = new PartialPlace(action.data || {}) as T
+                break
+            case StoreName.USERS:
+                this.data = new PartialUser(action.data || {}) as T
+                break
+            case StoreName.MESSAGE:
+                this.data = new PartialMessage(action.data || {}) as T
+                break
+            default:
+                this.data = action.data !== undefined ? action.data as T: {} as T
+        }
     }
 
     static getAction<T extends object>(data: T, user_id: string, entity: StoreName, actionType: ActionType){
