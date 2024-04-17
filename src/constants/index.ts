@@ -9,3 +9,5 @@ export const CACHE_VERSION = 39
 export const GLOBAL_DB_VERSION = 39
 
 export const DEFAULT_IMG_URL = process.env.PUBLIC_URL + '/images/travel-placeholder.jpg'
+
+export const MS_IN_DAY = 24 * 60 * 60 * 1000

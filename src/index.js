@@ -59,11 +59,3 @@ serviceWorkerRegistration.register()
 if (ServiceWorker in window) {
     navigator.serviceWorker.ready.then(registration => console.log(registration))
 }
-
-
-document.addEventListener('devicemotion', /** @param {DeviceMotionEvent} e */(e) => {
-    const {x, y, z} = e.acceleration
-    pushAlertMessage({type: "info", message: `Device move: (${x}, ${y}, ${z})`})
-})
-
-

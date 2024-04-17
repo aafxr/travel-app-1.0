@@ -1,5 +1,8 @@
 :root{
     --padding-base: 20px;
+    --border-radius: 10px;
+
 
     --icon-size: 24px;
+    --input-br: var(--border-radius);
 }
