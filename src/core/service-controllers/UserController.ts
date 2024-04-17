@@ -1,7 +1,10 @@
 import {User} from "../classes/store";
 import {Context} from "../classes/Context";
-import {UserService} from "../services";
+import {PhotoService, UserService} from "../services";
 import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
+import {DB} from "../db/DB";
+import {StoreName} from "../../types/StoreName";
+import {USER_AUTH} from "../../constants";
 
 export class UserController{
     static async create(ctx: Context, user: User){
@@ -48,6 +51,14 @@ export class UserController{
         try {
             return await UserService.logOut(ctx, user)
         } catch (e){
+            throw e
+        }
+    }
+
+    static async getLoggedInUser(ctx: Context) {
+        try {
+            return await UserService.getLoggedInUser(ctx)
+        }catch (e){
             throw e
         }
     }
