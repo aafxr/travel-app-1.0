@@ -1,15 +1,21 @@
-import {Context} from "../classes/Context";
-import {Action, User} from "../classes/store";
-import {DB} from "../db/DB";
-import {StoreName} from "../../types/StoreName";
-import {Compare} from "../classes/Compare";
-import {ActionType} from "../../types/ActionType";
-import {ActionDto} from "../classes/dto";
+import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
+import {ACCESS_TOKEN, REFRESH_TOKEN, USER_AUTH} from "../../constants";
+import {fetchRemoveUserAuth, fetchUserAuthTg} from "../../api/fetch";
+import {Context, Action, User, Compare} from "../classes";
 import {sendActions} from "../../api/fetch/sendActions";
 import {NetworkError, UserError} from "../errors";
-import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
-import {fetchRemoveUserAuth, fetchUserAuthTg} from "../../api/fetch";
-import {ACCESS_TOKEN, REFRESH_TOKEN, USER_AUTH} from "../../constants";
+import {ActionType} from "../../types/ActionType";
+import {StoreName} from "../../types/StoreName";
+import {PhotoService} from "./PhotoService";
+import {ActionDto} from "../classes/dto";
+import {DB} from "../db/DB";
+import {ActionService} from "./ActionService";
+
+const devUser = {
+    id: 'dev',
+    first_name: 'Иван',
+    last_name: 'Алексеев'
+}
 
 export class UserService{
     static async create(ctx: Context, user: User){
@@ -35,20 +41,9 @@ export class UserService{
             entity: StoreName.USERS
         })
 
-        await DB.add(StoreName.ACTION, action)
         await DB.update(StoreName.USERS, user)
 
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        }catch (e){
-            console.error(e)
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
     }
 
     static async delete(ctx: Context, user:User){
@@ -62,20 +57,9 @@ export class UserService{
             data: {id: user.id}
         })
 
-        await DB.add(StoreName.ACTION, action)
         await DB.delete(StoreName.USERS, user.id)
 
-        try{
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        }catch (e){
-            console.error(e)
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return user
     }
 
@@ -107,5 +91,30 @@ export class UserService{
         await DB.delete(StoreName.STORE, ACCESS_TOKEN)
         await DB.delete(StoreName.STORE, REFRESH_TOKEN)
         await fetchRemoveUserAuth(user)
+    }
+
+    /**
+     * метод загружает информацию о последнем пользователе, который был авторизован
+     */
+    static async getLoggedInUser(ctx: Context) {
+        if (location.hostname === 'localhost') {
+            const dev_user = await DB.getOne<User>(StoreName.USERS, devUser.id)
+            if (!dev_user) await DB.add(StoreName.USERS, devUser)
+            const user = new User(dev_user || devUser)
+            if (user.photo) {
+                const pt = await PhotoService.read(ctx, user.photo)
+                if (pt) user.photo = pt.id
+            }
+            return user
+        }
+
+        if ('localStorage' in global) {
+            try {
+                const ls_user = JSON.parse(localStorage.getItem(USER_AUTH) || '')
+                if (ls_user) return new User(ls_user)
+            } catch (e) {
+            }
+        }
+        return null
     }
 }

@@ -1,12 +1,9 @@
-import {Context} from "../classes/Context";
-import {Action, Expense} from "../classes/store";
+import {Action, Expense, Context, Compare} from "../classes";
 import {ActionType} from "../../types/ActionType";
-import {ExpenseError, NetworkError, UserError} from "../errors";
-import {DB} from "../db/DB";
+import {ExpenseError,  UserError} from "../errors";
 import {StoreName} from "../../types/StoreName";
-import {ActionDto} from "../classes/dto";
-import {sendActions} from "../../api/fetch/sendActions";
-import {Compare} from "../classes/Compare";
+import {ActionService} from "./ActionService";
+import {DB} from "../db/DB";
 
 export class ExpenseService{
     static async create(ctx: Context, expense: Expense){
@@ -19,20 +16,9 @@ export class ExpenseService{
             user_id: user.id,
             data: expense
         })
-        await DB.add(StoreName.ACTION, action)
         await DB.add(StoreName.EXPENSE, expense)
 
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if (result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        }catch (e){
-            throw NetworkError.connectionError()
-        }
-
+        await ActionService.create(ctx, action)
     }
 
     static async read(ctx: Context, expenseID:string){
@@ -60,20 +46,9 @@ export class ExpenseService{
             data: dif,
         })
 
-        await DB.add(StoreName.ACTION, action)
         await DB.update(StoreName.EXPENSE, expense)
 
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            console.error(e)
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return expense
     }
 
@@ -92,20 +67,9 @@ export class ExpenseService{
             data: {id, primary_entity_id},
         })
 
-        await DB.add(StoreName.ACTION, action)
         await DB.delete(StoreName.EXPENSE, expense.id)
 
-        try{
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            console.error(e)
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return expense
     }
 }

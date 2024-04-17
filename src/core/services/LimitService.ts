@@ -7,6 +7,7 @@ import {DB} from "../db/DB";
 import {sendActions} from "../../api/fetch/sendActions";
 import {ActionDto} from "../classes/dto";
 import {Compare} from "../classes/Compare";
+import {ActionService} from "./ActionService";
 
 export class LimitService {
     static async create(ctx: Context, limit: Limit) {
@@ -20,19 +21,8 @@ export class LimitService {
             user_id: user.id,
         })
 
-        await DB.add(StoreName.ACTION, action)
         await DB.add(StoreName.LIMIT, limit)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if (result.response.ok && result.response.result[action.id]?.ok) {
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e) {
-            console.error(e)
-            throw e
-        }
+        await ActionService.create(ctx, action)
     }
 
     static async read(ctx: Context, limitID: string) {
@@ -61,20 +51,9 @@ export class LimitService {
             data: dif
         })
 
-        await DB.add(StoreName.ACTION, action)
         await DB.update(StoreName.LIMIT, limit)
 
-        try {
-            const dto = new ActionDto(action)
-            const result = await  sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        }catch (e){
-            console.error(e)
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return limit
     }
 
@@ -93,20 +72,10 @@ export class LimitService {
             data: { id, primary_entity_id }
         })
 
-        await DB.add(StoreName.LIMIT, action)
+
         await DB.delete(StoreName.LIMIT, limit.id)
 
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if (result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            console.error(e)
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return limit
     }
 }

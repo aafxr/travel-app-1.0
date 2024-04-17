@@ -7,6 +7,7 @@ import {ActionDto} from "../classes/dto";
 import {sendActions} from "../../api/fetch/sendActions";
 import {fetchTravelByID} from "../../api/fetch/fetchTravelByID";
 import {fetchTravels} from "../../api/fetch";
+import {ActionService} from "./ActionService";
 
 export class TravelService{
     static async create(ctx: Context, travel: Travel){
@@ -23,17 +24,7 @@ export class TravelService{
             throw TravelError.travelWithIDAlreadyExist(travel)
         }
 
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return travel
     }
 
@@ -80,18 +71,7 @@ export class TravelService{
         })
 
         await DB.update(StoreName.TRAVEL, travel)
-        await DB.add(StoreName.ACTION, action)
-
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return travel
     }
 
@@ -106,19 +86,7 @@ export class TravelService{
         })
 
         await DB.delete(StoreName.TRAVEL, travel.id)
-        await DB.add(StoreName.ACTION, action)
-
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return travel
     }
-
 }

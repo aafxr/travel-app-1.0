@@ -1,18 +1,13 @@
-import {Context} from "../classes/Context";
-import {Action} from "../classes/store";
+import {Action, Compare, Context, Place} from "../classes";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
-import {Place} from "../classes/store/Place";
-import {DB} from "../db/DB";
-import {PlaceError} from "../errors/PlaceError";
-import {sendActions} from "../../api/fetch/sendActions";
-import {ActionDto} from "../classes/dto";
-import {NetworkError, TravelError} from "../errors";
+import {PlaceError, TravelError} from "../errors";
 import {fetchPlaceByID} from "../../api/fetch";
-import {Compare} from "../classes/Compare";
 import {TravelService} from "./TravelService";
 import {CustomError} from "../errors/CustomError";
 import {ErrorCode} from "../errors/ErrorCode";
+import {ActionService} from "./ActionService";
+import {DB} from "../db/DB";
 
 export class PlaceService{
 
@@ -43,17 +38,7 @@ export class PlaceService{
             else throw e
         }
 
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return place
     }
 
@@ -94,17 +79,7 @@ export class PlaceService{
             data: dif
         })
 
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return place
     }
 
@@ -131,17 +106,7 @@ export class PlaceService{
         }
 
         await DB.delete(StoreName.PLACE, id)
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return place
     }
 }

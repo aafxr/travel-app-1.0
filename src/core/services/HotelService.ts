@@ -13,6 +13,7 @@ import {Compare} from "../classes";
 import {TravelService} from "./TravelService";
 import {CustomError} from "../errors/CustomError";
 import {ErrorCode} from "../errors/ErrorCode";
+import {ActionService} from "./ActionService";
 
 export class HotelService{
     static async create(ctx: Context, hotel: Hotel){
@@ -41,17 +42,7 @@ export class HotelService{
         }catch (e){
             throw HotelError.hotelAlreadyExist(hotel)
         }
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return hotel
     }
 
@@ -92,17 +83,7 @@ export class HotelService{
             data: dif
         })
 
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return hotel
     }
 
@@ -129,17 +110,7 @@ export class HotelService{
         }
 
         await DB.delete(StoreName.HOTELS, id)
-        await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if(result.response.ok && result.response.result[action.id]?.ok){
-                action.synced = 1
-                await DB.update(StoreName.ACTION, action)
-            }
-        } catch (e){
-            throw NetworkError.connectionError()
-        }
+        await ActionService.create(ctx, action)
         return hotel
     }
 }

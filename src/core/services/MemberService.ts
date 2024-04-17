@@ -1,5 +1,4 @@
-import {Context} from "../classes/Context";
-import {Member} from "../classes/store";
+import {Context, Member} from "../classes";
 import {DB} from "../db/DB";
 import {StoreName} from "../../types/StoreName";
 
