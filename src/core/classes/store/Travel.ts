@@ -4,8 +4,9 @@ import {MovementType} from "../../../types/MovementType";
 import {TravelPermission} from "../TravelPermission";
 import {DBFlagType} from "../../../types/DBFlagType";
 import {Preference} from "../Preference";
-import {TravelDTO} from "../dto/Travel.dto";
+import {TravelDTO} from "../dto";
 import {MS_IN_DAY} from "../../../constants";
+import {MemberRole} from "../../../types/MemberRole";
 
 /**
  * представление основной сущности путешествия
@@ -72,6 +73,8 @@ export class Travel {
     preference: Preference;
     permission: TravelPermission;
 
+    isPublic: DBFlagType
+
     constructor(travel?: Partial<Travel> | TravelDTO) {
         if(!travel) travel = {}
 
@@ -105,6 +108,8 @@ export class Travel {
         this.admins         = travel.admins !== undefined ? [...travel.admins] : []
         this.editors        = travel.editors !== undefined ? [...travel.editors] : []
         this.commentator    = travel.commentator !== undefined ? [...travel.commentator] : []
+
+        this.isPublic       = travel.isPublic !== undefined ? travel.isPublic : 0
     }
 
     static setDateStart(travel: Travel, start: Date){
@@ -123,5 +128,28 @@ export class Travel {
         if (days < 1) return
         travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * days)
         travel.days = days
+    }
+
+    static getInterest(travel: Travel, key: keyof Preference['interests']) {
+        if (key in travel.preference.interests)
+            return travel.preference.interests[key]
+        else
+            return 0
+    }
+
+    static getPreference<T extends keyof Preference>(travel: Travel, key: T) {
+        return travel.preference[key]
+    }
+
+    static getMembers(travel: Travel) {
+        return [travel.owner_id, ...travel.admins, ...travel.editors, ...travel.commentator]
+    }
+
+    static getMemberRole(travel: Travel, memberID: string): MemberRole{
+        if(travel.owner_id === memberID) return MemberRole.OWNER
+        if(travel.admins.includes(memberID)) return MemberRole.ADMIN
+        if(travel.editors.includes(memberID)) return MemberRole.EDITOR
+        if(travel.commentator.includes(memberID)) return MemberRole.COMMENTATOR
+        return MemberRole.WATCHER
     }
 }

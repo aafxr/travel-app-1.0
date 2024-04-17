@@ -1,5 +1,5 @@
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Events, Favorite, Login, Main, Profile, TravelAdd, TravelRoutes} from "./pages";
+import {Events, Favorite, Login, Main, Profile, TravelAdd, TravelRoutes, TravelSettings} from "./pages";
 import AuthRequired from "./hoc/AuthRequired";
 
 
@@ -15,6 +15,7 @@ function App() {
                 <Route path={'/profile/'} element={<Profile/>}/>
                 <Route path={'/travels/:travelType/'} element={<TravelRoutes/>}/>
                 <Route path={'/travel/add/'} element={<TravelAdd/>}/>
+                <Route path={'/travel/:travelCode/settings/'} element={<TravelSettings/>}/>
             </Route>
             <Route path={'*'} element={<Navigate to={'/'} replace/>}/>
         </Routes>

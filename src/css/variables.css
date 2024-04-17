@@ -3,6 +3,7 @@
     --border-radius: 10px;
 
 
+    --avatar-size: 44px;
     --icon-size: 24px;
     --input-br: var(--border-radius);
 }

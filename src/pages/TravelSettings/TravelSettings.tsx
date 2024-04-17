@@ -1,15 +1,24 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-
+import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
+import {defaultMovementTags} from "../../components/defaultMovementTags/defaultMovementTags";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import TravelInterests from "../../components/TravelInterests/TravelInterests";
+import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {TravelPeople} from "../../components/TravelPeople/TravelPeople";
+import {TravelController} from "../../core/service-controllers";
+import NumberInput from "../../components/ui/Input/NumberInput";
+import ToggleBox from "../../components/ui/ToggleBox/ToggleBox";
+import {Member, Preference, Travel} from "../../core/classes";
+import Container from "../../components/Container/Container";
+import DateRange from "../../components/DateRange/DateRange";
+import {MovementType} from "../../types/MovementType";
+import {Chip, PageHeader} from "../../components/ui";
+import Counter from "../../components/Counter/Counter";
+import Button from "../../components/ui/Button/Button";
 
 import './TravelSettings.css'
-import {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
-import {Member, Preference, Travel} from "../../core/classes";
-import {MovementType} from "../../types/MovementType";
-import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {TravelController} from "../../core/service-controllers";
 
 
 
@@ -38,7 +47,7 @@ export function TravelSettings() {
 
     const [travel, setTravel] = useState<Travel>()
     const [change, setChange] = useState(false)
-    const [messge, setMessage] = useState<string>('')
+    const [message, setMessage] = useState<string>('')
 
 
     useEffect(() => {
@@ -143,7 +152,7 @@ export function TravelSettings() {
         setTravel({...travel})
     }
 
-    function handleInterestsChange(key: keyof Preference['interests']) {
+    function handleInterestsChange(key: keyof Preference['interests'] ) {
         if (!travel) return
         Travel.getInterest(travel, key)
             ? travel.preference.interests[key] = 0
@@ -152,6 +161,8 @@ export function TravelSettings() {
         setTravel({...travel})
     }
 
+
+    if(message) return <Container className={'center'}>{message}</Container>
 
     if (!travel) return null
 
@@ -216,7 +227,7 @@ export function TravelSettings() {
                         <section className='block'>
                             <ToggleBox
                                 className='block'
-                                init={Travel.isPublic(travel)}
+                                init={Boolean(travel.isPublic)}
                                 onChange={handleToggleBoxChanged}
                                 title={"Сделать видимым для всех"}
                             />
@@ -224,7 +235,9 @@ export function TravelSettings() {
 
                         <section className='travel-settings-members column gap-0.5 block'>
                             <h4 className='title-semi-bold'>Участники</h4>
-                            <TravelPeople peopleList={Travel.getMembers(travel)} onClick={handleUserClick}/>
+                            {Travel.getMembers(travel).map(mid => (
+                                <TravelPeople memberID={mid} onClick={handleUserClick}/>
+                            ))}
                             <div className='center'>
                                 {/*<AddButton to={`/travel/${travelCode}/settings/invite/`}>Добавить*/}
                                 {/*    участника</AddButton>*/}
@@ -338,8 +351,7 @@ export function TravelSettings() {
                     </div>
                 </Container>
                 <div className='footer-btn-container footer'>
-                    <Button onClick={handleSaveTravelButton} disabled={state ? !change : true}>Построить
-                        маршрут</Button>
+                    <Button onClick={handleSaveTravelButton} disabled={!change}>Построить маршрут</Button>
                 </div>
             </div>
             {/*<FlatButton*/}

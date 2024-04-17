@@ -2,7 +2,7 @@
     width: 100%;
     /*position: relative;*/
     padding: 10px 40px 10px 16px;
-    border-radius: var(--br-10);
+    border-radius: var(--input-br);
     color: black;
     text-overflow: ellipsis;
     caret-color: var(--color-primary);

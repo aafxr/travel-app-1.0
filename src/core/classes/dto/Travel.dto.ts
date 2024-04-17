@@ -30,6 +30,7 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
     previewPhotoId?: string;
     title?: string;
     waypoints_id?: string[];
+    isPublic?: DBFlagType
 
     constructor(travel: Partial<Travel>) {
         if(travel.id !== undefined) this.id = travel.id
@@ -59,6 +60,8 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
 
         if(travel.permission !== undefined) this.permission = Object.assign({}, travel.permission)
         if(travel.preference !== undefined) this.preference = Object.assign({}, travel.preference)
+
+        if(travel.isPublic !== undefined) this.isPublic = travel.isPublic
     }
 
 }
