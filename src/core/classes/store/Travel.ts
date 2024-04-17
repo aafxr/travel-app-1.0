@@ -5,6 +5,7 @@ import {TravelPermission} from "../TravelPermission";
 import {DBFlagType} from "../../../types/DBFlagType";
 import {Preference} from "../Preference";
 import {TravelDTO} from "../dto/Travel.dto";
+import {MS_IN_DAY} from "../../../constants";
 
 /**
  * представление основной сущности путешествия
@@ -104,5 +105,23 @@ export class Travel {
         this.admins         = travel.admins !== undefined ? [...travel.admins] : []
         this.editors        = travel.editors !== undefined ? [...travel.editors] : []
         this.commentator    = travel.commentator !== undefined ? [...travel.commentator] : []
+    }
+
+    static setDateStart(travel: Travel, start: Date){
+        if(start.getSeconds() || start.getMinutes() || start.getMilliseconds() || start.getHours()) start.setHours(0,0,0,0)
+        travel.date_start = new Date(start)
+        travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * travel.days)
+    }
+
+    static setDateEnd(travel: Travel, end: Date){
+        if(end.getHours() !== 23 || end.getMilliseconds() !== 999) end.setHours(23,59,59,999)
+        travel.date_end = new Date(end)
+        travel.date_start = new Date(travel.date_end.getTime() - MS_IN_DAY * travel.days)
+    }
+
+    static setDays(travel: Travel, days: number){
+        if (days < 1) return
+        travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * days)
+        travel.days = days
     }
 }

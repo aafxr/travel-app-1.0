@@ -1,6 +1,3 @@
-import {nanoid} from "nanoid";
-
-
 import {MovementType} from "../../../../types/MovementType";
 import {DBFlagType} from "../../../../types/DBFlagType";
 import {TravelPermission} from "../../TravelPermission";
