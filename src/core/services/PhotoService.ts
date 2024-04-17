@@ -1,9 +1,7 @@
-import {sendActions} from "../../api/fetch/sendActions";
-import {NetworkError, PhotoError} from "../errors";
+import {PhotoError} from "../errors";
 import {Action, Context, Photo} from "../classes";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
-import {ActionDto} from "../classes/dto";
 import {DB} from "../db/DB";
 import {ActionService} from "./ActionService";
 

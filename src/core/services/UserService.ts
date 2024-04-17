@@ -2,12 +2,10 @@ import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
 import {ACCESS_TOKEN, REFRESH_TOKEN, USER_AUTH} from "../../constants";
 import {fetchRemoveUserAuth, fetchUserAuthTg} from "../../api/fetch";
 import {Context, Action, User, Compare} from "../classes";
-import {sendActions} from "../../api/fetch/sendActions";
-import {NetworkError, UserError} from "../errors";
+import { UserError} from "../errors";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {PhotoService} from "./PhotoService";
-import {ActionDto} from "../classes/dto";
 import {DB} from "../db/DB";
 import {ActionService} from "./ActionService";
 

@@ -1,16 +1,15 @@
+import {fetchTravelByID} from "../../api/fetch/fetchTravelByID";
 import {Action, Compare, Context, Travel} from "../classes";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
-import {DB} from "../db/DB";
-import {NetworkError, TravelError} from "../errors";
-import {ActionDto} from "../classes/dto";
-import {sendActions} from "../../api/fetch/sendActions";
-import {fetchTravelByID} from "../../api/fetch/fetchTravelByID";
-import {fetchTravels} from "../../api/fetch";
 import {ActionService} from "./ActionService";
+import {fetchTravels} from "../../api/fetch";
+import {TravelError} from "../errors";
+import {DB} from "../db/DB";
 
 export class TravelService{
     static async create(ctx: Context, travel: Travel){
+        travel.created_at = new Date()
         const action = new Action({
             action: ActionType.ADD,
             entity: StoreName.TRAVEL,
@@ -60,6 +59,7 @@ export class TravelService{
     }
 
     static async update(ctx: Context, travel: Travel){
+        travel.updated_at = new Date()
         const ext = await DB.getOne<Travel>(StoreName.TRAVEL, travel.id)
         if(!ext) throw TravelError.updateBeforeCreate()
 

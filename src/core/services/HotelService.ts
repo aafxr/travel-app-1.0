@@ -1,19 +1,13 @@
-import {Context} from "../classes";
-import {Hotel} from "../classes";
-import {Action} from "../classes";
-import {ActionType} from "../../types/ActionType";
-import {StoreName} from "../../types/StoreName";
-import {DB} from "../db/DB";
 import {HotelError, PlaceError, TravelError} from "../errors";
-import {ActionDto} from "../classes/dto";
-import {sendActions} from "../../api/fetch/sendActions";
-import {NetworkError} from "../errors";
-import {fetchHotelByID} from "../../api/fetch";
-import {Compare} from "../classes";
-import {TravelService} from "./TravelService";
+import {Action, Compare, Context, Hotel} from "../classes";
+import {ActionType} from "../../types/ActionType";
 import {CustomError} from "../errors/CustomError";
+import {StoreName} from "../../types/StoreName";
+import {fetchHotelByID} from "../../api/fetch";
+import {TravelService} from "./TravelService";
 import {ErrorCode} from "../errors/ErrorCode";
 import {ActionService} from "./ActionService";
+import {DB} from "../db/DB";
 
 export class HotelService{
     static async create(ctx: Context, hotel: Hotel){
