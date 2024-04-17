@@ -1,0 +1,5 @@
+.travel{}
+
+.travel-destination-input{
+    border-radius: var(--input-br);
+}

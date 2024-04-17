@@ -8,6 +8,7 @@ import {UserController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import {TelegramAuth} from "../../components/TelegramAuth";
 import {PageHeader} from "../../components/ui";
+import {useEffect} from "react";
 
 
 
@@ -21,6 +22,15 @@ import {PageHeader} from "../../components/ui";
 export function Login() {
     const navigate = useNavigate()
     const ctx = useAppContext()
+
+    useEffect(() => {
+        if(location.hostname === 'localhost')
+            UserController
+                .getLoggedInUser(ctx)
+                .then(user => ctx.setUser(user))
+                .then(() => navigate('/'))
+                .catch(defaultHandleError)
+    }, [])
 
     /**
      * обработчик, получает от telegram инфо о авторизации пользователя и отправляет на удаленный сервер
