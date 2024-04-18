@@ -1,5 +1,6 @@
 import aFetch from "../../axios";
 import {DBFlagType} from "../../types/DBFlagType";
+import {Preference, Travel} from "../../core/classes";
 
 type PreferencesType = {
     history?: DBFlagType
@@ -10,12 +11,12 @@ type PreferencesType = {
 }
 
 
-type RequestParamsType = {
+export type RequestParamsType = {
     days: number
     density: 1 | 2 | 3
     depth: 1 | 2 | 3
     location: number
-    preference: PreferencesType
+    preference: Preference['interests']
 }
 
 export type APIPlaceType = {
@@ -105,10 +106,17 @@ type ResponseParamsType = {
     routes: APIRouteType[]
 }
 
-export async function fetchRouteAdvice(query: RequestParamsType){
+export async function fetchRouteAdvice(travel: Travel){
+    const query: RequestParamsType = {
+        days: travel.days,
+        location: 0,
+        density: travel.preference.density,
+        depth: travel.preference.depth,
+        preference: travel.preference.interests
+    }
+
     const response: ResponseParamsType = (await aFetch.post<ResponseParamsType>('/travel/wizard/test2.php', query)).data
     console.log(response)
     if (response)
         return response
-    return []
 }
