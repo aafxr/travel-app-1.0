@@ -84,11 +84,12 @@ export function TravelSettings() {
 
     /** обработчик изменения времени */
     function handleDateRangeChange({start, end}: { start?: Date, end?: Date }) {
+        console.log({ start: start?.getHours(), end })
         if (!travel) return;
-        const t = new Travel(travel)
-        if (start) Travel.setDateStart(t, start)
-        if (end) Travel.setDateEnd(t, end)
+        if (start) Travel.setDateStart(travel, start)
+        if (end) Travel.setDateEnd(travel, end)
         if(!change) setChange(true)
+        console.log({ start: travel.date_start.getHours(), end: travel.date_end.getHours() })
         setTravel({...travel})
     }
 
@@ -122,9 +123,8 @@ export function TravelSettings() {
     function handleSaveTravelButton() {
         if (!user) return
         if (!travel) return;
-        const t = new Travel(travel)
-        TravelController.create(context, t)
-            .then(() => context.setTravel(t))
+        TravelController.create(context, travel)
+            .then(() => context.setTravel(travel))
             .then(() => navigate(`/travel/${travel.id}/advice-route/`))
             .catch(defaultHandleError)
     }
@@ -162,7 +162,7 @@ export function TravelSettings() {
     }
 
 
-    if(message) return <Container className={'center'}>{message}</Container>
+    if(message) return <Container className={'center h-full'}>{message}</Container>
 
     if (!travel) return null
 

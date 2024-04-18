@@ -1,0 +1,18 @@
+.route{
+    padding: 10px;
+    background: var(--color-grey-light);
+}
+
+.route.selected{
+    padding: 10px;
+    color: var(--color-primary-text);
+    background: var(--color-primary);
+}
+
+.route-date{
+    font-weight: 600;
+}
+
+.route-price{
+    font-weight: 600;
+}
