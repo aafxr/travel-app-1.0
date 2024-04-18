@@ -14,6 +14,10 @@ export class Place{
     photos: string[]
     location: [number, number]
 
+    price?: number
+    duration?: number
+    popularity?: number
+
     day: number
     date_start: Date
     date_end: Date
@@ -31,12 +35,16 @@ export class Place{
         if('photos' in place && place.photos !== undefined) this.photos = place.photos
         if('location' in place && place.location !== undefined) this.location = place.location
 
+        if("price" in place && place.price !== undefined) this.price = place.price
+        if("duration" in place && place.duration !== undefined) this.duration = place.duration
+        if("popularity" in place && place.popularity !== undefined) this.popularity = place.popularity
+
         this.day = place.day !== undefined ? place.day : 0
         this.date_start = place.date_start !== undefined ? new Date(place.date_start) : new Date(0)
         this.date_end = place.date_end !== undefined ? new Date(place.date_end) : new Date(0)
     }
 
-    static getID(travel: Travel, apiPlace: Place){
-        return `${nanoid(7)}:${travel.id}:${apiPlace.id}`
+    static getID(travel: Travel, apiPlaceID: string){
+        return `${nanoid(7)}:${travel.id}:${apiPlaceID}`
     }
 }

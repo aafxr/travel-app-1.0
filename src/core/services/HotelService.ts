@@ -1,5 +1,5 @@
-import {HotelError, PlaceError, TravelError} from "../errors";
 import {Action, Compare, Context, Hotel} from "../classes";
+import {HotelError, TravelError} from "../errors";
 import {ActionType} from "../../types/ActionType";
 import {CustomError} from "../errors/CustomError";
 import {StoreName} from "../../types/StoreName";
@@ -12,7 +12,7 @@ import {DB} from "../db/DB";
 export class HotelService{
     static async create(ctx: Context, hotel: Hotel){
         const travelID = hotel.id.split(':')[1]
-        if(!travelID) throw PlaceError.unbindedPlace()
+        if(!travelID) throw HotelError.unbindedHotel()
 
         const travel = await TravelService.read(ctx, travelID)
         if(!travel) throw TravelError.unexpectedTravelId(travelID)
@@ -83,7 +83,7 @@ export class HotelService{
 
     static async delete(ctx: Context, hotel: Hotel){
         const travelID = hotel.id.split(':')[1]
-        if(!travelID) throw PlaceError.unbindedPlace()
+        if(!travelID) throw HotelError.unbindedHotel()
 
         const travel = await TravelService.read(ctx, travelID)
         if(!travel) throw TravelError.unexpectedTravelId(travelID)

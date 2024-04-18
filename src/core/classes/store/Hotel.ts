@@ -46,7 +46,7 @@ export class Hotel{
     }
 
 
-    static getID(travel: Travel, apiHotel: Hotel){
-        return `${nanoid(7)}:${travel.id}:${apiHotel.id}`
+    static getID(travel: Travel, apiHotelID: string){
+        return `${nanoid(7)}:${travel.id}:${apiHotelID}`
     }
 }
