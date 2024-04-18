@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import DateInput from "../ui/Input/DateInput";
+import {getFirstHiddenTime} from "web-vitals/dist/modules/lib/polyfills/getFirstHiddenTimePolyfill";
 
 
 type DateRangeType = { start: Date | undefined, end: Date | undefined }
@@ -61,12 +62,12 @@ export default function DateRange({
         <div className='flex-stretch gap-0.25'>
             <DateInput
                 placeholder={'Начало'}
-                value={range?.start}
+                value={range?.start ? new Date(range?.start?.getTime() - range?.start?.getTimezoneOffset() * 60 * 1000) : undefined}
                 onChange={date => handleDateChange(date, "start")}
             />
             <DateInput
                 placeholder={'Завершение'}
-                value={range?.end}
+                value={range?.end ? new Date(range?.end?.getTime() - range?.end?.getTimezoneOffset() * 60 *1000) : undefined}
                 min={range?.start}
                 onChange={date => handleDateChange(date, "end")}
             />
