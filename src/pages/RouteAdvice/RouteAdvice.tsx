@@ -23,18 +23,26 @@ export function RouteAdvice() {
 
     useEffect(() => {
         const travel = context.travel
-        if (!travel) return
+        if (!travel) {
+            navigate('/')
+            return
+        }
 
         fetchRouteAdvice(travel)
             .then(response => {
-                if (!response) return
+                if (!response) {
+                    TravelController.create(context, travel)
+                        .then(() => navigate(`/travel/${travel.id}/`))
+                        .catch(defaultHandleError)
+                    return
+                }
                 console.log(response)
                 setRoutes(response.routes)
             })
             .catch(defaultHandleError)
     }, [])
 
-    function handleRouteSubmit() {
+    async function handleRouteSubmit() {
         const travel = context.travel
         if (!travel || !route) return
 
@@ -82,17 +90,24 @@ export function RouteAdvice() {
         console.log(places)
         console.log(hotels)
 
-        Promise.all([
-            TravelController.create(context, travel).catch(defaultHandleError),
-            ...places.map(p => PlaceController.create(context, p).catch(defaultHandleError)),
-            ...hotels.map(h => HotelController.create(context, h).catch(defaultHandleError))
-        ])
-            .then(() => context.setTravel(travel))
-            .then(() => navigate(`/travel/${travel.id}/`))
-            .catch((e) => {
-                defaultHandleError(e)
-                navigate(`/travel/${travel.id}/`)
-            })
+        await TravelController.create(context, travel)
+        for (const hotel of hotels){
+            try {
+                await HotelController.create(context, hotel)
+                travel.hotels_id.push(hotel.id)
+            }catch(r){}
+        }
+        for (const place of places){
+            try {
+                await PlaceController.create(context, place)
+                travel.places_id.push(place.id)
+            }catch(r){}
+        }
+
+        await TravelController.update(context, travel)
+
+        context.setTravel(travel)
+        navigate(`/travel/${travel.id}/`)
     }
 
 
