@@ -1,14 +1,13 @@
 import aFetch from "../../axios";
-import {DBFlagType} from "../../types/DBFlagType";
 import {Preference, Travel} from "../../core/classes";
 
-type PreferencesType = {
-    history?: DBFlagType
-    nature?: DBFlagType
-    party?: DBFlagType
-    active?: DBFlagType
-    child?: DBFlagType
-}
+// type PreferencesType = {
+//     history?: DBFlagType
+//     nature?: DBFlagType
+//     party?: DBFlagType
+//     active?: DBFlagType
+//     child?: DBFlagType
+// }
 
 
 export type RequestParamsType = {

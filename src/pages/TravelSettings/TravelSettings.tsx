@@ -3,11 +3,9 @@ import {useNavigate} from "react-router-dom";
 
 import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
 import {defaultMovementTags} from "../../components/defaultMovementTags/defaultMovementTags";
-import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import TravelInterests from "../../components/TravelInterests/TravelInterests";
 import {useAppContext, useUser} from "../../contexts/AppContextProvider";
 import {TravelPeople} from "../../components/TravelPeople/TravelPeople";
-import {TravelController} from "../../core/service-controllers";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import ToggleBox from "../../components/ui/ToggleBox/ToggleBox";
 import {Member, Preference, Travel} from "../../core/classes";
@@ -21,7 +19,6 @@ import Button from "../../components/ui/Button/Button";
 import './TravelSettings.css'
 
 
-
 const sightseeingTime: RadioButtonGroupItemType[] = [
     {id: 1, title: 'Низкая'},
     {id: 2, title: 'Средняя'},
@@ -33,6 +30,7 @@ const depth: RadioButtonGroupItemType[] = [
     {id: 2, title: 'Обычно'},
     {id: 3, title: 'Детально'},
 ]
+
 /**
  * Страница формирования путешествия ( добавление даты / отели / встречи / участники)
  * @function
@@ -52,18 +50,18 @@ export function TravelSettings() {
 
     useEffect(() => {
         const t = context.travel
-        if(t) setTravel(new Travel(t))
+        if (t) setTravel(new Travel(t))
         else setMessage(`Context travel is not set`)
     }, [])
 
     /** обработка нажатия на карточку пользователя */
     const handleUserClick = (user: Member) => {
-        if(!context.travel) return
+        if (!context.travel) return
         navigate(`/travel/${context.travel.id}/settings/${user.id}/`)
     }
 
     useEffect(() => {
-        if(!context.travel){
+        if (!context.travel) {
             console.log('Travel field is empty in context')
             navigate(-1)
         }
@@ -77,19 +75,19 @@ export function TravelSettings() {
             travel.movementTypes = travel.movementTypes.filter(mt => mt !== movementType)
         else
             travel.movementTypes = [...travel.movementTypes, movementType]
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
 
     /** обработчик изменения времени */
     function handleDateRangeChange({start, end}: { start?: Date, end?: Date }) {
-        console.log({ start: start?.getHours(), end })
+        console.log({start: start?.getHours(), end})
         if (!travel) return;
         if (start) Travel.setDateStart(travel, start)
         if (end) Travel.setDateEnd(travel, end)
-        if(!change) setChange(true)
-        console.log({ start: travel.date_start.getHours(), end: travel.date_end.getHours() })
+        if (!change) setChange(true)
+        console.log({start: travel.date_start.getHours(), end: travel.date_end.getHours()})
         setTravel({...travel})
     }
 
@@ -98,7 +96,7 @@ export function TravelSettings() {
         if (d < 1) return
 
         Travel.setDays(travel, d)
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
@@ -106,7 +104,7 @@ export function TravelSettings() {
     function handleDensityChange(select: RadioButtonGroupItemType[]) {
         if (!travel) return;
         travel.preference.density = select[0].id as Preference['density']
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
@@ -114,7 +112,7 @@ export function TravelSettings() {
     function handleDepthChange(select: RadioButtonGroupItemType[]) {
         if (!travel) return;
         travel.preference.depth = select[0].id as Preference['depth']
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
@@ -123,17 +121,15 @@ export function TravelSettings() {
     function handleSaveTravelButton() {
         if (!user) return
         if (!travel) return;
-        TravelController.create(context, travel)
-            .then(() => context.setTravel(travel))
-            .then(() => navigate(`/travel/${travel.id}/advice-route/`))
-            .catch(defaultHandleError)
+        context.setTravel(travel)
+        navigate(`/travel/${travel.id}/advice-route/`)
     }
 
 
     function handleToggleBoxChanged(isPublic: boolean) {
         if (!travel) return
         travel.permission.public = isPublic ? 1 : 0
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
@@ -141,28 +137,28 @@ export function TravelSettings() {
     function handleMembersCountChange(num: number) {
         if (!travel) return
         travel.members_count = num
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
     function handleChildrenCountChange(num: number) {
         if (!travel) return
         travel.children_count = num
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
-    function handleInterestsChange(key: keyof Preference['interests'] ) {
+    function handleInterestsChange(key: keyof Preference['interests']) {
         if (!travel) return
         Travel.getInterest(travel, key)
             ? travel.preference.interests[key] = 0
             : travel.preference.interests[key] = 1
-        if(!change) setChange(true)
+        if (!change) setChange(true)
         setTravel({...travel})
     }
 
 
-    if(message) return <Container className={'center h-full'}>{message}</Container>
+    if (message) return <Container className={'center h-full'}>{message}</Container>
 
     if (!travel) return null
 
@@ -236,7 +232,7 @@ export function TravelSettings() {
                         <section className='travel-settings-members column gap-0.5 block'>
                             <h4 className='title-semi-bold'>Участники</h4>
                             {Travel.getMembers(travel).map(mid => (
-                                <TravelPeople memberID={mid} onClick={handleUserClick}/>
+                                <TravelPeople key={mid} memberID={mid} onClick={handleUserClick}/>
                             ))}
                             <div className='center'>
                                 {/*<AddButton to={`/travel/${travelCode}/settings/invite/`}>Добавить*/}

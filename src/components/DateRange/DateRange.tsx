@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 
 import DateInput from "../ui/Input/DateInput";
-import {getFirstHiddenTime} from "web-vitals/dist/modules/lib/polyfills/getFirstHiddenTimePolyfill";
 
 
 type DateRangeType = { start: Date | undefined, end: Date | undefined }

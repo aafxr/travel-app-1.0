@@ -61,16 +61,11 @@ export function TravelPeople({
             className={clsx('person', classname)}
             onClick={handlePeopleClick}
         >
-            <Photo
-                id={member.photo}
-                className='person-photo'
-            />
+            <Photo id={member.photo} className='person-photo'/>
             <div className='person-container flex-stretch w-full'>
                 <div className={'person-name'}>{member.first_name}</div>
                 <div className={'person-role'}>{role}</div>
-
             </div>
-
         </div>
     )
 }
