@@ -33,6 +33,7 @@ export class Hotel{
         this.date_start = new Date(0)
         this.date_end = new Date(0)
 
+        if('id' in hotel && hotel.id !== undefined) this.id = hotel.id
         if('name' in hotel && hotel.name !== undefined) this.name = hotel.name
         if('photo' in hotel && hotel.photo !== undefined) this.photo = hotel.photo
         if('position' in hotel && hotel.position !== undefined) this.position = hotel.position

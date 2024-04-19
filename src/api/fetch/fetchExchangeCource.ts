@@ -1,4 +1,3 @@
-import aFetch from "../../axios";
 // import {CurrencyType} from "../../contexts/ExchangeContext/CurrencyTypes";
 
 // type APICurrencyResponseType = {

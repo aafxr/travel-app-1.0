@@ -42,7 +42,7 @@ export class HotelService{
 
     static async read(ctx: Context, hotelID:string){
         let hotel = await DB.getOne<Hotel>(StoreName.HOTELS, hotelID)
-        if (hotel) return
+        if (hotel) return hotel
 
         const id = hotelID.split(':').pop()
         if(id !== undefined) {

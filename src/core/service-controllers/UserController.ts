@@ -1,10 +1,6 @@
-import {User} from "../classes/store";
-import {Context} from "../classes/Context";
-import {PhotoService, UserService} from "../services";
+import {User, Context} from "../classes";
+import {UserService} from "../services";
 import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
-import {DB} from "../db/DB";
-import {StoreName} from "../../types/StoreName";
-import {USER_AUTH} from "../../constants";
 
 export class UserController{
     static async create(ctx: Context, user: User){

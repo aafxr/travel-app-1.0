@@ -44,7 +44,7 @@ export class PlaceService{
 
     static async read(ctx: Context, placeID:string){
         let place = await DB.getOne<Place>(StoreName.PLACE, placeID)
-        if (place) return
+        if (place) return place
 
         const id = placeID.split(':').pop()
         if(id !== undefined) {

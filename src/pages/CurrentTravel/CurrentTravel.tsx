@@ -1,16 +1,21 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext} from "../../contexts/AppContextProvider";
-import {TravelController} from "../../core/service-controllers";
+import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
+import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import {PageHeader} from "../../components/ui";
+import {Hotel, Place} from "../../core/classes";
 
 export function CurrentTravel() {
     const context = useAppContext()
     const {travelCode} = useParams()
     const navigate = useNavigate()
+
+    const travel = useTravel()
+
+    const [items, setItems ] = useState<Array<Place | Hotel>>([])
 
 
     useEffect(() => {
@@ -20,15 +25,23 @@ export function CurrentTravel() {
         }
 
         TravelController.read(context, travelCode)
-            .then(t => {
-                console.log(t)
-                if (t) {
-                    context.setTravel(t)
-                }
-            })
+            .then(t => t && context.setTravel(t))
             .catch(defaultHandleError)
     }, [])
 
+    useEffect(() => {
+        if(!travel) return
+
+        HotelController.readAll(context, ...travel.hotels_id)
+            .then(items => setItems(prev => [...prev, ...items]))
+            .catch(defaultHandleError)
+
+        PlaceController.readAll(context, ...travel.places_id)
+            .then(items => setItems(prev => [...prev, ...items]))
+            .catch(defaultHandleError)
+    }, [travel])
+
+    console.log(items)
 
     return (
         <div className='wrapper'>
