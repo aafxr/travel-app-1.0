@@ -44,7 +44,13 @@ export function RouteAdvice() {
 
     async function handleRouteSubmit() {
         const travel = context.travel
-        if (!travel || !route) return
+        if (!travel) return
+
+        if(!route) {
+            await TravelController.create(context, travel)
+            navigate(`/travel/${travel.id}/`)
+            return
+        }
 
         const hotels = []
         const places = []
@@ -133,7 +139,6 @@ export function RouteAdvice() {
             <div className='footer footer-btn-container'>
                 <Button
                     onClick={handleRouteSubmit}
-                    disabled={!route}
                 >Продолжить</Button>
             </div>
         </div>
