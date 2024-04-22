@@ -1,6 +1,14 @@
 import {nanoid} from "nanoid";
 
-import {PartialExpense, PartialHotel, PartialMessage, PartialPlace, PartialTravel, PartialUser} from "./partial";
+import {
+    PartialExpense,
+    PartialHotel,
+    PartialLimit,
+    PartialMessage,
+    PartialPlace,
+    PartialTravel,
+    PartialUser
+} from "./partial";
 import {ActionType} from "../../../types/ActionType";
 import {StoreName} from "../../../types/StoreName";
 import {DBFlagType} from "../../../types/DBFlagType";
@@ -70,6 +78,9 @@ export class Action<T extends Record<string, any>> {
                 break
             case StoreName.MESSAGE:
                 this.data = new PartialMessage(action.data || {}) as T
+                break
+            case StoreName.LIMIT:
+                this.data = new PartialLimit(action.data || {}) as T
                 break
             default:
                 this.data = action.data !== undefined ? action.data as T: {} as T

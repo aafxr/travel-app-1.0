@@ -2,8 +2,10 @@ import {MovementType} from "../../../types/MovementType";
 import {DBFlagType} from "../../../types/DBFlagType";
 import {Preference} from "../Preference";
 import {Travel} from "../store";
+import {PlaceDto} from "./Place.dto";
+import {HotelDto} from "./Hotel.dto";
 
-export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_at' | 'date_start' | 'date_end'>{
+export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_at' | 'date_start' | 'date_end' | 'places' | 'hotels'>{
     id?: string;
     admins?: string[];
     children_count?: number;
@@ -24,8 +26,8 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
     movementTypes?: MovementType[];
     owner_id?: string;
     permission;
-    places_id?: string[];
-    hotels_id?: string[];
+    places?: PlaceDto[];
+    hotels?: HotelDto[];
     preference?: Preference;
     previewPhotoId?: string;
     title?: string;
@@ -52,8 +54,8 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
         if(travel.members_count !== undefined) this.members_count = travel.members_count
         if(travel.movementTypes !== undefined) this.movementTypes = travel.movementTypes
         if(travel.owner_id !== undefined) this.owner_id = travel.owner_id
-        if(travel.places_id !== undefined) this.places_id = travel.places_id
-        if(travel.hotels_id !== undefined) this.hotels_id = travel.hotels_id
+        if(travel.places !== undefined) this.places = travel.places.map(p => new PlaceDto(p))
+        if(travel.hotels !== undefined) this.hotels = travel.hotels.map(h => new HotelDto(h))
         if(travel.previewPhotoId !== undefined) this.previewPhotoId = travel.previewPhotoId
         if(travel.title !== undefined) this.title = travel.title
         if(travel.waypoints_id !== undefined) this.waypoints_id = travel.waypoints_id

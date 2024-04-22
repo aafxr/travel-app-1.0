@@ -89,28 +89,28 @@ export function RouteAdvice() {
                 places.push(place)
             }
         }
-        travel.places_id = places.map(p => p.id)
-        travel.hotels_id = hotels.map(h => h.id)
+        travel.places = places
+        travel.hotels = hotels
 
         console.log(travel)
         console.log(places)
         console.log(hotels)
 
         await TravelController.create(context, travel)
-        for (const hotel of hotels){
-            try {
-                await HotelController.create(context, hotel)
-                travel.hotels_id.push(hotel.id)
-            }catch(r){}
-        }
-        for (const place of places){
-            try {
-                await PlaceController.create(context, place)
-                travel.places_id.push(place.id)
-            }catch(r){}
-        }
+        // for (const hotel of hotels){
+        //     try {
+        //         await HotelController.create(context, hotel)
+        //         travel.hotels_id.push(hotel.id)
+        //     }catch(r){}
+        // }
+        // for (const place of places){
+        //     try {
+        //         await PlaceController.create(context, place)
+        //         travel.places_id.push(place.id)
+        //     }catch(r){}
+        // }
 
-        await TravelController.update(context, travel)
+        // await TravelController.update(context, travel)
 
         context.setTravel(travel)
         navigate(`/travel/${travel.id}/`)

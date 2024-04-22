@@ -49,6 +49,7 @@ function App() {
             <Route path={'/'} element={<Main/>}/>
             <Route path={'/login/'} element={<Login/>}/>
             <Route element={<AuthRequired/>}>
+
                 <Route path={'/events/'} element={<Events/>}/>
                 <Route path={'/favorite/'} element={<Favorite/>}/>
                 <Route path={'/profile/'} element={<Profile/>}/>

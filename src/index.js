@@ -9,7 +9,6 @@ import {AppContextProvider} from "./contexts/AppContextProvider/AppContextProvid
 import defaultHandleError from "./utils/error-handlers/defaultHandleError";
 import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
 import {ThemeContextProvider} from "./contexts/ThemeContextProvider";
-import {pushAlertMessage} from "./components/Alerts";
 import {CACHE_VERSION, THEME} from "./constants";
 import setFixedVH from "./utils/setFixedVH";
 import App from './App';
