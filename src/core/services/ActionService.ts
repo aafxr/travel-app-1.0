@@ -3,6 +3,7 @@ import {StoreName} from "../../types/StoreName";
 import {Action, Context} from "../classes";
 import {ActionDto} from "../classes/dto";
 import {DB} from "../db/DB";
+import {ActionError} from "../errors";
 
 export class ActionService{
     static async create(ctx: Context, action: Action<any>){
@@ -16,6 +17,15 @@ export class ActionService{
             }
         }catch (e){
             // throw NetworkError.connectionError()
+        }
+    }
+
+    static async add(ctx: Context, action : Action<any>){
+        try {
+            return await DB.add(StoreName.ACTION, action)
+        }catch (e){
+            console.error(e)
+            throw ActionError.actionAlreadyExist()
         }
     }
 }
