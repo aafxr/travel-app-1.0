@@ -57,6 +57,10 @@ export class PlaceService{
         }
     }
 
+    static async readLocal(ctx: Context, placeID:string){
+        return DB.getOne<Place>(StoreName.PLACE, placeID)
+    }
+
     static async readAll(ctx: Context, ...placeIDs:string[]){
         const places = []
         for (const placeID of placeIDs){
