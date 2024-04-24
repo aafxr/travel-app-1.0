@@ -3,24 +3,21 @@ import {io, Socket} from "socket.io-client";
 import {createContext, useEffect, useRef, useState} from "react";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {actionHandler} from "../../utils/action-handler/action-handler";
 import {SocketMessageEntityType} from "./SocketMessageEntityType";
 import {useAppContext, useUser} from "../AppContextProvider";
+import {StoreName} from "../../types/StoreName";
+import {Travel} from "../../core/classes";
+import {DB} from "../../core/db/DB";
 import {
     useActionSubject,
     useExpenseSubject,
     useHotelSubject,
-    useLimitSubject, usePhotoSubject,
+    useLimitSubject,
+    usePhotoSubject,
     usePlaceSubject,
     useTravelSubject
 } from "../SubjectContextProvider";
-import socketManagement from "./socketManagement";
-import {Travel} from "../../core/classes";
-import {ActionDto} from "../../core/classes/dto";
-import {Update} from "../../core/classes/Update";
-import {StoreName} from "../../types/StoreName";
-import {DB} from "../../core/db/DB";
-import {ActionController} from "../../core/service-controllers";
-import {actionHandler} from "../../utils/action-handler/action-handler";
 
 
 export type SocketContextType = {
@@ -51,7 +48,7 @@ export function SocketContextProvider(){
         if(!user) return
         if(init.current.initialization) return
 
-        const handle = socketManagement(context)
+        // const handle = socketManagement(context)
 
         init.current.initialization = true
         const socket =  io(process.env.REACT_APP_SOCKET_URL as string) //{ host: process.env.REACT_APP_SOCKET_HOST ,port:process.env.REACT_APP_SOCKET_PORT, secure: true}
@@ -100,6 +97,7 @@ export function SocketContextProvider(){
         return () => { context.setSocket(null) }
     }, [user, state])
 
+    console.log(state)
 
     return (
         <SocketContext.Provider value={state}>

@@ -30,13 +30,13 @@ export class PlaceService{
             throw PlaceError.placeAlreadyExist(place)
         }
 
-        try {
-            travel.places_id.push(place.id)
-            await TravelService.update(ctx, travel)
-        } catch (e){
-            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
-            else throw e
-        }
+        // try {
+        //     travel.places_id.push(place.id)
+        //     await TravelService.update(ctx, travel)
+        // } catch (e){
+        //     if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+        //     else throw e
+        // }
 
         await ActionService.create(ctx, action)
         return place
@@ -44,7 +44,7 @@ export class PlaceService{
 
     static async read(ctx: Context, placeID:string){
         let place = await DB.getOne<Place>(StoreName.PLACE, placeID)
-        if (place) return place
+        if (place) return new Place(place)
 
         const id = placeID.split(':').pop()
         if(id !== undefined) {
@@ -52,7 +52,7 @@ export class PlaceService{
             if(response.ok){
                 place = new Place(response.data)
                 await DB.add(StoreName.PLACE, place)
-                return place
+                return new Place(place)
             }
         }
     }
@@ -71,7 +71,7 @@ export class PlaceService{
                 console.error(e)
             }
         }
-        return places
+        return places.map(p => new Place(p))
     }
 
     static async update(ctx: Context, place: Place){
@@ -101,13 +101,13 @@ export class PlaceService{
             data: {id}
         })
 
-        try {
-            travel.places_id = travel.places_id.filter(id => id !== place.id)
-            await TravelService.update(ctx, travel)
-        } catch (e){
-            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
-            else throw e
-        }
+        // try {
+        //     travel.places_id = travel.places_id.filter(id => id !== place.id)
+        //     await TravelService.update(ctx, travel)
+        // } catch (e){
+        //     if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+        //     else throw e
+        // }
 
         await DB.delete(StoreName.PLACE, id)
         await ActionService.create(ctx, action)

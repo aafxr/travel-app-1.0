@@ -99,13 +99,11 @@ export function RouteAdvice() {
         for (const hotel of hotels){
             try {
                 await HotelController.create(context, hotel)
-                travel.hotels_id.push(hotel.id)
             }catch(r){}
         }
         for (const place of places){
             try {
                 await PlaceController.create(context, place)
-                travel.places_id.push(place.id)
             }catch(r){}
         }
 

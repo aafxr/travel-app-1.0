@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
+import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
-import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
+import {PlaceCard} from "../../components/PlaceCard/PlaceCard";
 import Container from "../../components/Container/Container";
 import {PageHeader} from "../../components/ui";
 import {Hotel, Place} from "../../core/classes";
@@ -42,14 +43,18 @@ export function CurrentTravel() {
         loadItems().catch(defaultHandleError)
     }, [travel])
 
+    console.log(items)
+    console.log(travel)
+
 
     return (
         <div className='wrapper'>
             <Container>
                 <PageHeader arrowBack to={'/'} title={'Current Travel'}/>
             </Container>
-            <Container className='content'>
-                content
+            <Container className='content column gap-1'>
+                {items.filter(i => i instanceof Place)
+                    .map(i => <PlaceCard key={i.id} className='flex-0' place={i as Place}/>)}
             </Container>
         </div>
     )
