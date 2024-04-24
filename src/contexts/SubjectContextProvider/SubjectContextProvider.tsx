@@ -1,8 +1,8 @@
 import {Subject} from "rxjs";
-import {Action, Expense, Hotel, Limit, Member, Place, Travel, User} from "../../core/classes";
+import {Action, Expense, Hotel, Limit, Member, Photo, Place, Travel, User} from "../../core/classes";
 import {createContext, PropsWithChildren, useContext} from "react";
 
-type SubjectContextType = {
+export type SubjectContextType = {
     s_travel: Subject<Travel>
     s_user: Subject<User>
     s_member: Subject<Member>
@@ -11,6 +11,7 @@ type SubjectContextType = {
     s_action: Subject<Action<any>>
     s_place: Subject<Place>
     s_hotel: Subject<Hotel>
+    s_photo: Subject<Photo>
 }
 
 const s_defaultSubject: SubjectContextType = {
@@ -22,6 +23,7 @@ const s_defaultSubject: SubjectContextType = {
     s_action: new Subject(),
     s_place: new Subject(),
     s_hotel: new Subject(),
+    s_photo: new Subject(),
 }
 
 
