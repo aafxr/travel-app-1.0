@@ -8,5 +8,5 @@
     --icon-size: 24px;
     --input-br: var(--border-radius);
 
-    --card-pading: 4px;
+    --card-pading: 0.5rem;
 }

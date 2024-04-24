@@ -8,6 +8,7 @@ import {PlaceCard} from "../../components/PlaceCard/PlaceCard";
 import Container from "../../components/Container/Container";
 import {PageHeader} from "../../components/ui";
 import {Hotel, Place} from "../../core/classes";
+import {HotelCard} from "../../components/HotelCard/HotelCard";
 
 export function CurrentTravel() {
     const context = useAppContext()
@@ -37,7 +38,8 @@ export function CurrentTravel() {
 
             const hotels = await HotelController.readAll(context, ...travel.hotels_id)
             const places = await PlaceController.readAll(context, ...travel.places_id)
-            setItems([...hotels, ...places])
+            const items = [...hotels, ...places].sort((a,b) => a.date_start.getDay() - b.date_start.getTime())
+            setItems(items)
         }
 
         loadItems().catch(defaultHandleError)
@@ -53,8 +55,10 @@ export function CurrentTravel() {
                 <PageHeader arrowBack to={'/'} title={'Current Travel'}/>
             </Container>
             <Container className='content column gap-1'>
-                {items.filter(i => i instanceof Place)
-                    .map(i => <PlaceCard key={i.id} className='flex-0' place={i as Place}/>)}
+                {items.map(i => {
+                    if(i instanceof Place) return <PlaceCard key={i.id} className='flex-0' place={i}/>
+                    else if(i instanceof Hotel) return <HotelCard key={i.id} className='flex-0' hotel={i}/>
+                })}
             </Container>
         </div>
     )
