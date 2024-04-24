@@ -4,6 +4,8 @@ import {Action, Context} from "../classes";
 import {ActionDto} from "../classes/dto";
 import {DB} from "../db/DB";
 import {ActionError} from "../errors";
+import {IndexName} from "../../types/IndexName";
+import {PredicateType} from "../../types/Predicate";
 
 export class ActionService{
     static async create(ctx: Context, action: Action<any>){
@@ -27,5 +29,17 @@ export class ActionService{
             console.error(e)
             throw ActionError.actionAlreadyExist()
         }
+    }
+
+
+    /**
+     * методпозволяет полусить время последнего action хранимого в локальной бд
+     */
+    static async getLastActionTime() {
+        const predicate: PredicateType<Action<any>> = item => item.synced === 1
+        const cursor = await DB.openIndexCursor<Action<any>>(StoreName.ACTION, IndexName.DATETIME, IDBKeyRange.upperBound(new Date()), "prev", predicate)
+        const action = (await cursor.next()).value
+        if (action) return new Date(action.datetime)
+        return new Date(0)
     }
 }

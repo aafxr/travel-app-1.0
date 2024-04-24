@@ -108,4 +108,12 @@ export class ActionController{
             throw e
         }
     }
+
+    static async getLastActionTime(){
+        try {
+            return await ActionService.getLastActionTime()
+        }catch (e){
+            throw e
+        }
+    }
 }
