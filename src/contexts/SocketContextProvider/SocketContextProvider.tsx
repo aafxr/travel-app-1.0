@@ -7,18 +7,20 @@ import {SocketMessageEntityType} from "./SocketMessageEntityType";
 import {useAppContext, useUser} from "../AppContextProvider";
 import {
     useActionSubject,
-    useExpenseSubject, useHotelSubject,
-    useLimitSubject,
+    useExpenseSubject,
+    useHotelSubject,
+    useLimitSubject, usePhotoSubject,
     usePlaceSubject,
     useTravelSubject
 } from "../SubjectContextProvider";
 import socketManagement from "./socketManagement";
-import {Action, Travel} from "../../core/classes";
+import {Travel} from "../../core/classes";
 import {ActionDto} from "../../core/classes/dto";
 import {Update} from "../../core/classes/Update";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../../core/db/DB";
 import {ActionController} from "../../core/service-controllers";
+import {actionHandler} from "../../utils/action-handler/action-handler";
 
 
 export type SocketContextType = {
@@ -36,13 +38,14 @@ export function SocketContextProvider(){
     const context = useAppContext()
     const user = useUser()
     const init = useRef<Record<string, any>>({})
-    const actionSubject = useActionSubject()
 
+    const actionSubject = useActionSubject()
     const travelSubject = useTravelSubject()
     const expenseSubject = useExpenseSubject()
     const limitSubject = useLimitSubject()
     const placeSubject = usePlaceSubject()
     const hotelSubject = useHotelSubject()
+    const photoSubject = usePhotoSubject()
 
     useEffect(() => {
         if(!user) return
@@ -78,30 +81,18 @@ export function SocketContextProvider(){
         })
 
 
-        socket.on(SocketMessageEntityType.ACTION, async (actionDTO: ActionDto) => {
-            console.log(actionDTO, typeof actionDTO)
-            try{
-                const result = await ActionController.add(context, actionDTO)
-                if(!result.ok) {
-                    console.log(result)
-                    return
-                }
-
-                const action = result.action!
-                actionSubject.next(action)
-
-                switch (action.entity){
-                    case StoreName.TRAVEL:
-                        const travel = await Update.travel(action)
-                        if (travel) travelSubject.next(travel)
-                        break
-                }
-
-            } catch (e){
-                console.error(e)
-                defaultHandleError(e as Error)
-            }
+        const onAction = actionHandler({
+            context,
+            actionSubject,
+            travelSubject,
+            expenseSubject,
+            limitSubject,
+            placeSubject,
+            hotelSubject,
+            photoSubject,
         })
+
+        socket.on(SocketMessageEntityType.ACTION, onAction)
 
         context.setSocket(socket)
         setState({socket})
