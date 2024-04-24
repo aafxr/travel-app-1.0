@@ -2,8 +2,7 @@ import {DB} from "../db/DB";
 import {StoreName} from "../../types/StoreName";
 import {IndexName} from "../../types/IndexName";
 import {PredicateType} from "../../types/Predicate";
-import {Action, Expense, Hotel, Limit, Place, Travel} from "./store";
-import {ExpenseDTO, LimitDTO} from "./dto";
+import {Action, Expense, Hotel, Limit, Photo, Place, Travel} from "./store";
 import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 import {ActionType} from "../../types/ActionType";
 import {PartialExpense, PartialHotel, PartialLimit, PartialPlace, PartialTravel} from "./store/partial";
@@ -78,11 +77,25 @@ export class Recover {
         const result = new Hotel({id})
         const predicate: PredicateType<Action<PartialHotel>> = (item) => item.entity === StoreName.HOTELS && item.data.id === id
         const cursor = await DB.openIndexCursor(StoreName.ACTION, IndexName.DATETIME, undefined, "next", predicate)
-        let HotelAction = (await cursor.next()).value
-        while (HotelAction) {
-            if(HotelAction.action === ActionType.DELETE) return
-            HotelAction = (await cursor.next()).value
-            if (HotelAction) Object.assign(result, HotelAction.data)
+        let hotelAction = (await cursor.next()).value
+        while (hotelAction) {
+            if(hotelAction.action === ActionType.DELETE) return
+            hotelAction = (await cursor.next()).value
+            if (hotelAction) Object.assign(result, hotelAction.data)
+        }
+        return result
+    }
+
+
+    static async photo(id: string){
+        const result = new Photo({id, base64: ''})
+        const predicate: PredicateType<Action<Photo>> = (item) => item.entity === StoreName.Photo && item.data.id === id
+        const cursor = await DB.openIndexCursor(StoreName.ACTION, IndexName.DATETIME, undefined, "next", predicate)
+        let photoAction = (await cursor.next()).value
+        while (photoAction) {
+            if(photoAction.action === ActionType.DELETE) return
+            photoAction = (await cursor.next()).value
+            if (photoAction) Object.assign(result, photoAction.data)
         }
         return result
     }

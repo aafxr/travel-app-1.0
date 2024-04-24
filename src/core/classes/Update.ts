@@ -1,4 +1,4 @@
-import {Action, Expense, Limit, Place, Travel} from "./store";
+import {Action, Expense, Photo, Travel} from "./store";
 import {PartialExpense, PartialHotel, PartialLimit, PartialPlace, PartialTravel} from "./store/partial";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../db/DB";
@@ -115,5 +115,18 @@ export class Update{
         let hotel = await Recover.hotel(id)
         if(hotel) await DB.update(StoreName.HOTELS, hotel)
         return hotel
+    }
+
+
+
+    static async photo(action: Action<Photo>){
+        if (action.entity !== StoreName.Photo) ActionError.tryToUpdateEntityByWrongAction(StoreName.Photo, action)
+
+        const id = action.data.id
+        if(!id) return
+
+        const photo = await Recover.photo(id)
+        if(photo) await DB.update(StoreName.Photo, photo)
+        return photo
     }
 }
