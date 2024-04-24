@@ -29,19 +29,19 @@ export function CurrentTravel() {
             .catch(defaultHandleError)
     }, [])
 
+
     useEffect(() => {
-        if(!travel) return
+        async function loadItems(){
+            if(!travel) return
 
-        HotelController.readAll(context, ...travel.hotels_id)
-            .then(items => setItems(prev => [...prev, ...items]))
-            .catch(defaultHandleError)
+            const hotels = await HotelController.readAll(context, ...travel.hotels_id)
+            const places = await PlaceController.readAll(context, ...travel.places_id)
+            setItems([...hotels, ...places])
+        }
 
-        PlaceController.readAll(context, ...travel.places_id)
-            .then(items => setItems(prev => [...prev, ...items]))
-            .catch(defaultHandleError)
+        loadItems().catch(defaultHandleError)
     }, [travel])
 
-    console.log(items)
 
     return (
         <div className='wrapper'>

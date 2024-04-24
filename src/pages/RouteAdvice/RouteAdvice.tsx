@@ -42,6 +42,7 @@ export function RouteAdvice() {
             .catch(defaultHandleError)
     }, [])
 
+
     async function handleRouteSubmit() {
         const travel = context.travel
         if (!travel) return
@@ -66,8 +67,8 @@ export function RouteAdvice() {
                     rate: Number(place.rate),
                     day: step.day,
                     tags: place.tags,
-                    date_start: new Date(step.timeEnd * 1000),
-                    date_end: new Date(step.timeStart * 1000),
+                    date_start: new Date(step.timeStart),
+                    date_end: new Date(step.timeEnd),
                     position: [Number(place.position[0]), Number(place.position[1])],
                 })
                 hotels.push(hotel)
@@ -81,8 +82,8 @@ export function RouteAdvice() {
                     price: Number(step_place.price),
                     duration: Number(step_place.duration),
                     location: [Number(step_place.position[0]), Number(step_place.position[1])],
-                    date_start: new Date(step.timeStart * 1000),
-                    date_end: new Date(step.timeEnd * 1000),
+                    date_start: new Date(step.timeStart),
+                    date_end: new Date(step.timeEnd),
                     day: step.day,
                     popularity: Number(step_place.popularity)
                 })
@@ -92,9 +93,7 @@ export function RouteAdvice() {
         travel.places_id = places.map(p => p.id)
         travel.hotels_id = hotels.map(h => h.id)
 
-        console.log(travel)
-        console.log(places)
-        console.log(hotels)
+
 
         await TravelController.create(context, travel)
         for (const hotel of hotels){

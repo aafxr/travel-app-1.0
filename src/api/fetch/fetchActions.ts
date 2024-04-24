@@ -1,17 +1,16 @@
 import aFetch from "../../axios";
-import {Action} from "../../core/classes";
 import {ActionDto} from "../../core/classes/dto";
 
-type ResponseType<T extends {}> = {
+type ResponseType = {
     ok:boolean
     data?: ActionDto[]
     message?: string
 }
 
-const dateKeys = ['created_at', 'updated_at']
+// const dateKeys = ['created_at', 'updated_at']
 
-export async function fetchActions<T extends {}>(time_ms:number){
-    const result = (await aFetch.post<ResponseType<T>>('/actions/get/', {time: time_ms})).data
+export async function fetchActions(time_ms:number){
+    const result = (await aFetch.post<ResponseType>('/actions/get/', {time: time_ms})).data
     if(result.ok && result.data){
         const actions = result.data
         // actions.forEach(a => {
