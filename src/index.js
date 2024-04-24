@@ -5,11 +5,11 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
+import {LoadActionsComponent} from "./components/LoadActionsComponent/LoadActionsComponent";
 import {AppContextProvider} from "./contexts/AppContextProvider/AppContextProvider";
 import defaultHandleError from "./utils/error-handlers/defaultHandleError";
 import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
 import {ThemeContextProvider} from "./contexts/ThemeContextProvider";
-import {pushAlertMessage} from "./components/Alerts";
 import {CACHE_VERSION, THEME} from "./constants";
 import setFixedVH from "./utils/setFixedVH";
 import App from './App';
@@ -30,6 +30,7 @@ root.render(
             <SubjectContextProvider>
                 <BrowserRouter>
                     <App/>
+                    <LoadActionsComponent />
                 </BrowserRouter>
             </SubjectContextProvider>
         </ThemeContextProvider>
