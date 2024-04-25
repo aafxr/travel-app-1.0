@@ -22,11 +22,13 @@ interface TravelCardPropsType {
  * @returns {JSX.Element}
  * @constructor
  */
-export default function TravelCard({travel, onRemove}: TravelCardPropsType) {
+export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX.Element{
     const navigate = useNavigate()
     const context = useAppContext()
     const [tagsScrolling, setTextScrolling] = useState(false)
     const travelDays = travel.days === 1 ? '1 день' : `${travel.days} дней`
+
+    console.log(travel)
 
     function handleRemove() {
         onRemove && onRemove()
