@@ -6,7 +6,7 @@ import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
 import {PlaceCard} from "../../components/PlaceCard/PlaceCard";
 import Container from "../../components/Container/Container";
-import {PageHeader} from "../../components/ui";
+import {PageHeader, Tab} from "../../components/ui";
 import {Hotel, Place} from "../../core/classes";
 import {HotelCard} from "../../components/HotelCard/HotelCard";
 import Swipe from "../../components/ui/Swipe/Swipe";
@@ -53,6 +53,9 @@ export function CurrentTravel() {
             <Container>
                 <PageHeader arrowBack to={'/'} title={'Current Travel'}/>
             </Container>
+            <div className='tabs row flex-nowrap flex-0'>
+                {new Array({length: travel?.days}).map((_ ,i) => <Tab name={`${i+1} день`} to={`/travel/${travel?.id}/${i+1}`}/>)}
+            </div>
             <Container className='content column gap-1 overflow-x-hidden'>
                 {items.map(i => {
                     if (i instanceof Place)

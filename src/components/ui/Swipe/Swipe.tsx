@@ -82,7 +82,7 @@ export default function Swipe({
             if (e.dir === 'Left') {
                 rightElement && setShiftLeft(e.deltaX)
             } else if (e.dir === 'Right') {
-                leftElement && setShiftLeft(Math.min(e.deltaX))
+                leftElement && setShiftLeft(e.deltaX)
             }
         },
     })
