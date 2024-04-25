@@ -9,6 +9,7 @@ import Swipe from "../ui/Swipe/Swipe";
 import {Chip} from "../ui";
 
 import './TravelCard.css'
+import {TrashIcon} from "../svg";
 
 interface TravelCardPropsType {
     travel: Travel,
@@ -52,7 +53,7 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX
             <Swipe
                 className='travel-card-swiper'
                 onRemove={handleRemove}
-                rightButton={!tagsScrolling}
+                rightElement={<div className='h-full center'><TrashIcon className='icon' /></div>}
                 onClick={handleClickCard}
             >
                 <div className='travel-item'>

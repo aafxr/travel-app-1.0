@@ -4,8 +4,6 @@ import {StoreName} from "../../types/StoreName";
 import {PlaceError, TravelError} from "../errors";
 import {fetchPlaceByID} from "../../api/fetch";
 import {TravelService} from "./TravelService";
-import {CustomError} from "../errors/CustomError";
-import {ErrorCode} from "../errors/ErrorCode";
 import {ActionService} from "./ActionService";
 import {DB} from "../db/DB";
 

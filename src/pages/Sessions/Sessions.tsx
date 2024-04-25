@@ -97,7 +97,6 @@ export function Sessions() {
                             key={a.uid}
                             className='auth-item'
                             onRemove={() => removeSessionHandler(a)}
-                            rightButton
                         >
                             <SessionItem sessionData={a}/>
                         </Swipe>

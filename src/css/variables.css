@@ -9,4 +9,6 @@
     --input-br: var(--border-radius);
 
     --card-pading: 0.5rem;
+
+    --swiper-shift: 80px;
 }
