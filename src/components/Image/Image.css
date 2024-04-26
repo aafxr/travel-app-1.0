@@ -1,0 +1,5 @@
+.Image{
+    position: relative;
+    border-radius: var(--border-radius-main);
+    overflow: hidden;
+}
