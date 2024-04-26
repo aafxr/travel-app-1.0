@@ -59,6 +59,7 @@ function App() {
                     <Route path={'/travel/:travelCode/settings/'} element={<TravelSettings/>}/>
                     <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>
                     <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
+                    <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
                 </Route>
             </Route>
             <Route path={'/dev/'} element={<Dev/>}/>

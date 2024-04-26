@@ -6,9 +6,9 @@ import {StarIcon} from "../svg";
 import {Chip} from "../ui";
 
 import './PlaceCard.css'
-import {DEFAULT_IMG_URL} from "../../constants";
+import {DEFAULT_IMG_URL, month} from "../../constants";
 
-const month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
 
 export interface PlaceCardPropsType {
     place: Place

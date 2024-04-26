@@ -1,6 +1,10 @@
 :root{
     --padding-base: 20px;
+    --margin-base: 20px;
+    --transition-base: 0.3s linear;
+
     --border-radius: 10px;
+    --border-radius-main: 20px;
     --card-border-radius: 1.25rem;
 
 
@@ -11,4 +15,5 @@
     --card-pading: 0.5rem;
 
     --swiper-shift: 80px;
+
 }

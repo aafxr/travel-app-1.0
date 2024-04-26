@@ -1,0 +1,108 @@
+.members{
+    --left: -1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.members.showMore{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.member{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 8px;
+    align-items: center;
+    min-height: var(--icon-size);
+}
+
+.members.showMore .member:not(:first-child){
+    left: calc(var(--left) * var(--avatar-size));
+}
+
+.member-photo{
+    position: relative;
+    flex: none;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.member-inner{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.member-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.member-name{
+    font-weight: 600;
+}
+
+.member-role,
+.member-extra-info{
+    color: var(--color-text-silver);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.members-more{
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.members-more-btn.active{
+    padding: 0;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:8px;
+
+    color: var(--color-text);
+    font-weight: 600;
+    background: transparent;
+}
+
+.members-more-icon{
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+}
+
+.member-invite-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    color: var(--color-text);
+    background: var(--color-background);
+    border-radius: 50%;
+    overflow: hidden;
+    border: none;
+}
+
+.members.showMore .member-inner,
+.members.showMore .member-info{
+    display: none;
+}
+

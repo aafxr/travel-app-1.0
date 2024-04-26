@@ -51,6 +51,11 @@ a{
     justify-content: space-between;
 }
 
+.flex-end{
+    display: flex;
+    justify-content: flex-end;
+}
+
 .align-center{
     display: flex;
     align-items: center;
@@ -463,4 +468,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     z-index: 10;
     cursor: pointer;
+}
+
+.rounded-button{
+    padding: 12px 18px;
+    background: transparent;
+    border-radius: 2rem;
+    border: 2px solid var(--color-text-silver);
 }

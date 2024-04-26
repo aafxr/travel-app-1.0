@@ -16,7 +16,7 @@
     background-color: var(--color-primary-light);
 
     overflow: hidden;
-    transition: var(--tr-all);
+    transition: var(--transition-base);
     cursor: pointer;
 }
 

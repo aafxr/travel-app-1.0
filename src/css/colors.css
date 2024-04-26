@@ -5,14 +5,11 @@
     --color-primary-light: #FFF3E4;
     --color-secondary: #FFF;
     --color-background: #FFF;
-    --color-background-alt: var(--color-grey-light);
     --color-background-input: #fff;
     --color-grey: #A2A2A2;
     --color-grey-light: #F0F0F0;
     --color-text: #000;
-    --color-text-50: rgba(30, 30, 30, 0.50);
-    --color-text-secondary: #000;
-    --color-text-light: #1E1E1E;
+    --color-text-silver: #A1A1A1;
     --color-blue: #0075FF;
     --color-black: #000000;
     --color-navigation-bg: var(--color-secondary);
