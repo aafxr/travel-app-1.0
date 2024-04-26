@@ -6,10 +6,10 @@ import PhotoComponent from "../ui/PhotoComponents/PhotoComponent";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {Travel} from "../../core/classes";
 import Swipe from "../ui/Swipe/Swipe";
+import {TrashIcon} from "../svg";
 import {Chip} from "../ui";
 
 import './TravelCard.css'
-import {TrashIcon} from "../svg";
 
 interface TravelCardPropsType {
     travel: Travel,
