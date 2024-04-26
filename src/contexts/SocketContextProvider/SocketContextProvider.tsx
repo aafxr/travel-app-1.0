@@ -3,6 +3,7 @@ import {io, Socket} from "socket.io-client";
 import {createContext, useEffect, useRef, useState} from "react";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+<<<<<<< HEAD
 import {ActionService} from "../../core/services/ActionService";
 import {TravelController} from "../../core/service-controllers";
 import {useAppContext, useUser} from "../AppContextProvider";
@@ -12,6 +13,23 @@ import {Action, Travel} from "../../core/classes";
 import socketManagement from "./socketManagement";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../../core/db/DB";
+=======
+import {actionHandler} from "../../utils/action-handler/action-handler";
+import {SocketMessageEntityType} from "./SocketMessageEntityType";
+import {useAppContext, useUser} from "../AppContextProvider";
+import {StoreName} from "../../types/StoreName";
+import {Travel} from "../../core/classes";
+import {DB} from "../../core/db/DB";
+import {
+    useActionSubject,
+    useExpenseSubject,
+    useHotelSubject,
+    useLimitSubject,
+    usePhotoSubject,
+    usePlaceSubject,
+    useTravelSubject
+} from "../SubjectContextProvider";
+>>>>>>> places_id
 
 
 export type SocketContextType = {
@@ -29,13 +47,28 @@ export function SocketContextProvider(){
     const context = useAppContext()
     const user = useUser()
     const init = useRef<Record<string, any>>({})
+<<<<<<< HEAD
     const actionSubject = useActionSubject()
+=======
+
+    const actionSubject = useActionSubject()
+    const travelSubject = useTravelSubject()
+    const expenseSubject = useExpenseSubject()
+    const limitSubject = useLimitSubject()
+    const placeSubject = usePlaceSubject()
+    const hotelSubject = useHotelSubject()
+    const photoSubject = usePhotoSubject()
+>>>>>>> places_id
 
     useEffect(() => {
         if(!user) return
         if(init.current.initialization) return
 
+<<<<<<< HEAD
         const handle = socketManagement(context)
+=======
+        // const handle = socketManagement(context)
+>>>>>>> places_id
 
         init.current.initialization = true
         const socket =  io(process.env.REACT_APP_SOCKET_URL as string) //{ host: process.env.REACT_APP_SOCKET_HOST ,port:process.env.REACT_APP_SOCKET_PORT, secure: true}
@@ -64,6 +97,7 @@ export function SocketContextProvider(){
             setState({...state, errorMessage: err.message})
         })
 
+<<<<<<< HEAD
         // socket.on(SMEType.MESSAGE, handle.newTravelMessage)
         // socket.on(SMEType.MESSAGE, console.log)
         // socket.on(SMEType.MESSAGE_RESULT, console.log)
@@ -99,12 +133,32 @@ export function SocketContextProvider(){
             }
         })
 
+=======
+
+        const onAction = actionHandler({
+            context,
+            actionSubject,
+            travelSubject,
+            expenseSubject,
+            limitSubject,
+            placeSubject,
+            hotelSubject,
+            photoSubject,
+        })
+
+        socket.on(SocketMessageEntityType.ACTION, onAction)
+
+>>>>>>> places_id
         context.setSocket(socket)
         setState({socket})
 
         return () => { context.setSocket(null) }
     }, [user, state])
 
+<<<<<<< HEAD
+=======
+    console.log(state)
+>>>>>>> places_id
 
     return (
         <SocketContext.Provider value={state}>

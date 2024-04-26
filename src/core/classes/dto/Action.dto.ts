@@ -12,7 +12,7 @@ export class ActionDto implements Omit<Action<any>, 'datetime'>{
     id: string;
     uid: string;
     user_id: string;
-    data: {};
+    data: Record<string, any>;
     action: ActionType;
     entity: StoreName;
     synced: DBFlagType;

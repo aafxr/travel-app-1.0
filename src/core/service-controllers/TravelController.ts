@@ -1,5 +1,4 @@
-import {Travel} from "../classes/store";
-import {Context} from "../classes/Context";
+import {Travel, Context} from "../classes";
 import {TravelService} from "../services/TravelService";
 
 export class TravelController{

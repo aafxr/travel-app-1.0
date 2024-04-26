@@ -40,6 +40,7 @@ export class Expense {
     personal: DBFlagType;
     value: number;
     variant: ExpenseVariantType;
+    deleted: boolean
 
     constructor(expense?: Partial<Expense> | Partial<ExpenseDTO>) {
         if(!expense) expense = {}
@@ -58,7 +59,11 @@ export class Expense {
         this.datetime           = expense.datetime !== undefined ? new Date(expense.datetime) : new Date(0)
         this.created_at         = expense.created_at !== undefined ? new Date(expense.created_at) : new Date()
 
+
         if('variant' in  expense && expense.variant) this.variant = expense.variant
         else this.variant = StoreName.EXPENSES_ACTUAL
+
+        if('deleted' in expense && expense.deleted !== undefined) this.deleted = expense.deleted
+        else this.deleted = false
     }
 }

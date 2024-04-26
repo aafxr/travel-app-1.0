@@ -19,6 +19,14 @@ export class PlaceController{
         }
     }
 
+    static async readLocal(ctx: Context, placeID: string){
+        try {
+            return await PlaceService.readLocal(ctx, placeID)
+        }catch (e){
+            throw e
+        }
+    }
+
     static async readAll(ctx: Context, ...placeIDs:string[]){
         try {
             return await PlaceService.readAll(ctx, ...placeIDs)

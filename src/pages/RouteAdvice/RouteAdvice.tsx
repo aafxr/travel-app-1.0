@@ -42,6 +42,7 @@ export function RouteAdvice() {
             .catch(defaultHandleError)
     }, [])
 
+
     async function handleRouteSubmit() {
         const travel = context.travel
         if (!travel) return
@@ -66,8 +67,8 @@ export function RouteAdvice() {
                     rate: Number(place.rate),
                     day: step.day,
                     tags: place.tags,
-                    date_start: new Date(step.timeEnd * 1000),
-                    date_end: new Date(step.timeStart * 1000),
+                    date_start: new Date(step.timeStart),
+                    date_end: new Date(step.timeEnd),
                     position: [Number(place.position[0]), Number(place.position[1])],
                 })
                 hotels.push(hotel)
@@ -81,8 +82,8 @@ export function RouteAdvice() {
                     price: Number(step_place.price),
                     duration: Number(step_place.duration),
                     location: [Number(step_place.position[0]), Number(step_place.position[1])],
-                    date_start: new Date(step.timeStart * 1000),
-                    date_end: new Date(step.timeEnd * 1000),
+                    date_start: new Date(step.timeStart),
+                    date_end: new Date(step.timeEnd),
                     day: step.day,
                     popularity: Number(step_place.popularity)
                 })
@@ -92,11 +93,10 @@ export function RouteAdvice() {
         travel.places = places
         travel.hotels = hotels
 
-        console.log(travel)
-        console.log(places)
-        console.log(hotels)
+
 
         await TravelController.create(context, travel)
+<<<<<<< HEAD
         // for (const hotel of hotels){
         //     try {
         //         await HotelController.create(context, hotel)
@@ -109,6 +109,18 @@ export function RouteAdvice() {
         //         travel.places_id.push(place.id)
         //     }catch(r){}
         // }
+=======
+        for (const hotel of hotels){
+            try {
+                await HotelController.create(context, hotel)
+            }catch(r){}
+        }
+        for (const place of places){
+            try {
+                await PlaceController.create(context, place)
+            }catch(r){}
+        }
+>>>>>>> places_id
 
         // await TravelController.update(context, travel)
 

@@ -40,4 +40,7 @@ export enum ErrorCode{
     HOTEL_ALREADY_EXIST = 800,
     UNBINDED_HOTEL_WITH_TRAVEL,
 
+    /**action */
+    ACTION_ALREADY_EXIST = 900,
+    TRY_TO_UPDATE_ACTION_BY_WRANG_ACTION
 }

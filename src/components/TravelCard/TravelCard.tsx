@@ -6,6 +6,7 @@ import PhotoComponent from "../ui/PhotoComponents/PhotoComponent";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {Travel} from "../../core/classes";
 import Swipe from "../ui/Swipe/Swipe";
+import {TrashIcon} from "../svg";
 import {Chip} from "../ui";
 
 import './TravelCard.css'
@@ -22,11 +23,13 @@ interface TravelCardPropsType {
  * @returns {JSX.Element}
  * @constructor
  */
-export default function TravelCard({travel, onRemove}: TravelCardPropsType) {
+export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX.Element{
     const navigate = useNavigate()
     const context = useAppContext()
     const [tagsScrolling, setTextScrolling] = useState(false)
     const travelDays = travel.days === 1 ? '1 день' : `${travel.days} дней`
+
+    console.log(travel)
 
     function handleRemove() {
         onRemove && onRemove()
@@ -50,7 +53,7 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType) {
             <Swipe
                 className='travel-card-swiper'
                 onRemove={handleRemove}
-                rightButton={!tagsScrolling}
+                rightElement={<div className='h-full center'><TrashIcon className='icon' /></div>}
                 onClick={handleClickCard}
             >
                 <div className='travel-item'>

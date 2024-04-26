@@ -4,6 +4,7 @@
 //  'travel:message'
 //  'disconnect'
 
+<<<<<<< HEAD
 import {Socket} from "socket.io-client";
 
 import {Action, Context, Expense, Limit, Recover, Travel} from "../../core/classes";
@@ -11,6 +12,14 @@ import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../../core/db/DB";
 
+=======
+
+import {Socket} from "socket.io-client";
+import {StoreName} from "../../types/StoreName";
+import {Action, Context, Expense, Limit, Recover, Travel} from "../../core/classes";
+import {DB} from "../../core/db/DB";
+import {ExpenseVariantType} from "../../types/ExpenseVariantType";
+>>>>>>> places_id
 
 export default function socketManagement(context: Context) {
 
@@ -31,7 +40,11 @@ export default function socketManagement(context: Context) {
         const travelID = msg.data.id
         const travel = await Recover.travel(travelID)
         await DB.update(StoreName.TRAVEL, travel)
+<<<<<<< HEAD
         context.setTravel(travel)
+=======
+        if (travel) context.setTravel(travel)
+>>>>>>> places_id
     }
 
 
@@ -40,6 +53,7 @@ export default function socketManagement(context: Context) {
     }
 
 
+<<<<<<< HEAD
     async function newExpenseAction(this: Socket, action: Action<Partial<Expense>>) {
         const user = context.user
         if (!user) return
@@ -57,6 +71,26 @@ export default function socketManagement(context: Context) {
             await DB.update(StoreName.EXPENSE, expense)
             return expense
         }
+=======
+    async function newExpenseAction(this: Socket, msg: Action<Partial<Expense>>) {
+        const user = context.user
+        if (!user) return
+
+        msg.datetime = new Date(msg.datetime )
+        if(msg.data.datetime) msg.data.datetime = new Date(msg.data.datetime)
+        if(msg.data.created_at) msg.data.created_at = new Date(msg.data.created_at)
+
+        const eID = msg.data.id
+        if(!eID) return
+        try {
+            await DB.add(StoreName.ACTION, msg)
+        }catch (e){}
+        const expense = await Recover.expense(eID, msg.entity as ExpenseVariantType)
+
+        if (expense) await DB.update(StoreName.EXPENSE, expense)
+
+        return expense
+>>>>>>> places_id
     }
 
 
@@ -71,9 +105,17 @@ export default function socketManagement(context: Context) {
         } catch (e) {}
 
         const primary_entity_id = msg.data.primary_entity_id
+<<<<<<< HEAD
         if (primary_entity_id) {
             const limit = await Recover.limit(primary_entity_id)
             await DB.update(StoreName.LIMIT, limit)
+=======
+        const limitID = msg.data.id
+        if(!limitID) return
+        if (primary_entity_id) {
+            const limit = await Recover.limit(limitID)
+            if (limit) await DB.update(StoreName.LIMIT, limit)
+>>>>>>> places_id
             return limit
         }
     }

@@ -1,0 +1,47 @@
+.hotel{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    position: relative;
+    padding: var(--card-pading);
+    box-shadow: var(--box-shadow);
+    background-color: var(--color-background);
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+
+.hotel-photo{
+    border-radius: inherit;
+    /*width: auto;*/
+    /*height: auto;*/
+    aspect-ratio: 1.7777;
+    object-fit: cover;
+}
+
+.hotel-title{
+    padding-top: 8px;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.hotel-rating{
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.hotel-icon{
+    margin: 4px;
+    width: calc(var(--icon-size) / 2);
+    height: calc(var(--icon-size) / 2);
+    color: var(--color-star);
+}
+
+.hotel-time{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.75rem;
+}

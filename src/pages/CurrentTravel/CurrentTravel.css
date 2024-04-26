@@ -1,0 +1,69 @@
+.current-travel{
+    background: #E6EAE9;
+}
+
+.current-travel-header{
+    margin: 0.5rem var(--margin-base);
+}
+
+.current-travel-header.transparent{
+    background: transparent;
+}
+
+
+.current-travel-icons{
+    display: flex;
+    gap: 8px;
+    color: var(--color-text);
+}
+
+.current-travel-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+}
+
+.current-travel-image{
+    aspect-ratio: 1.25;
+}
+
+.current-travel-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 28px;
+    font-size: 2rem;
+}
+
+.current-travel-title .icon{
+    color: var(--color-text-silver);
+}
+
+.current-travel-title.public .icon{
+    color: var(--color-success);
+}
+
+.current-travel-subtitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-silver);
+    font-size: 0.75rem;
+}
+
+.current-travel-duration{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.current-travel-members{
+    margin-top: 1rem;
+}
+
+.current-travel-btns{
+    padding: 0 0 var(--padding-base);
+    display: flex;
+    justify-content: space-between;
+}

@@ -22,7 +22,6 @@ import Navigation from "../../components/Navigation/Navigation";
  * компонент отображает  маршруты, отсортированные по времени (прошлыые, текущие, будущие)
  * @function
  * @name TravelRoutes
- * @returns {JSX.Element}
  * @category Pages
  */
 export function TravelRoutes() {
@@ -30,7 +29,7 @@ export function TravelRoutes() {
     const ctx = useAppContext()
     const actionSubject = useActionSubject()
 
-    const {travelsType} = useParams()
+    const {travelType} = useParams()
     const navigate = useNavigate()
     const [travels, setTravels] = useState<Travel[]>([])
     /** список отфильтрованных путешествий в соответствии с выбранным табом */
@@ -67,11 +66,13 @@ export function TravelRoutes() {
 
     /** обновление списка актуальных путешествий */
     useEffect(() => {
-        if (travels && travelsType) {
-            const filteredTravels = travels.filter(t => getTravelDateStatus(t) === travelsType)
+        if (travels && travelType) {
+            const filteredTravels = travels.filter(t => getTravelDateStatus(t) === travelType)
+            travels.forEach(t => console.log(getTravelDateStatus(t)))
+
             setActualTravels(filteredTravels)
         }
-    }, [travels, travelsType])
+    }, [travels, travelType])
 
 
     /** обработка удаления путешествия */
@@ -100,7 +101,7 @@ export function TravelRoutes() {
             </div>
             <Container className='overflow-x-hidden content pt-20 pb-20' loading={loading}>
                 {!travels.length && <div className='link' onClick={handleNewTrip}>Запланировать поездку</div>}
-                <ShowTravelsList travels={actualTravels} onRemove={handleRemove}/>
+                {!!travels.length && <ShowTravelsList travels={actualTravels} onRemove={handleRemove}/>}
             </Container>
             <Navigation className='footer'/>
         </div>

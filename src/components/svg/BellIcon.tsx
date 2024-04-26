@@ -7,18 +7,19 @@
 import React from "react";
 
 interface BellIconProps extends React.SVGProps<SVGSVGElement> {
-  badge?: boolean
+    badge?: boolean
 }
 
 export function BellIcon({badge = false, ...props}: BellIconProps) {
-  return (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15 17H9V18C9 19.6569 10.3431 21 12 21C13.6569 21 15 19.6569 15 18V17Z" stroke="currentCollor"
-         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path
-        d="M5 17H19C19.5523 17 20 16.5523 20 16V15.4142C20 15.149 19.8946 14.8947 19.7071 14.7071L19.1963 14.1963C19.0706 14.0706 19 13.9001 19 13.7224V10C19 6.134 15.866 2.99999 12 3C8.134 3.00001 5 6.13401 5 10V13.7224C5 13.9002 4.9294 14.0706 4.80372 14.1963L4.29289 14.7071C4.10536 14.8947 4 15.149 4 15.4142V16C4 16.5523 4.44772 17 5 17Z"
-        stroke="currentCollor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      {badge && <circle cx="17" cy="5" r="4" fill="#FF0909" stroke='none'/>}
-    </svg>
-  )
+    return (
+        <svg {...props} viewBox="8 8 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25 27H19V28C19 29.6569 20.3431 31 22 31C23.6569 31 25 29.6569 25 28V27Z" stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+                d="M15 27H29C29.5523 27 30 26.5523 30 26V25.4142C30 25.149 29.8946 24.8947 29.7071 24.7071L29.1963 24.1963C29.0706 24.0706 29 23.9001 29 23.7224V20C29 16.134 25.866 13 22 13C18.134 13 15 16.134 15 20V23.7224C15 23.9002 14.9294 24.0706 14.8037 24.1963L14.2929 24.7071C14.1054 24.8947 14 25.149 14 25.4142V26C14 26.5523 14.4477 27 15 27Z"
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            {badge && <circle cx="18" cy="14" r="4" fill="#FF0909" stroke='none'/>}
+        </svg>
+    )
 }

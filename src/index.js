@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
+import {LoadActionsComponent} from "./components/LoadActionsComponent/LoadActionsComponent";
 import {AppContextProvider} from "./contexts/AppContextProvider/AppContextProvider";
 import defaultHandleError from "./utils/error-handlers/defaultHandleError";
 import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
@@ -29,6 +30,7 @@ root.render(
             <SubjectContextProvider>
                 <BrowserRouter>
                     <App/>
+                    <LoadActionsComponent />
                 </BrowserRouter>
             </SubjectContextProvider>
         </ThemeContextProvider>

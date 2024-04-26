@@ -50,12 +50,14 @@ export class TravelService{
     }
 
     static async getList(ctx: Context){
-        const result = await fetchTravels()
-        const travels = result.map(t => new Travel(t))
-        for (const t of travels){
-            await DB.update(StoreName.TRAVEL, t)
-        }
-        return travels
+        let travels = await fetchTravels()
+        if(travels.length) {
+            for (const t of travels){
+                await DB.update(StoreName.TRAVEL, t)
+            }
+        } else travels = await DB.getAll<Travel>(StoreName.TRAVEL)
+
+        return travels.map(t => new Travel(t))
     }
 
     static async update(ctx: Context, travel: Travel){

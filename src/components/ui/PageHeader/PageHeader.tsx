@@ -7,11 +7,13 @@ import {ArrowBackIcon} from "../../svg";
 
 import './PageHeader.css'
 
-interface PageHeaderPropsType extends PropsWithChildren<HTMLAttributes<HTMLDivElement>>{
+interface PageHeaderPropsType extends PropsWithChildren{
+    className?: string
     arrowBack?: boolean
     title?: string
     to?: string | Function
     MenuEl?: JSX.Element
+    titleClassName?: string
 }
 
 /**
@@ -24,13 +26,13 @@ interface PageHeaderPropsType extends PropsWithChildren<HTMLAttributes<HTMLDivEl
  * @param {JSX.Element} children child react elements child react elements
  * @param { JSX.Element} MenuEl react element, который будет отображаться при нажатии на иконку меню компонента
  * @param props other element props
- * @returns {JSX.Element}
  * @category UI-Components
  * @name PageHeader
  */
 export default function PageHeader({
                                        arrowBack,
                                        className,
+                                       titleClassName,
                                        title,
                                        to,
                                        MenuEl,
@@ -39,7 +41,7 @@ export default function PageHeader({
                                    }: PageHeaderPropsType) {
     const navigate = useNavigate()
 
-    const styles = clsx(
+    const rootClassName = clsx(
         'page-header-container gap-0.25',
         {
             // 'row': title,
@@ -62,17 +64,17 @@ export default function PageHeader({
     }
 
     return (
-        <div className={styles} {...props}>
+        <div className={rootClassName} {...props}>
             <div className='page-header-icon' onClick={arrowBack ? backHandler : () => {
             }}>
                 {!!arrowBack && <ArrowBackIcon/>}
             </div>
-            {!!title &&
-                <div className='page-header center title-bold'>
+            {(!!title || children) &&
+                <div className={clsx('page-header title-bold', titleClassName || 'center')}>
                     {title}
+                    {children}
                 </div>
             }
-            {children}
             <div className='page-header-icons center raw gap-0.75'>
                 {MenuEl}
             </div>

@@ -23,13 +23,13 @@ export class HotelService{
             data: hotel
         })
 
-        try {
-            travel.hotels_id.push(hotel.id)
-            await TravelService.update(ctx, travel)
-        } catch (e){
-            if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
-            else throw e
-        }
+        // try {
+        //     travel.hotels_id.push(hotel.id)
+        //     await TravelService.update(ctx, travel)
+        // } catch (e){
+        //     if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
+        //     else throw e
+        // }
 
         try {
             await DB.add(StoreName.HOTELS, hotel)
@@ -42,7 +42,7 @@ export class HotelService{
 
     static async read(ctx: Context, hotelID:string){
         let hotel = await DB.getOne<Hotel>(StoreName.HOTELS, hotelID)
-        if (hotel) return hotel
+        if (hotel) return new Hotel(hotel)
 
         const id = hotelID.split(':').pop()
         if(id !== undefined) {
@@ -50,7 +50,7 @@ export class HotelService{
             if(response.ok){
                 hotel = new Hotel(response.data)
                 await DB.add(StoreName.HOTELS, hotel)
-                return hotel
+                return new Hotel(hotel)
             }
         }
     }
@@ -65,7 +65,7 @@ export class HotelService{
                 console.error(e)
             }
         }
-        return hotels
+        return hotels.map(h=> new Hotel(h))
     }
 
     static async update(ctx: Context, hotel: Hotel){

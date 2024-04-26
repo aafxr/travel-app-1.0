@@ -1,21 +1,44 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
+import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
-import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
-import {PageHeader} from "../../components/ui";
+import {MembersList} from "../../components/MembersList";
+import dateRange from "../../utils/date-utils/dateRange";
+import {Chip, PageHeader} from "../../components/ui";
+import Loader from "../../components/Loader/Loader";
+import {useMembers} from "../../hooks/useMembers";
 import {Hotel, Place} from "../../core/classes";
+import {Image} from "../../components/Image";
+import {
+    BellIcon, ChatIcon,
+    ChecklistIcon,
+    CopyIcon,
+    LinkIcon,
+    MenuIcon, MoneyIcon,
+    VisibilityIcon,
+} from "../../components/svg";
+
+import './CurrentTravel.css'
 
 export function CurrentTravel() {
     const context = useAppContext()
-    const {travelCode} = useParams()
+    const {travelCode, travelDay} = useParams()
     const navigate = useNavigate()
 
     const travel = useTravel()
 
-    const [items, setItems ] = useState<Array<Place | Hotel>>([])
+    const [items, setItems] = useState<Array<Place | Hotel>>([])
+
+    const {members, membersLoading} = useMembers()
+
+
+    useEffect(() => {
+        if(!travel) return
+        if(!travelDay) navigate(`/travel/${travel.id}/1/`)
+    }, [])
 
 
     useEffect(() => {
@@ -29,28 +52,72 @@ export function CurrentTravel() {
             .catch(defaultHandleError)
     }, [])
 
+
     useEffect(() => {
-        if(!travel) return
+        async function loadItems() {
+            if (!travel) return
 
-        HotelController.readAll(context, ...travel.hotels_id)
-            .then(items => setItems(prev => [...prev, ...items]))
-            .catch(defaultHandleError)
+            const hotels = await HotelController.readAll(context, ...travel.hotels_id)
+            const places = await PlaceController.readAll(context, ...travel.places_id)
+            const items = [...hotels, ...places].sort((a, b) => a.date_start.getDay() - b.date_start.getTime())
+            setItems(items)
+        }
 
-        PlaceController.readAll(context, ...travel.places_id)
-            .then(items => setItems(prev => [...prev, ...items]))
-            .catch(defaultHandleError)
+        loadItems().catch(defaultHandleError)
     }, [travel])
 
-    console.log(items)
+    console.log(members)
 
     return (
-        <div className='wrapper'>
-            <Container>
-                <PageHeader arrowBack to={'/'} title={'Current Travel'}/>
+        <div className='current-travel wrapper'>
+            <PageHeader className='current-travel-header transparent' arrowBack titleClassName='flex-end' MenuEl={<div><MenuIcon/></div>}>
+                <div className='current-travel-icons'>
+                    <span className='current-travel-icon'><CopyIcon className='icon'/></span>
+                    <span className='current-travel-icon'><LinkIcon className='icon'/></span>
+                    <span className='current-travel-icon'><BellIcon className='icon'/></span>
+                </div>
+            </PageHeader>
+            <Container className='content' >
+                <Image className='current-travel-image' src={travel?.previewPhotoId} alt={travel?.title} />
+                <div className='current-travel-title'>
+                    {travel?.title}
+                    &nbsp;
+                    <VisibilityIcon className='icon'/>
+                </div>
+                {!!travel?.description && <div className='current-travel-subtitle'>{travel?.description}</div>}
+                {!!travel &&
+                    <div className='current-travel-duration'>
+                        <Chip  color={"orange"} rounded>
+                            {dateRange(travel.date_start || '', travel.date_end || '')}
+                        </Chip>
+                    </div>
+                }
+
+                <div className='current-travel-members'>
+                    { membersLoading
+                            ? <div><Loader/></div>
+                            : <MembersList members={members} />
+                    }
+                </div>
             </Container>
-            <Container className='content'>
-                content
+            <Container className='footer'>
+                <div className='current-travel-btns'>
+                    <button className='rounded-button'>
+                        <MoneyIcon className='icon'/>
+                        &nbsp;
+                        Расходы
+                    </button>
+                    <button className='rounded-button'>
+                        <ChecklistIcon className='icon' />
+                        &nbsp;
+                        Чек-лист
+                    </button>
+                    <button className='rounded-button'>
+                        <ChatIcon className='icon' />
+                    </button>
+                </div>
             </Container>
         </div>
     )
 }
+
