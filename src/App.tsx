@@ -50,17 +50,6 @@ function App() {
             <Route path={'/'} element={<Main/>}/>
             <Route path={'/login/'} element={<Login/>}/>
             <Route element={<AuthRequired/>}>
-<<<<<<< HEAD
-
-                <Route path={'/events/'} element={<Events/>}/>
-                <Route path={'/favorite/'} element={<Favorite/>}/>
-                <Route path={'/profile/'} element={<Profile/>}/>
-                <Route path={'/travels/:travelType/'} element={<TravelRoutes/>}/>
-                <Route path={'/travel/add/'} element={<TravelAdd/>}/>
-                <Route path={'/travel/:travelCode/settings/'} element={<TravelSettings/>}/>
-                <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>
-                <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
-=======
                 <Route element={<SocketContextProvider/>} >
                     <Route path={'/events/'} element={<Events/>}/>
                     <Route path={'/favorite/'} element={<Favorite/>}/>
@@ -72,7 +61,6 @@ function App() {
                     <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
                     <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
                 </Route>
->>>>>>> places_id
             </Route>
             <Route path={'/dev/'} element={<Dev/>}/>
             <Route path={'*'} element={<Navigate to={'/'} replace/>}/>

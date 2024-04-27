@@ -7,8 +7,6 @@ import {Preference} from "../Preference";
 import {TravelDTO} from "../dto";
 import {MS_IN_DAY} from "../../../constants";
 import {MemberRole} from "../../../types/MemberRole";
-import {Place} from "./Place";
-import {Hotel} from "./Hotel";
 
 /**
  * представление основной сущности путешествия
@@ -64,8 +62,8 @@ export class Travel {
     updated_at: Date;
 
     movementTypes: MovementType[];
-    places: Place[];
-    hotels: Hotel[];
+    places_id: string[];
+    hotels_id: string[];
     waypoints_id: string[];
 
     admins: string[];
@@ -100,8 +98,8 @@ export class Travel {
         this.updated_at     = travel.updated_at !== undefined ? new Date(travel.updated_at) : new Date()
 
         this.movementTypes  = travel.movementTypes !== undefined ? [...travel.movementTypes] : [ MovementType.CAR ]
-        this.places         = travel.places !== undefined ? travel.places.map(p => new Place(p)) : []
-        this.hotels         = travel.hotels !== undefined ? travel.hotels.map(h => new Hotel(h)) : []
+        this.places_id      = travel.places_id !== undefined ? [...travel.places_id] : []
+        this.hotels_id      = travel.hotels_id !== undefined ? [...travel.hotels_id] : []
         this.waypoints_id   = travel.waypoints_id !== undefined ? [...travel.waypoints_id] : []
 
         this.preference     = travel.preference !== undefined ? Object.assign({}, travel.preference) : new Preference()
