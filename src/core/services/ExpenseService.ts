@@ -1,9 +1,10 @@
-import {Action, Expense, Context, Compare} from "../classes";
+import {Action, Compare, Context, Expense} from "../classes";
 import {ActionType} from "../../types/ActionType";
-import {ExpenseError,  UserError} from "../errors";
+import {ExpenseError, UserError} from "../errors";
 import {StoreName} from "../../types/StoreName";
 import {ActionService} from "./ActionService";
 import {DB} from "../db/DB";
+import {IndexName} from "../../types/IndexName";
 
 export class ExpenseService{
     static async create(ctx: Context, expense: Expense){
@@ -29,6 +30,11 @@ export class ExpenseService{
         const req = expenseIDs.map(e => DB.getOne<Expense>(StoreName.EXPENSE, e))
         const expenses = await Promise.all(req)
         return expenses.filter(e => !!e ).map(e => new Expense(e))
+    }
+
+    static async readByTravelID(context: Context, travelID:string){
+        const expenses = await DB.getManyFromIndex<Expense>(StoreName.EXPENSE, IndexName.PRIMARY_ENTITY_ID, travelID)
+        return expenses.map(e => new Expense(e))
     }
 
     static async update(ctx: Context, expense:Expense){

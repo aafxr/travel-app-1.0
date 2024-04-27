@@ -1,0 +1,5 @@
+.expenses-tabs{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+}

@@ -21,6 +21,7 @@ import Container from "./components/Container/Container";
 import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import {SocketContextProvider} from "./contexts/SocketContextProvider";
+import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
 
 
 function App() {
@@ -60,6 +61,8 @@ function App() {
                     <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>
                     <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
                     <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
+                    <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>
+                    <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>
                 </Route>
             </Route>
             <Route path={'/dev/'} element={<Dev/>}/>

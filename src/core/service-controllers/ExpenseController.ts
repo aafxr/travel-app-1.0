@@ -29,6 +29,14 @@ export class ExpenseController{
         }
     }
 
+    static async readByTravelID(ctx: Context, travelID: string){
+        try {
+            return await ExpenseService.readByTravelID(ctx, travelID)
+        }catch (e){
+            throw e
+        }
+    }
+
     static async update(ctx: Context, expense:Expense){
         try {
             return await ExpenseService.update(ctx, expense)
