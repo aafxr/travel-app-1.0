@@ -137,7 +137,7 @@ export default function Swipe({
                 className={clsx('swipe-item', styles?.content)}
                 {...handlers}
                 onClick={handleClick}
-                style={{transform: `translateX(${shiftLeft}px)`,}}
+                style={{transform: `translateX(${shiftLeft}px)`}}
             >
                 {children}
             </div>

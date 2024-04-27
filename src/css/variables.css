@@ -1,4 +1,6 @@
 :root{
+    --max-whidth: 500px;
+
     --padding-base: 20px;
     --margin-base: 20px;
     --transition-base: 0.3s linear;

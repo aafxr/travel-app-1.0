@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, PropsWithChildren} from "react";
+import React, {PropsWithChildren} from "react";
 import {useNavigate} from 'react-router-dom'
 import clsx from "clsx";
 
