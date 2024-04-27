@@ -1,4 +1,6 @@
 :root{
+    --vh: 1vh;
+
     --max-whidth: 500px;
 
     --padding-base: 20px;

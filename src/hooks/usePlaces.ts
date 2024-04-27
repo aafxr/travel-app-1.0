@@ -5,7 +5,7 @@ import {HotelController, PlaceController} from "../core/service-controllers";
 import {Hotel, Place} from "../core/classes";
 import defaultHandleError from "../utils/error-handlers/defaultHandleError";
 
-export function usePlaces(){
+export function usePlaces(day?: number){
     const context = useAppContext()
     const travel = useTravel()
     const [places, setPlaces] = useState<Array<Place | Hotel>>([])
@@ -19,14 +19,18 @@ export function usePlaces(){
             if(!travel) return
             const _places = await PlaceController.readAll(context, ...travel.places_id)
             const _hotels = await HotelController.readAll(context, ...travel.hotels_id)
-            const items = [..._places, ..._hotels].sort((a,b) => a.date_start.getTime() - b.date_start.getTime())
+            let items = [..._places, ..._hotels]
+                .sort((a,b) => a.date_start.getTime() - b.date_start.getTime())
+            if(day !== undefined){
+                items = items.filter(p => p.day === day)
+            }
             setPlaces(items)
         }
 
         loadPlaces()
             .catch(defaultHandleError)
             .finally(() => setPlacesLoading(false))
-    }, [travel])
+    }, [travel, day])
 
     return {places, placesLoading}
 }

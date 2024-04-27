@@ -3,6 +3,10 @@
 @import url('colors.css');
 
 
+html, body{
+    height: calc(100 * var(--vh));
+    overflow: hidden;
+}
 
 .disable-reload {
     overflow: hidden;
@@ -270,7 +274,7 @@ a{
 .photo{
     width: var(--photo-size);
     height: var(--photo-size);
-    border-radius: var(--br-20);
+    border-radius: var(--padding-base);
     object-fit: cover;
     overflow: hidden;
 }

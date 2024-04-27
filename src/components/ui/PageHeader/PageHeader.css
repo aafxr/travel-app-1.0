@@ -7,7 +7,7 @@
     pointer-events: none;
 }
 
-.page-header-container > * {
+.page-header-container * {
     pointer-events: all;
 }
 

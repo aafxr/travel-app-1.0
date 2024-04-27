@@ -4,30 +4,31 @@ import {useNavigate, useParams} from "react-router-dom";
 import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
+import {PlaceCard} from "../../components/PlaceCard/PlaceCard";
+import {HotelCard} from "../../components/HotelCard/HotelCard";
 import Container from "../../components/Container/Container";
+import Curtain from "../../components/ui/Curtain/Curtain";
+import {Chip, PageHeader, Tab} from "../../components/ui";
 import {MembersList} from "../../components/MembersList";
 import dateRange from "../../utils/date-utils/dateRange";
-import {Chip, PageHeader, Tab} from "../../components/ui";
+import Button from "../../components/ui/Button/Button";
+import Swipe from "../../components/ui/Swipe/Swipe";
 import Loader from "../../components/Loader/Loader";
 import {useMembers} from "../../hooks/useMembers";
-import {Hotel, Place} from "../../core/classes";
+import {usePlaces} from "../../hooks/usePlaces";
+import {Hotel, Place, Travel} from "../../core/classes";
 import {Image} from "../../components/Image";
 import {
-    BellIcon, CalendarIcon, ChatIcon,
+    CalendarIcon, ChatIcon,
     ChecklistIcon,
-    CopyIcon, FlagIcon,
-    LinkIcon, MapIcon,
+    FlagIcon,
+    MapIcon,
     MenuIcon, MoneyIcon, TrashIcon,
     VisibilityIcon,
 } from "../../components/svg";
 
 import './CurrentTravel.css'
-import Curtain from "../../components/ui/Curtain/Curtain";
-import {usePlaces} from "../../hooks/usePlaces";
-import {PlaceCard} from "../../components/PlaceCard/PlaceCard";
-import {HotelCard} from "../../components/HotelCard/HotelCard";
-import Button from "../../components/ui/Button/Button";
-import Swipe from "../../components/ui/Swipe/Swipe";
+import Navigation from "../../components/Navigation/Navigation";
 
 export function CurrentTravel() {
     const context = useAppContext()
@@ -35,11 +36,8 @@ export function CurrentTravel() {
     const navigate = useNavigate()
 
     const travel = useTravel()
-
-    const [items, setItems] = useState<Array<Place | Hotel>>([])
-
     const {members, membersLoading} = useMembers()
-    const {places, placesLoading} = usePlaces()
+    const {places, placesLoading} = usePlaces(Number(travelDay) || 1)
 
 
     useEffect(() => {
@@ -49,31 +47,14 @@ export function CurrentTravel() {
 
 
     useEffect(() => {
-        if (!travelCode) {
-            navigate('/')
-            return
+        if (!travelCode) navigate('/')
+        else {
+            TravelController.read(context, travelCode)
+                .then(t => t && context.setTravel(t))
+                .catch(defaultHandleError)
         }
-
-        TravelController.read(context, travelCode)
-            .then(t => t && context.setTravel(t))
-            .catch(defaultHandleError)
     }, [])
 
-
-    useEffect(() => {
-        async function loadItems() {
-            if (!travel) return
-
-            const hotels = await HotelController.readAll(context, ...travel.hotels_id)
-            const places = await PlaceController.readAll(context, ...travel.places_id)
-            const items = [...hotels, ...places].sort((a, b) => a.date_start.getDay() - b.date_start.getTime())
-            setItems(items)
-        }
-
-        loadItems().catch(defaultHandleError)
-    }, [travel])
-
-    console.log(members)
 
     return (
         <>
@@ -146,44 +127,86 @@ export function CurrentTravel() {
                             </Button>
                         </div>
                     </Container>
-                    <div className='route-tabs'>
-                        {Array.from({length: travel?.days || 0})
-                            .map((_, i) =>
-                                <Tab name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
-                            )
-                        }
-                    </div>
-
-                    <Container className='content'>
-                        {placesLoading && <div className='center h-full'><Loader/></div>}
-                        <div className='h-full column gap-1'>
-                            {places.map(p =>
-                                p instanceof Place
-                                    ? <Swipe
-                                        rightElement={
-                                            <div className='h-full center'>
-                                                <TrashIcon className='icon'/>
-                                            </div>
-                                        }
-                                    >
-                                        <PlaceCard key={p.id} className='flex-0' place={p}/>
-                                    </Swipe>
-                                    : <Swipe
-                                        rightElement={
-                                            <div className='h-full center'>
-                                                <TrashIcon className='icon'/>
-                                            </div>
-                                        }
-                                    >
-                                        <HotelCard key={p.id} className='flex-0' hotel={p}/>
-                                    </Swipe>
-                            )}
-                        </div>
-                    </Container>
+                    <RouteByDay places={places} placesLoading={placesLoading} travel={travel}/>
+                    <Navigation className='footer'/>
                 </div>
             </Curtain>
         </>
+    )
+}
 
+
+type RouteByDayPropsType = {
+    travel?: Travel | null,
+    places: Array<Place | Hotel>,
+    placesLoading: boolean
+}
+
+
+function RouteByDay({
+                        travel,
+                        places,
+                        placesLoading,
+                    }: RouteByDayPropsType) {
+    const context = useAppContext()
+
+    async function removePlace(place: Place | Hotel) {
+        if (!travel) return
+        if (place instanceof Place) {
+            travel.places_id = travel.places_id.filter(p => p !== place.id)
+            await TravelController.update(context, travel)
+                .catch(defaultHandleError)
+            await PlaceController.delete(context, place)
+                .catch(defaultHandleError)
+            context.setTravel(new Travel(travel))
+        } else {
+            travel.hotels_id = travel.hotels_id.filter(h => h !== place.id)
+            await TravelController.update(context, travel)
+                .catch(defaultHandleError)
+            await HotelController.delete(context, place)
+                .catch(defaultHandleError)
+            context.setTravel(new Travel(travel))
+        }
+    }
+
+
+    return (
+        <>
+            <div className='route-tabs'>
+                {Array.from({length: travel?.days || 0})
+                    .map((_, i) =>
+                        <Tab name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
+                    )
+                }
+            </div>
+
+            <Container className='route-content content '>
+                {placesLoading && <div className='center h-full'><Loader/></div>}
+                <div className='h-full column gap-1'>
+                    {places.map(p =>
+                        p instanceof Place
+                            ? <Swipe
+                                rightElement={
+                                    <div className='h-full center'>
+                                        <TrashIcon className='icon' onClick={() => removePlace(p)}/>
+                                    </div>
+                                }
+                            >
+                                <PlaceCard key={p.id} className='flex-0' place={p}/>
+                            </Swipe>
+                            : <Swipe
+                                rightElement={
+                                    <div className='h-full center'>
+                                        <TrashIcon className='icon' onClick={() => removePlace(p)}/>
+                                    </div>
+                                }
+                            >
+                                <HotelCard key={p.id} className='flex-0' hotel={p}/>
+                            </Swipe>
+                    )}
+                </div>
+            </Container>
+        </>
     )
 }
 

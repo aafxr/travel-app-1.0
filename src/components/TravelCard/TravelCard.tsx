@@ -53,7 +53,11 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX
             <Swipe
                 className='travel-card-swiper'
                 onRemove={handleRemove}
-                rightElement={<div className='h-full center'><TrashIcon className='icon' /></div>}
+                rightElement={
+                    <div className='travel-card-icon'>
+                        <TrashIcon className='icon' onClick={() => onRemove?.(travel)}/>
+                    </div>
+                }
                 onClick={handleClickCard}
             >
                 <div className='travel-item'>
