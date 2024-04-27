@@ -1,4 +1,5 @@
 import React, {PropsWithChildren, useEffect, useRef, useState} from "react";
+import {createPortal} from "react-dom";
 import clsx from "clsx";
 
 import {useResize} from "../../../hooks";
@@ -31,7 +32,6 @@ interface CurtainPropsType extends PropsWithChildren {
  * @param {number} duration default 300ms
  * @param {number} scrollDiff default 0.1 минимальное смещение (drag events), на которое реагирует шторка
  * @param {function} onChange callback (шторка открыта (true - в верхнем положении) / закрыта (false - в нижнем положении))
- * @return {JSX.Element}
  * @category Components
  */
 export default function Curtain({
@@ -214,43 +214,43 @@ export default function Curtain({
     //================= drag handlers end ========================================================================
 
 
-    return (
-        <div ref={cRef} className={clsx('curtain', {'hidden': !init})}>
-            <div
-                ref={curtainRef}
-                className={clsx('curtain-container', {'scrolled': topOffset})}
-                style={curtainStyle}
-            >
-                <div className='wrapper'>
-                    <div
-                        ref={cTopRef}
-                        className='curtain-header'
-                        onMouseUp={(e) => curtainHandler(e)}
-                        onMouseDown={(e) => curtainHandler(e)}
-                        onClick={(e) => curtainHandler(e)}
-                        onDoubleClick={(e) => curtainHandler(e)}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                        onDrag={handleDrag}
-                        onTouchStart={handleTouchStart}
-                        onTouchEnd={handleTouchEnd}
-                        onTouchMove={handleTouchMove}
-                        draggable
-                    >
-                        {
-                            (typeof direction === 'string' && direction.length > 0)
-                                ? <div className='title-semi-bold center'
-                                       style={{height: "1.8rem", textAlign: 'center'}}>{direction}</div>
-                                : <button className='curtain-top-btn'/>
-                        }
-                    </div>
-                    <div className='content'>
-                        {children}
+    return createPortal(
+            <div ref={cRef} className={clsx('curtain', {'hidden': !init})}>
+                <div
+                    ref={curtainRef}
+                    className={clsx('curtain-container', {'scrolled': topOffset})}
+                    style={curtainStyle}
+                >
+                    <div className='wrapper'>
+                        <div
+                            ref={cTopRef}
+                            className='curtain-header'
+                            onMouseUp={(e) => curtainHandler(e)}
+                            onMouseDown={(e) => curtainHandler(e)}
+                            onClick={(e) => curtainHandler(e)}
+                            onDoubleClick={(e) => curtainHandler(e)}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                            onDrag={handleDrag}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                            onTouchMove={handleTouchMove}
+                            draggable
+                        >
+                            {
+                                (typeof direction === 'string' && direction.length > 0)
+                                    ? <div className='title-semi-bold center'
+                                           style={{height: "1.8rem", textAlign: 'center'}}>{direction}</div>
+                                    : <button className='curtain-top-btn'/>
+                            }
+                        </div>
+                        <div className='content'>
+                            {children}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        , document.body
     )
 }
 

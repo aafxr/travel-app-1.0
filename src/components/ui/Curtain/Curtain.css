@@ -1,5 +1,8 @@
 .curtain{
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
     height: 100%;
     pointer-events: none;
 }
@@ -27,7 +30,7 @@
 }
 
 .curtain-container.scrolled{
-    border-radius: var(--br-20) var(--br-20) 0 0;
+    border-radius: var(--border-radius-main) var(--border-radius-main) 0 0;
 }
 
 .curtain-top-btn{
