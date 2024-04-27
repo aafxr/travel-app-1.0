@@ -22,7 +22,7 @@ export function MembersList({members}: MembersListType){
         <div className={clsx('members', {showMore})}>
             {
                 members.map(m => (
-                    <div className='member'>
+                    <div key={m.id} className='member'>
                         <div className='member-photo'>
                             <img className='img-abs' src={m.photo || DEFAULT_IMG_URL} alt={m.username}/>
                         </div>
