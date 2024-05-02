@@ -52,8 +52,6 @@ export function SocketContextProvider(){
 
         init.current.initialization = true
         const socket =  io(process.env.REACT_APP_SOCKET_URL as string) //{ host: process.env.REACT_APP_SOCKET_HOST ,port:process.env.REACT_APP_SOCKET_PORT, secure: true}
-        console.log(process.env.REACT_APP_SOCKET_URL)
-        console.log(socket)
 
         socket.on('connect', () => {
             console.log('socket connect')
@@ -97,7 +95,6 @@ export function SocketContextProvider(){
         return () => { context.setSocket(null) }
     }, [user, state])
 
-    console.log(state)
 
     return (
         <SocketContext.Provider value={state}>

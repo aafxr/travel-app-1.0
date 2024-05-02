@@ -68,8 +68,6 @@ export function TravelRoutes() {
     useEffect(() => {
         if (travels && travelType) {
             const filteredTravels = travels.filter(t => getTravelDateStatus(t) === travelType)
-            travels.forEach(t => console.log(getTravelDateStatus(t)))
-
             setActualTravels(filteredTravels)
         }
     }, [travels, travelType])

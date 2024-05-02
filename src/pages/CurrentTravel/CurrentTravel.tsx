@@ -93,7 +93,10 @@ export function CurrentTravel() {
 
                 <Container className='footer'>
                     <div className='current-travel-btns'>
-                        <button className='rounded-button'>
+                        <button
+                            className='rounded-button'
+                            onClick={() => navigate(`/travel/${travel?.id}/expenses/`)}
+                        >
                             <MoneyIcon className='icon'/>
                             &nbsp;
                             Расходы

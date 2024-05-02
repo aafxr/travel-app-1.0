@@ -1,7 +1,7 @@
-import {Context, Section} from "../classes";
 import {SectionService} from "../services/SectionService";
 import {CustomError} from "../errors/CustomError";
 import {ErrorCode} from "../errors/ErrorCode";
+import {Context, Section} from "../classes";
 
 export class SectionController{
 
@@ -38,7 +38,7 @@ export class SectionController{
         try {
             return await SectionService.readAll(ctx)
         }catch (e){
-
+            return []
         }
     }
 
@@ -47,7 +47,7 @@ export class SectionController{
         try {
             return SectionService.init(ctx)
         }catch (e){
-
+            return []
         }
     }
 }

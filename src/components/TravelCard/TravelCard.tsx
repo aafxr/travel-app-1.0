@@ -29,11 +29,11 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX
     const [tagsScrolling, setTextScrolling] = useState(false)
     const travelDays = travel.days === 1 ? '1 день' : `${travel.days} дней`
 
-    console.log(travel)
 
     function handleRemove() {
         onRemove && onRemove()
     }
+
 
     /**  обработка скрола тегов */
     function handleTagsMoving(e: React.TouchEvent<HTMLDivElement>, value: boolean) {

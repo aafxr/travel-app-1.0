@@ -30,7 +30,7 @@ export class SectionService{
 
 
     static async readAll(ctx: Context){
-        const sections = await DB.getAll(StoreName.SECTION)
+        const sections = await DB.getAll<Section>(StoreName.SECTION)
         return sections.map(s => new Section(s))
     }
 

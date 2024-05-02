@@ -22,11 +22,23 @@ import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import {SocketContextProvider} from "./contexts/SocketContextProvider";
 import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
+import {SectionController} from "./core/service-controllers/SectionController";
 
 
 function App() {
     const context = useAppContext()
     const [loading, setLoading] = useState(false)
+
+
+    useEffect(() => {
+        SectionController.readAll(context)
+            .then(sections => {
+                if(!sections.length)
+                    SectionController.init(context).catch(defaultHandleError)
+            })
+            .catch(defaultHandleError)
+    }, []);
+
 
     useEffect(() => {
         if (!context.user)
@@ -38,6 +50,7 @@ function App() {
             .catch(defaultHandleError)
             .finally(() =>  setLoading(false) )
     }, [context])
+
 
     if(loading)
         return (

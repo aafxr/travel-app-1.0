@@ -16,14 +16,16 @@ export function ExpensesPage(){
     const [type, setType] = useState<Omit<ExpenseFilterType, 'all'>>(localStorage.expensesType || expenseType || StoreName.EXPENSES_ACTUAL)
     const {expenses, expensesLoading} = useExpense(travelCode || '', type as ExpenseVariantType)
 
+
+
     return(
         <div className='wrapper'>
             <Container>
                 <PageHeader title={'Бюджет'} arrowBack />
             </Container>
             <div className='expenses-tabs'>
-                <Tab name={'Планы'} to={`/travel/${travelCode}/plan/`} />
-                <Tab name={'Расходы'} to={`/travel/${travelCode}/actual/`} />
+                <Tab name={'Расходы'} to={`/travel/${travelCode}/expenses/actual/`} />
+                <Tab name={'Планы'} to={`/travel/${travelCode}/expenses/plan/`} />
             </div>
             <Container className='expenses-content content'>
                 {expensesLoading && <div className='h-full center'><Loader /></div>}
