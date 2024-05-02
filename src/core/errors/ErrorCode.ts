@@ -42,5 +42,8 @@ export enum ErrorCode{
 
     /**action */
     ACTION_ALREADY_EXIST = 900,
-    TRY_TO_UPDATE_ACTION_BY_WRANG_ACTION
+    TRY_TO_UPDATE_ACTION_BY_WRANG_ACTION,
+
+    /** section */
+    SECTION_ALREADY_EXIST = 1000,
 }
