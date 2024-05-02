@@ -38,7 +38,7 @@ export function ExpensesPage() {
             <Container className='expenses-content content'>
                 {expensesLoading
                     ? <div className='h-full center'><Loader/></div>
-                    : expenseType === StoreName.EXPENSES_ACTUAL
+                    : expenseType === 'actual'
                         ? <ExpensesActual actual={sortedExpenses.actual}/>
                         : <ExpensesPlan plan={sortedExpenses.plan}/>
                 }

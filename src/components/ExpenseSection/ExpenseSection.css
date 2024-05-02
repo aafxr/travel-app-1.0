@@ -33,3 +33,28 @@
     font-size: 0.75rem;
     color: var(--color-text-silver);
 }
+
+.expense-btn{
+    margin: 1.5rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+}
+
+.expense-btn-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 6px;
+    width: 32px;
+    height: 32px;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    overflow: hidden;
+}
