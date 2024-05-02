@@ -24,6 +24,7 @@ import {SocketContextProvider} from "./contexts/SocketContextProvider";
 import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
 import {SectionController} from "./core/service-controllers/SectionController";
 import {LimitContextProvider} from "./contexts/LimitContextProvider";
+import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
                     <Route element={<LimitContextProvider/>}>
                         <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>
                         <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>
+                        <Route path={'/travel/:travelCode/expenses/:expenseType/add/'} element={<ExpenseAdd/>}/>
                     </Route>
                 </Route>
             </Route>

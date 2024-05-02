@@ -7,7 +7,6 @@ import {useTravel} from "../../contexts/AppContextProvider";
 import Button from "../../components/ui/Button/Button";
 import {PageHeader, Tab} from "../../components/ui";
 import Loader from "../../components/Loader/Loader";
-import {StoreName} from "../../types/StoreName";
 import {ExpensesActual} from "./ExpensesActual";
 import {ExpensesPlan} from "./ExpensesPlan";
 
