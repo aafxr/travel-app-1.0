@@ -1,7 +1,6 @@
-import {Limit} from "../classes/store";
-import {Context} from "../classes/Context";
 import {CustomError} from "../errors/CustomError";
 import {ErrorCode} from "../errors/ErrorCode";
+import {Context, Limit} from "../classes";
 import {LimitService} from "../services";
 
 export class LimitController{
@@ -29,6 +28,16 @@ export class LimitController{
             throw e
         }
     }
+
+
+    static async readAllByTravelID(ctx: Context, travelID:string){
+        try {
+            return await LimitService.readAllByTravelID(ctx, travelID)
+        }catch (e){
+            throw e
+        }
+    }
+
 
     static async update(ctx: Context, limit:Limit){
         try {

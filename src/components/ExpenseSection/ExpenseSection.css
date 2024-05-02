@@ -1,0 +1,35 @@
+.expenses{
+
+}
+
+.expense-section{
+
+}
+
+.expense-section-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.expense-section-name{
+
+}
+
+.expense-section-total{
+
+}
+
+.expense-section-line{
+
+}
+
+.expense-section-secondary{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--color-text-silver);
+}

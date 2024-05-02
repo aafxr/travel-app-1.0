@@ -1,6 +1,6 @@
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
-import {LimitError,  UserError} from "../errors";
+import {LimitError, UserError} from "../errors";
 import {DB} from "../db/DB";
 import {ActionService} from "./ActionService";
 import {Action, Compare, Context, Limit} from "../classes";
@@ -21,16 +21,25 @@ export class LimitService {
         await ActionService.create(ctx, action)
     }
 
+
     static async read(ctx: Context, limitID: string) {
         const limit =  await DB.getOne<Limit>(StoreName.LIMIT, limitID)
         if (limit) return new Limit(limit)
     }
+
 
     static async readAll(ctx: Context, ...limitIDs: string[]) {
         const req = limitIDs.map(id => DB.getOne<Limit>(StoreName.LIMIT, id))
         const limits = await Promise.all(req)
         return limits.filter(l => !!l).map(l => new Limit(l))
     }
+
+
+    static async readAllByTravelID(ctx: Context, travelID:string){
+        const limits = await DB.getManyFromIndex<Limit>(StoreName.LIMIT, "primary_entity_id", travelID)
+        return limits.map(l => new Limit(l))
+    }
+
 
     static async update(ctx: Context, limit: Limit) {
         const user = ctx.user

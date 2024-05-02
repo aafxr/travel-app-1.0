@@ -1,15 +1,15 @@
 import {SortedExpensesType} from "../../hooks";
 import {ExpenseSection} from "../../components/ExpenseSection/ExpenseSection";
 
-type ExpensesPlanPropsType = {
-    plan: SortedExpensesType['plan']
+type ExpensesActualPropsType = {
+    actual: SortedExpensesType['actual']
 }
 
 
-export function ExpensesPlan({plan}: ExpensesPlanPropsType){
+export function ExpensesActual({actual}: ExpensesActualPropsType){
     return (
         <>
-            { Object.entries(plan)
+            { Object.entries(actual)
                 .map(([sectionID, expenses]) => (
                     <ExpenseSection sectionID={sectionID} expenses={expenses} />
                 ))

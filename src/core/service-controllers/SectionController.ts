@@ -11,7 +11,7 @@ export class SectionController{
             return await SectionService.create(ctx, section)
         }catch (e){
             if(e instanceof CustomError && e.code === ErrorCode.SECTION_ALREADY_EXIST)
-                return
+                return section
         }
     }
 
@@ -20,7 +20,7 @@ export class SectionController{
         try {
             return await SectionService.update(ctx, section)
         }catch (e){
-
+            throw e
         }
     }
 
@@ -29,7 +29,7 @@ export class SectionController{
         try {
             return await SectionService.read(ctx, sectionID)
         }catch (e){
-
+            throw e
         }
     }
 
@@ -38,7 +38,7 @@ export class SectionController{
         try {
             return await SectionService.readAll(ctx)
         }catch (e){
-            return []
+            throw e
         }
     }
 
@@ -47,7 +47,7 @@ export class SectionController{
         try {
             return SectionService.init(ctx)
         }catch (e){
-            return []
+            throw e
         }
     }
 }

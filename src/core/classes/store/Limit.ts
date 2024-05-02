@@ -35,4 +35,13 @@ export class Limit {
         this.value              = limit.value !== undefined ? limit.value : 0
         this.primary_entity_id  = limit.primary_entity_id !== undefined ? limit.primary_entity_id : ''
     }
+
+
+    static getCommonLimitID(section_id: string, primary_entity_id: string){
+        return `${section_id}:${primary_entity_id}`
+    }
+
+    static getPersonalLimitID(user_id: string, section_id: string, primary_entity_id: string){
+        return `${user_id}:${section_id}:${primary_entity_id}`
+    }
 }
