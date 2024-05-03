@@ -5,12 +5,12 @@ import {SectionController} from "../../core/service-controllers/SectionControlle
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useLimitContext} from "../../contexts/LimitContextProvider";
 import {useAppContext} from "../../contexts/AppContextProvider";
+import {currencyFormatter} from "../../utils/currencyFormatter";
 import {Expense, Limit, Section} from "../../core/classes";
 import formatTime from "../../utils/date-utils/formatTime";
 import {useExpenseFilterType} from "../../hooks";
 
 import './ExpenseSection.css'
-import {currencyFormatter} from "../../utils/currencyFormatter";
 
 export type ExpenseSectionPropsType = {
     sectionID: string
@@ -38,7 +38,6 @@ export function ExpenseSection({
     const [state, setState] = useState<SectionState>()
     const {type} = useExpenseFilterType()
 
-
     useEffect(() => {
 
         const init = async () => {
@@ -58,20 +57,20 @@ export function ExpenseSection({
     }, []);
 
 
-    function handleEditeExpense(expense: Expense){
+    function handleEditeExpense(expense: Expense) {
         const url = location.pathname + `add/${expense.id}/`
         navigate(url)
     }
 
 
-    function handleLimitEditeClick(){
+    function handleLimitEditeClick() {
         const travel = context.travel
-        if(!travel) return
+        if (!travel) return
         navigate(`/travel/${travel.id}/limit/add/${sectionID}/`)
     }
 
 
-        return (
+    return (
         <div className='expenses'>
             <div className='expense-section'>
                 <div className='expense-section-main' onClick={handleLimitEditeClick}>
@@ -94,7 +93,7 @@ export function ExpenseSection({
                             <div className='expense-title'>{e.title}</div>
                             <div className='expense-value'>{formatter.format(e.value)}</div>
                         </div>
-                        <div className='expense-date'>{formatTime('hh:mm DD.MM',e.created_at)}</div>
+                        <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>
                     </div>
                 ))}
             </div>

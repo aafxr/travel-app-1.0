@@ -23,7 +23,9 @@
 }
 
 .expense-section-line{
-
+    height: 4px;
+    border-radius: 4px;
+    background-color: var(--color-grey);
 }
 
 .expense-section-secondary{
