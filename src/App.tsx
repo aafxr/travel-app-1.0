@@ -25,6 +25,7 @@ import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
 import {SectionController} from "./core/service-controllers/SectionController";
 import {LimitContextProvider} from "./contexts/LimitContextProvider";
 import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
+import {TravelLayout} from "./layouts";
 
 
 function App() {
@@ -72,14 +73,17 @@ function App() {
                     <Route path={'/profile/'} element={<Profile/>}/>
                     <Route path={'/travels/:travelType/'} element={<TravelRoutes/>}/>
                     <Route path={'/travel/add/'} element={<TravelAdd/>}/>
-                    <Route path={'/travel/:travelCode/settings/'} element={<TravelSettings/>}/>
-                    <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>
-                    <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
-                    <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
-                    <Route element={<LimitContextProvider/>}>
-                        <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>
-                        <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>
-                        <Route path={'/travel/:travelCode/expenses/:expenseType/add/'} element={<ExpenseAdd/>}/>
+                    <Route element={<TravelLayout />}>
+                        <Route path={'/travel/:travelCode/settings/'} element={<TravelSettings/>}/>
+                        <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>
+                        <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
+                        <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
+                        <Route element={<LimitContextProvider/>}>
+                            <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>
+                            <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>
+                            <Route path={'/travel/:travelCode/expenses/:expenseType/add/'} element={<ExpenseAdd/>}/>
+                            <Route path={'/travel/:travelCode/expenses/:expenseType/add/:expenseCode/'} element={<ExpenseAdd/>}/>
+                        </Route>
                     </Route>
                 </Route>
             </Route>

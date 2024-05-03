@@ -34,27 +34,37 @@
     color: var(--color-text-silver);
 }
 
-.expense-btn{
-    margin: 1.5rem 0 1rem;
+.expense-section-limit,
+.expense-section-rest{
+    color: var(--color-text-silver);
+    font-size: 0.75rem;
+}
+
+.expenses-list{
+    margin-top: 1rem;
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.expense-item{
+
+}
+
+.flex-between{
+
+}
+
+.expense-title,
+.expense-value{
+    font-size: 0.875rem;
     font-weight: 600;
-    background-color: inherit;
-    border: none;
-    cursor: pointer;
 }
 
-.expense-btn-icon{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 6px;
-    width: 32px;
-    height: 32px;
-    color: var(--color-primary);
-    border: 2px solid var(--color-primary);
-    border-radius: 50%;
-    overflow: hidden;
+.expense-date{
+    color: var(--color-text-silver);
+    font-weight: 600;
+    font-size: 0.7rem;
 }
+
+

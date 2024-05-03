@@ -30,6 +30,11 @@ export default React.forwardRef<HTMLInputElement, InputPropsType>(({delay = 0, v
 
 
     useEffect(() => {
+        if(value !== text) setText(value)
+    }, [value])
+
+
+    useEffect(() => {
         change.current = onChange
     }, [onChange])
 

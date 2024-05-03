@@ -25,7 +25,7 @@ export default React.forwardRef<HTMLInputElement, NumberInputPropsType>(({
     const styles = clsx('input', props.className)
 
     useEffect(() => {
-        if (typeof value === 'number') setNum((value).toString())
+        if (value !== undefined) setNum((value).toString())
     }, [value])
 
 

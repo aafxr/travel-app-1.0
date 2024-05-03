@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
@@ -11,12 +11,11 @@ import Curtain from "../../components/ui/Curtain/Curtain";
 import {Chip, PageHeader, Tab} from "../../components/ui";
 import {MembersList} from "../../components/MembersList";
 import dateRange from "../../utils/date-utils/dateRange";
+import {Hotel, Place, Travel} from "../../core/classes";
 import Button from "../../components/ui/Button/Button";
 import Swipe from "../../components/ui/Swipe/Swipe";
 import Loader from "../../components/Loader/Loader";
-import {useMembers} from "../../hooks/useMembers";
-import {usePlaces} from "../../hooks/usePlaces";
-import {Hotel, Place, Travel} from "../../core/classes";
+import {useMembers, usePlaces} from "../../hooks";
 import {Image} from "../../components/Image";
 import {
     CalendarIcon, ChatIcon,
@@ -189,6 +188,7 @@ function RouteByDay({
                     {places.map(p =>
                         p instanceof Place
                             ? <Swipe
+                                key={p.id}
                                 rightElement={
                                     <div className='h-full center'>
                                         <TrashIcon className='icon' onClick={() => removePlace(p)}/>
@@ -198,6 +198,7 @@ function RouteByDay({
                                 <PlaceCard key={p.id} className='flex-0' place={p}/>
                             </Swipe>
                             : <Swipe
+                                key={p.id}
                                 rightElement={
                                     <div className='h-full center'>
                                         <TrashIcon className='icon' onClick={() => removePlace(p)}/>

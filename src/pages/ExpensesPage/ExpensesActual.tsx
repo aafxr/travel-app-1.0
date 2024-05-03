@@ -13,6 +13,8 @@ export function ExpensesActual({actual}: ExpensesActualPropsType){
     const location = useLocation()
     const navigate = useNavigate()
 
+    console.log(actual)
+
 
     const  handleAddExpense = () => navigate(location.pathname + 'add/')
 
@@ -26,7 +28,7 @@ export function ExpensesActual({actual}: ExpensesActualPropsType){
             </button>
             {Object.entries(actual)
                 .map(([sectionID, expenses]) => (
-                    <ExpenseSection sectionID={sectionID} expenses={expenses}/>
+                    <ExpenseSection key={sectionID} sectionID={sectionID} expenses={expenses}/>
                 ))
             }
         </>

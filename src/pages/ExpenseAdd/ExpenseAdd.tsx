@@ -20,8 +20,8 @@ export function ExpenseAdd() {
     const context = useAppContext()
     const user = useUser()!
     const navigate = useNavigate()
-    const {expenseType, expenseCode} = useParams()
-    const [expense, setExpense] = useState<Expense>(new Expense({section_id:'misc'}))
+    const {expenseType, expenseCode, travelCode} = useParams()
+    const [expense, setExpense] = useState<Expense>(new Expense({section_id:'misc', primary_entity_id: travelCode}))
     const [change, setChange] = useState(false)
     const [sections, setSections] = useState<Section[]>([])
 
@@ -111,6 +111,7 @@ export function ExpenseAdd() {
     }
 
 
+    console.log({expenseType, expenseCode, travelCode}, expense)
     return(
         <div className='wrapper'>
             <Container>
@@ -137,7 +138,7 @@ export function ExpenseAdd() {
                     </div>
                     <div>
                         <div className='title-bold'>Сумма расходов:</div>
-                        <NumberInput ref={numberRef} onChange={handleValueChange} delay={300}/>
+                        <NumberInput ref={numberRef} value={expense.value} onChange={handleValueChange} delay={300}/>
                     </div>
                     <Checkbox
                         left
