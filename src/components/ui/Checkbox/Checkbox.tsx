@@ -18,7 +18,7 @@ interface CheckboxPropsType extends Omit<PropsWithChildren<HTMLAttributes<HTMLDi
  * @param {string} className css class
  * @param {boolean} checked флаг / состояние компонента чекбокс
  * @param {boolean} left default = right сторона с которой отображается гконка
- * @param {function} [onChange] обработчик на изменение состояния чекбокс
+ * @param {(checked: boolean) => unknown} [onChange] обработчик на изменение состояния чекбокс
  * @param props
  * @returns {JSX.Element}
  * @category UI-Components

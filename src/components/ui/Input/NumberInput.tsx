@@ -10,6 +10,12 @@ interface NumberInputPropsType extends Omit<InputHTMLAttributes<HTMLInputElement
 
 }
 
+
+/**
+ * @param {number} [delay] адержка вызова onChange
+ * @param {number} [value]
+ * @param {(value: number) => unknown} [onChange]
+ */
 export default React.forwardRef<HTMLInputElement, NumberInputPropsType>(({
                                                                              value,
                                                                              onChange,
