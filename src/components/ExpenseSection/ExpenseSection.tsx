@@ -10,6 +10,7 @@ import formatTime from "../../utils/date-utils/formatTime";
 import {useExpenseFilterType} from "../../hooks";
 
 import './ExpenseSection.css'
+import {currencyFormatter} from "../../utils/currencyFormatter";
 
 export type ExpenseSectionPropsType = {
     sectionID: string
@@ -22,6 +23,9 @@ type SectionState = {
     section?: Section
     total: number
 }
+
+
+const formatter = currencyFormatter()
 
 export function ExpenseSection({
                                    sectionID,
@@ -66,7 +70,7 @@ export function ExpenseSection({
             <div className='expense-section'>
                 <div className='expense-section-main'>
                     <div className='expense-section-name'>{state?.section?.title}</div>
-                    <div className='expense-section-total'>{state?.total}</div>
+                    <div className='expense-section-total'>{state ? formatter.format(state.total) : ''}</div>
                 </div>
                 {state?.limit && <div className='expense-section-line'/>}
                 {state?.limit && (
@@ -82,7 +86,7 @@ export function ExpenseSection({
                     <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
                         <div className='flex-between'>
                             <div className='expense-title'>{e.title}</div>
-                            <div className='expense-value'>{e.value}</div>
+                            <div className='expense-value'>{formatter.format(e.value)}</div>
                         </div>
                         <div className='expense-date'>{formatTime('hh:mm DD.MM',e.created_at)}</div>
                     </div>

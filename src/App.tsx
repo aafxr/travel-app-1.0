@@ -83,6 +83,7 @@ function App() {
                             <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>
                             <Route path={'/travel/:travelCode/expenses/:expenseType/add/'} element={<ExpenseAdd/>}/>
                             <Route path={'/travel/:travelCode/expenses/:expenseType/add/:expenseCode/'} element={<ExpenseAdd/>}/>
+                            <Route path={'/travel/:travelCode/limit/add/:sectionCode/'} element={<ExpenseAdd/>}/>
                         </Route>
                     </Route>
                 </Route>
