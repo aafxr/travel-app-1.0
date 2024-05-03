@@ -26,6 +26,7 @@ import {SectionController} from "./core/service-controllers/SectionController";
 import {LimitContextProvider} from "./contexts/LimitContextProvider";
 import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
 import {TravelLayout} from "./layouts";
+import {LimitAdd} from "./pages/LimitAdd/LimitAdd";
 
 
 function App() {
@@ -83,7 +84,7 @@ function App() {
                             <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>
                             <Route path={'/travel/:travelCode/expenses/:expenseType/add/'} element={<ExpenseAdd/>}/>
                             <Route path={'/travel/:travelCode/expenses/:expenseType/add/:expenseCode/'} element={<ExpenseAdd/>}/>
-                            <Route path={'/travel/:travelCode/limit/add/:sectionCode/'} element={<ExpenseAdd/>}/>
+                            <Route path={'/travel/:travelCode/limit/add/:sectionCode/'} element={<LimitAdd/>}/>
                         </Route>
                     </Route>
                 </Route>

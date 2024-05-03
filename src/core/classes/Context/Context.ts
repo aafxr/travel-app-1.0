@@ -1,6 +1,6 @@
-import EventEmitter from "../EventEmmiter";
 import {Socket} from "socket.io-client";
 import {Travel, User} from "../store";
+import EventEmitter from "../EventEmmiter";
 
 export class Context extends EventEmitter {
     user: User | null = null

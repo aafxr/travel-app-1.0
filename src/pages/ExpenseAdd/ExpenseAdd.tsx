@@ -133,7 +133,7 @@ export function ExpenseAdd() {
                 </section>
                 <section className='column block gap-1'>
                     <div>
-                        <div className='title-bold'>На потратили:</div>
+                        <div className='title-bold'>На что потратили:</div>
                         <Input ref={inputRef} value={expense.title} onChange={handleTitleChange} delay={300}/>
                     </div>
                     <div>

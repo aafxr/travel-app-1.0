@@ -31,9 +31,9 @@ export function ExpenseSection({
                                    sectionID,
                                    expenses
                                }: ExpenseSectionPropsType) {
-    const navigate = useNavigate()
-    const location = useLocation()
     const context = useAppContext()
+    const location = useLocation()
+    const navigate = useNavigate()
     const limits = useLimitContext()
     const [state, setState] = useState<SectionState>()
     const {type} = useExpenseFilterType()
@@ -64,11 +64,17 @@ export function ExpenseSection({
     }
 
 
-    console.log(expenses,state, sectionID)
-    return (
+    function handleLimitEditeClick(){
+        const travel = context.travel
+        if(!travel) return
+        navigate(`/travel/${travel.id}/limit/add/${sectionID}/`)
+    }
+
+
+        return (
         <div className='expenses'>
             <div className='expense-section'>
-                <div className='expense-section-main'>
+                <div className='expense-section-main' onClick={handleLimitEditeClick}>
                     <div className='expense-section-name'>{state?.section?.title}</div>
                     <div className='expense-section-total'>{state ? formatter.format(state.total) : ''}</div>
                 </div>
