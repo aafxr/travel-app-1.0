@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import {ExpenseFilterType} from "../types/ExpenseFilterType";
+import {EXPENSE_FILTER_tYPE} from "../constants";
 
-const EXPENSE_FILTER_tYPE = 'expense_filter_type'
+
 
 
 /**

@@ -21,7 +21,7 @@ interface YandexMapContainerType extends PropsWithChildren<HTMLAttributes<HTMLDi
 
 const MAP_ID = 'YMapsID'
 
-export function YandexMapContainer({children, id, zoom, center, ...props}: YandexMapContainerType) {
+export function YandexMapContainer({children, id = 'YMapsID', zoom, center, ...props}: YandexMapContainerType) {
     const [state, setState] = useState(defaultState)
 
 

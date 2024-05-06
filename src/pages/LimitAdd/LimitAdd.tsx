@@ -88,7 +88,6 @@ export function LimitAdd(){
             extLimit
                 ? await LimitController.update(context, limit)
                 : await LimitController.create(context, limit)
-
             navigate(-1)
         }catch (e){
             defaultHandleError(e as Error)

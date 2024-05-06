@@ -1,3 +1,5 @@
+import {RouteFilterType} from "../types/RouteFilterType";
+
 export const ACCESS_TOKEN = 'access_token'
 export const REFRESH_TOKEN = 'refresh_token'
 export const UNAUTHORIZED = 'unauthorized'
@@ -13,3 +15,9 @@ export const DEFAULT_IMG_URL = process.env.PUBLIC_URL + '/images/travel-placehol
 export const MS_IN_DAY = 24 * 60 * 60 * 1000
 
 export const month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+export const DEFAULT_SECTION = 'misc'
+
+export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
+export const ROUTE_FILTER = 'routeFilter'
+export const DEFAULT_ROUTE_FILTER: RouteFilterType = "byDays"
