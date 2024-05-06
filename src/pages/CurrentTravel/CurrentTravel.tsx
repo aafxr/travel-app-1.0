@@ -149,9 +149,7 @@ export function CurrentTravel() {
                     {routeFilter === 'byDays' && <RouteByDay places={places} placesLoading={placesLoading} travel={travel}/>}
                     {routeFilter === 'onMap' && <RouteOnMap places={places} /> }
                     {routeFilter === 'allPlaces' && <AllPlaces places={places} /> }
-
-
-                    <Navigation className='footer'/>
+                    {/*<Navigation className='footer'/>*/}
                 </div>
             </Curtain>
         </>

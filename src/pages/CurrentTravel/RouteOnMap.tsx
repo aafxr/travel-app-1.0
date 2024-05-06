@@ -1,5 +1,4 @@
 import {YandexMapContainer, YPlacemark} from "../../components/YandexMap";
-import Container from "../../components/Container/Container";
 import {useTravel} from "../../contexts/AppContextProvider";
 import {Hotel, Place} from "../../core/classes";
 import {Tab} from "../../components/ui";
@@ -22,7 +21,9 @@ export function RouteOnMap({places}: RouteOnMapPropsType) {
             </div>
             <div className='on-map content' id={'YMapsID'}>
                 <YandexMapContainer id={'YMapsID'}>
-                    {places.map(p => <YPlacemark key={p.id} coordinates={p instanceof Place ? p.location : p.position}/>)}
+                    {places.map(p =>
+                        <YPlacemark key={p.id} coordinates={p instanceof Place ? p.location : p.position}/>
+                    )}
                 </YandexMapContainer>
             </div>
         </>

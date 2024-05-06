@@ -13,4 +13,5 @@ export * from './PlaceError'
 export * from './HotelError'
 export * from './PhotoError'
 export * from './ActionError'
+export * from './messageError'
 

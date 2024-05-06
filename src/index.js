@@ -1,6 +1,7 @@
 import './css/reset.css';
 import './css/index.css';
 import React from 'react';
+import {Provider} from "react-redux";
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -12,8 +13,8 @@ import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
 import {ThemeContextProvider} from "./contexts/ThemeContextProvider";
 import {CACHE_VERSION, THEME} from "./constants";
 import setFixedVH from "./utils/setFixedVH";
+import {store} from "./redux";
 import App from './App';
-
 
 
 let theme = localStorage.getItem(THEME)
@@ -25,16 +26,18 @@ document.body.classList.add(theme)
 const root = ReactDOM.createRoot(document.querySelector('#root'));
 
 root.render(
-    <AppContextProvider>
-        <ThemeContextProvider>
-            <SubjectContextProvider>
-                <BrowserRouter>
-                    <App/>
-                    <LoadActionsComponent />
-                </BrowserRouter>
-            </SubjectContextProvider>
-        </ThemeContextProvider>
-    </AppContextProvider>
+    <Provider store={store}>
+        <AppContextProvider>
+            <ThemeContextProvider>
+                <SubjectContextProvider>
+                    <BrowserRouter>
+                        <App/>
+                        <LoadActionsComponent/>
+                    </BrowserRouter>
+                </SubjectContextProvider>
+            </ThemeContextProvider>
+        </AppContextProvider>
+    </Provider>
 );
 
 

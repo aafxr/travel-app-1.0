@@ -9,10 +9,12 @@ import {Context, Expense, Limit, Section} from "../../core/classes";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {currencyFormatter} from "../../utils/currencyFormatter";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
-import {LimitController} from "../../core/service-controllers";
+import {ExpenseController, LimitController} from "../../core/service-controllers";
 import formatTime from "../../utils/date-utils/formatTime";
 
 import './ExpenseSection.css'
+import Swipe from "../ui/Swipe/Swipe";
+import {TrashIcon} from "../svg";
 
 export type ExpenseSectionPropsType = {
     sectionID: string
@@ -95,6 +97,11 @@ export function ExpenseSection({
         navigate(`/travel/${travel.id}/limit/add/${sectionID}/`)
     }
 
+    function handleRemoveExpence(e: Expense){
+        ExpenseController.delete(context, e)
+            .then()
+    }
+
 
     return (
         <div className='expenses'>
@@ -118,13 +125,15 @@ export function ExpenseSection({
             </div>
             <div className='expenses-list'>
                 {filtered.map(e => (
-                    <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
-                        <div className='flex-between'>
-                            <div className='expense-title'>{e.title}</div>
-                            <div className='expense-value'>{formatter.format(e.value)}</div>
+                    <Swipe rightElement={<div className='h-full center'><TrashIcon className='icon'/></div>} >
+                        <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
+                            <div className='flex-between'>
+                                <div className='expense-title'>{e.title}</div>
+                                <div className='expense-value'>{formatter.format(e.value)}</div>
+                            </div>
+                            <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>
                         </div>
-                        <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>
-                    </div>
+                    </Swipe>
                 ))}
             </div>
         </div>

@@ -46,4 +46,9 @@ export enum ErrorCode{
 
     /** section */
     SECTION_ALREADY_EXIST = 1000,
+
+    /** message */
+    MESSAGE_ALREADY_EXIST = 1100,
+    MESSAGE_UPDATE_BEFORE_CREATE,
+    MESSAGE_DELETE_BEFORE_CREATE,
 }
