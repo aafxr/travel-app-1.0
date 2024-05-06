@@ -113,3 +113,10 @@
     }
 
 }
+
+.all-places{
+    padding-top: var(--padding-base);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

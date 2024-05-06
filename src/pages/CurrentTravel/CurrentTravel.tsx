@@ -28,6 +28,7 @@ import {RouteByDay} from "./RouteByDay";
 import {RouteFilterType} from "../../types/RouteFilterType";
 import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER} from "../../constants";
 import {RouteOnMap} from "./RouteOnMap";
+import {AllPlaces} from "./AllPlaces";
 
 export function CurrentTravel() {
     const context = useAppContext()
@@ -147,6 +148,7 @@ export function CurrentTravel() {
                     </Container>
                     {routeFilter === 'byDays' && <RouteByDay places={places} placesLoading={placesLoading} travel={travel}/>}
                     {routeFilter === 'onMap' && <RouteOnMap places={places} /> }
+                    {routeFilter === 'allPlaces' && <AllPlaces places={places} /> }
 
 
                     <Navigation className='footer'/>
