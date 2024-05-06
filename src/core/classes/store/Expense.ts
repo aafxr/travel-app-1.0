@@ -7,6 +7,12 @@ import {ExpenseDTO} from "../dto";
 /**
  * данный класс позволяет работать с расходами
  *
+ * ---
+ *
+ * ##### id для персональных расходов должно быть вида user_id:random_id
+ *
+ * ---
+ *
  * Содержит поля:
  *
  * __id__,
@@ -65,5 +71,17 @@ export class Expense {
 
         if('deleted' in expense && expense.deleted !== undefined) this.deleted = expense.deleted
         else this.deleted = false
+    }
+
+    static createPersonalID(userID: string){
+        return `${userID}:${nanoid(7)}`
+    }
+
+    static isPersonal(expense:Expense, userID: string){
+        return expense.personal && expense.id.startsWith(userID)
+    }
+
+    static isCommon(expense: Expense){
+        return expense.personal === 0 && expense.id.split(':').length === 1
     }
 }

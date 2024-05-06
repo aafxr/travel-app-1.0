@@ -31,6 +31,14 @@ export function LimitAdd(){
 
 
     useEffect(() => {
+        if(sectionCode && travelCode) {
+            limit.id = Limit.getCommonLimitID(sectionCode, travelCode)
+            setLimit(new Limit(limit))
+        }
+    }, []);
+
+
+    useEffect(() => {
         SectionController.readAll(context)
             .then(setSections)
             .catch(defaultHandleError)

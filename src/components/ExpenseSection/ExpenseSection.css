@@ -23,9 +23,29 @@
 }
 
 .expense-section-line{
+    position: relative;
     height: 4px;
     border-radius: 4px;
-    background-color: var(--color-grey);
+    background-color: var(--color-grey-light);
+}
+
+.expense-section-line-front{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+}
+
+.expense-section-line-front.green{
+    background-color: var(--color-success);
+}
+
+.expense-section-line-front.yellow{
+    background-color: var(--color-warning);
+}
+
+.expense-section-line-front.red{
+    background-color: var(--color-danger);
 }
 
 .expense-section-secondary{
@@ -40,6 +60,10 @@
 .expense-section-rest{
     color: var(--color-text-silver);
     font-size: 0.75rem;
+}
+
+.expense-section-rest.red{
+    color: var(--color-danger);
 }
 
 .expenses-list{

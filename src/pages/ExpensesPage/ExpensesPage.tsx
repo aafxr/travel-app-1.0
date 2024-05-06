@@ -38,8 +38,8 @@ export function ExpensesPage() {
                 {expensesLoading
                     ? <div className='h-full center'><Loader/></div>
                     : expenseType === 'actual'
-                        ? <ExpensesActual actual={sortedExpenses.actual}/>
-                        : <ExpensesPlan plan={sortedExpenses.plan}/>
+                        ? <ExpensesActual actual={sortedExpenses.actual} filterType={type} />
+                        : <ExpensesPlan plan={sortedExpenses.plan} filterType={type} />
                 }
             </Container>
             {Boolean(travel?.members_count) && (

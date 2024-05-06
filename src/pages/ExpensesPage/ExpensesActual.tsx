@@ -1,19 +1,19 @@
 import {useLocation, useNavigate} from "react-router-dom";
 
 import {ExpenseSection} from "../../components/ExpenseSection/ExpenseSection";
+import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import {SortedExpensesType} from "../../hooks";
 import {PlusIcon} from "../../components/svg";
 
 type ExpensesActualPropsType = {
     actual: SortedExpensesType['actual']
+    filterType: ExpenseFilterType
 }
 
 
-export function ExpensesActual({actual}: ExpensesActualPropsType){
+export function ExpensesActual({actual, filterType}: ExpensesActualPropsType){
     const location = useLocation()
     const navigate = useNavigate()
-
-    console.log(actual)
 
 
     const  handleAddExpense = () => navigate(location.pathname + 'add/')
@@ -28,7 +28,7 @@ export function ExpensesActual({actual}: ExpensesActualPropsType){
             </button>
             {Object.entries(actual)
                 .map(([sectionID, expenses]) => (
-                    <ExpenseSection key={sectionID} sectionID={sectionID} expenses={expenses}/>
+                    <ExpenseSection key={sectionID} sectionID={sectionID} expenses={expenses} filterType={filterType}/>
                 ))
             }
         </>
