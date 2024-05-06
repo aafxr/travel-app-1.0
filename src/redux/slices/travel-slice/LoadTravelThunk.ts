@@ -21,5 +21,9 @@ export const loadTravel = createAsyncThunk('travel/loadTravel', async ({travelID
         const hotels = await  HotelController.readAll(ctx, ...travel.hotels_id)
         const messages = await  MessageController.readAllByTravelID(ctx, travelID)
 
+        return { travel, places, hotels, messages }
+
+    }catch (e){
+        thunkAPI.abort((e as Error).message )
     }
 })
