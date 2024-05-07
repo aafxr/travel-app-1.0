@@ -21,3 +21,4 @@ export const DEFAULT_SECTION = 'misc'
 export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
 export const ROUTE_FILTER = 'routeFilter'
 export const DEFAULT_ROUTE_FILTER: RouteFilterType = "byDays"
+export const TRAVEL_TYPE = 'travelType'
