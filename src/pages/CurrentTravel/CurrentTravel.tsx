@@ -1,19 +1,23 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-import { TravelController} from "../../core/service-controllers";
+import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
-import Navigation from "../../components/Navigation/Navigation";
+import { TravelController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
+import {RouteFilterType} from "../../types/RouteFilterType";
 import Curtain from "../../components/ui/Curtain/Curtain";
-import {Chip, PageHeader} from "../../components/ui";
 import {MembersList} from "../../components/MembersList";
 import dateRange from "../../utils/date-utils/dateRange";
 import Button from "../../components/ui/Button/Button";
+import {Chip, PageHeader} from "../../components/ui";
 import Loader from "../../components/Loader/Loader";
 import {useMembers, _usePlaces} from "../../hooks";
 import {Image} from "../../components/Image";
+import {RouteByDay} from "./RouteByDay";
+import {RouteOnMap} from "./RouteOnMap";
+import {AllPlaces} from "./AllPlaces";
 import {
     CalendarIcon, ChatIcon,
     ChecklistIcon,
@@ -24,11 +28,7 @@ import {
 } from "../../components/svg";
 
 import './CurrentTravel.css'
-import {RouteByDay} from "./RouteByDay";
-import {RouteFilterType} from "../../types/RouteFilterType";
-import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
-import {RouteOnMap} from "./RouteOnMap";
-import {AllPlaces} from "./AllPlaces";
+
 
 export function CurrentTravel() {
     const context = useAppContext()

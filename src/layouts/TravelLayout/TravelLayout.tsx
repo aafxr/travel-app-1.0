@@ -7,8 +7,7 @@ import {TravelController} from "../../core/service-controllers";
 import Loader from "../../components/Loader/Loader";
 import {useAppDispatch} from "../../hooks/redux-hooks";
 import {loadTravel} from "../../redux/slices/travel-slice";
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux";
+
 
 export function TravelLayout(){
     const context = useAppContext()
@@ -16,7 +15,6 @@ export function TravelLayout(){
     const [loading, setLoading] = useState(false)
 
     const dispatch = useAppDispatch()
-    const travelState = useSelector<RootState>(state => state.travel)
 
     useEffect(() => {
         if(travelCode){
@@ -31,7 +29,6 @@ export function TravelLayout(){
     }, [travelCode]);
 
 
-    console.log(travelState)
 
     if(loading)
         return (

@@ -5,6 +5,7 @@ export const store = configureStore({
     reducer: {
         travel: travelReducer
     },
+    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false})
 })
 
 
