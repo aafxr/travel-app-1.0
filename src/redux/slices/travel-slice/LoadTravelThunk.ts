@@ -1,9 +1,17 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-import {HotelController, MemberController, PlaceController, TravelController} from "../../../core/service-controllers";
+import {
+    ExpenseController,
+    HotelController,
+    LimitController,
+    MemberController,
+    PlaceController,
+    TravelController
+} from "../../../core/service-controllers";
 import {MessageController} from "../../../core/service-controllers/MessageController";
 import {TravelError} from "../../../core/errors";
-import {Context, Travel} from "../../../core/classes";
+import {Context, Place, Travel} from "../../../core/classes";
+import {SectionController} from "../../../core/service-controllers/SectionController";
 
 export type LoadTravelThunkPropsType = {
     travelID: string
@@ -22,7 +30,11 @@ export const loadTravel = createAsyncThunk('travel/loadTravel', async ({travelID
         const messages = await  MessageController.readAllByTravelID(ctx, travelID)
         const members = await MemberController.readAll(ctx, ...Travel.getMembers(travel))
 
-        return { travel, places, hotels, messages, members }
+        const expenses = await ExpenseController.readByTravelID(ctx, travelID)
+        const limits = await LimitController.readAllByTravelID(ctx, travelID)
+        const sections = await SectionController.readAll(ctx)
+
+        return { travel, places, hotels, messages, members, expenses, limits, sections }
 
     }catch (e){
         thunkAPI.abort((e as Error).message )

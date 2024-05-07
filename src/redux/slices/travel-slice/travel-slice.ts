@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-import {Hotel, Member, Message, Place, Travel} from "../../../core/classes";
+import {Expense, Hotel, Limit, Member, Message, Place, Section, Travel} from "../../../core/classes";
 import {loadTravel} from "./LoadTravelThunk";
 
 
@@ -10,6 +10,9 @@ export interface TravelSliceStateType {
     hotels: Hotel[]
     messages: Message[]
     members: Member[]
+    expenses: Expense[]
+    limits: Limit[]
+    sections: Section[]
     loading: boolean
     error: string
 }
@@ -19,6 +22,9 @@ const initialState: TravelSliceStateType = {
     hotels: [],
     messages: [],
     members: [],
+    expenses: [],
+    limits: [],
+    sections: [],
     loading: false,
     error: ''
 }
@@ -38,6 +44,7 @@ export const travelSlice = createSlice({
             state.places = state.places.filter(p => p.id !== action.payload.id)
         },
 
+
         addHotel(state, action: PayloadAction<Hotel>) {
             const idx = state.hotels.findIndex(p => p.id === action.payload.id)
             idx === -1
@@ -47,6 +54,7 @@ export const travelSlice = createSlice({
         removeHotel(state, action: PayloadAction<Hotel>) {
             state.hotels = state.hotels.filter(p => p.id !== action.payload.id)
         },
+
 
         addMessage(state, action: PayloadAction<Message>) {
             const idx = state.messages.findIndex(p => p.id === action.payload.id)
@@ -58,6 +66,7 @@ export const travelSlice = createSlice({
             state.messages = state.messages.filter(p => p.id !== action.payload.id)
         },
 
+
         addMember(state, action: PayloadAction<Member>) {
             const idx = state.members.findIndex(p => p.id === action.payload.id)
             idx === -1
@@ -66,6 +75,39 @@ export const travelSlice = createSlice({
         },
         removeMember(state, action: PayloadAction<Member>) {
             state.members = state.members.filter(p => p.id !== action.payload.id)
+        },
+
+
+        addExpense(state, action: PayloadAction<Expense>) {
+            const idx = state.expenses.findIndex(p => p.id === action.payload.id)
+            idx === -1
+                ? state.expenses.push(action.payload)
+                : state.expenses[idx] = action.payload
+        },
+        removeExpense(state, action: PayloadAction<Expense>) {
+            state.expenses = state.expenses.filter(p => p.id !== action.payload.id)
+        },
+
+
+        addLimit(state, action: PayloadAction<Limit>) {
+            const idx = state.limits.findIndex(p => p.id === action.payload.id)
+            idx === -1
+                ? state.limits.push(action.payload)
+                : state.limits[idx] = action.payload
+        },
+        removeLimit(state, action: PayloadAction<Limit>) {
+            state.limits = state.limits.filter(p => p.id !== action.payload.id)
+        },
+
+
+        addSection(state, action: PayloadAction<Section>) {
+            const idx = state.sections.findIndex(p => p.id === action.payload.id)
+            idx === -1
+                ? state.sections.push(action.payload)
+                : state.sections[idx] = action.payload
+        },
+        removeSection(state, action: PayloadAction<Section>) {
+            state.sections = state.sections.filter(p => p.id !== action.payload.id)
         },
     },
     extraReducers: (builder) => {
@@ -80,6 +122,9 @@ export const travelSlice = createSlice({
                 state.hotels = action.payload.hotels
                 state.messages = action.payload.messages
                 state.members = action.payload.members
+                state.expenses = action.payload.expenses
+                state.limits = action.payload.limits
+                state.sections = action.payload.sections
             }
             state.loading = false
         })
@@ -101,5 +146,11 @@ export const {
     removeMember,
     removeMessage,
     removePlace,
-    removeHotel
+    removeHotel,
+    addExpense,
+    addLimit,
+    addSection,
+    removeExpense,
+    removeSection,
+    removeLimit,
 } = travelSlice.actions
