@@ -4,9 +4,9 @@ import {Outlet, useParams} from "react-router-dom";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {TravelController} from "../../core/service-controllers";
-import Loader from "../../components/Loader/Loader";
-import {useAppDispatch} from "../../hooks/redux-hooks";
 import {loadTravel} from "../../redux/slices/travel-slice";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import Loader from "../../components/Loader/Loader";
 
 
 export function TravelLayout(){

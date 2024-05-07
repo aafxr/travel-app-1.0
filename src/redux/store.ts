@@ -1,9 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {travelReducer} from "./slices/travel-slice";
+import {placesReducer} from "./slices/places-slice";
+import {hotelsReducer} from "./slices/hotel-slice";
+import {messagesReducer} from "./slices/messages-slice";
+import {membersReducer} from "./slices/members-slice";
+import {expensesReducer} from "./slices/expenses-slice";
+import {limitsReducer} from "./slices/limit-slice";
+import {sectionsReducer} from "./slices/sections-slice";
 
 export const store = configureStore({
     reducer: {
-        travel: travelReducer
+        travel: travelReducer,
+        places: placesReducer,
+        hotels: hotelsReducer,
+        messages: messagesReducer,
+        members: membersReducer,
+        expenses: expensesReducer,
+        limits: limitsReducer,
+        sections: sectionsReducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false})
 })
