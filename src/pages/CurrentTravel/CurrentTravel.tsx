@@ -12,7 +12,7 @@ import {MembersList} from "../../components/MembersList";
 import dateRange from "../../utils/date-utils/dateRange";
 import Button from "../../components/ui/Button/Button";
 import Loader from "../../components/Loader/Loader";
-import {useMembers, usePlaces} from "../../hooks";
+import {useMembers, _usePlaces} from "../../hooks";
 import {Image} from "../../components/Image";
 import {
     CalendarIcon, ChatIcon,
@@ -26,7 +26,7 @@ import {
 import './CurrentTravel.css'
 import {RouteByDay} from "./RouteByDay";
 import {RouteFilterType} from "../../types/RouteFilterType";
-import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER} from "../../constants";
+import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
 import {RouteOnMap} from "./RouteOnMap";
 import {AllPlaces} from "./AllPlaces";
 
@@ -37,7 +37,7 @@ export function CurrentTravel() {
 
     const travel = useTravel()
     const {members, membersLoading} = useMembers()
-    const {places, placesLoading} = usePlaces(Number(travelDay) || 1)
+    const {places, placesLoading} = _usePlaces(Number(travelDay) || 1)
     const [routeFilter, setRouteFilter] = useState<RouteFilterType>(localStorage.getItem(ROUTE_FILTER) as RouteFilterType || DEFAULT_ROUTE_FILTER)
 
 
@@ -66,8 +66,13 @@ export function CurrentTravel() {
     return (
         <>
             <div className='current-travel wrapper'>
-                <PageHeader className='current-travel-header transparent' arrowBack titleClassName='flex-end'
-                            MenuEl={<div><MenuIcon/></div>}>
+                <PageHeader
+                    to={`/travels/${localStorage.getItem(TRAVEL_TYPE) || 'current'}/`}
+                    className='current-travel-header transparent'
+                    arrowBack
+                    titleClassName='flex-end'
+                    MenuEl={<div><MenuIcon/></div>}
+                >
                     {/*<div className='current-travel-icons'>*/}
                     {/*    <span className='current-travel-icon'><CopyIcon className='icon'/></span>*/}
                     {/*    <span className='current-travel-icon'><LinkIcon className='icon'/></span>*/}

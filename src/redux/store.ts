@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import {travelReducer} from "./slices/travel-slice";
 
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        travel: travelReducer
+    },
 })
 
 

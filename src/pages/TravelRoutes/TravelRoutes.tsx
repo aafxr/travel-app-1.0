@@ -13,6 +13,7 @@ import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import Container from "../../components/Container/Container";
 import {PageHeader, Tab} from "../../components/ui";
 import Navigation from "../../components/Navigation/Navigation";
+import {TRAVEL_TYPE} from "../../constants";
 
 /**
  * @typedef {'old' | 'current' | 'plan'} TravelDateStatus
@@ -62,6 +63,10 @@ export function TravelRoutes() {
                 .finally(() => setLoading(false))
         }
     }, [])
+
+    useEffect(() => {
+        if(travelType) localStorage.setItem(TRAVEL_TYPE, travelType)
+    }, [travelType]);
 
 
     /** обновление списка актуальных путешествий */

@@ -1,19 +1,24 @@
-import {NavLink, useParams} from "react-router-dom";
 import clsx from "clsx";
+import {NavLink, useParams} from "react-router-dom";
 
 import {CompassIcon, EventsIcon, HeartIcon, HomeIcon, UserIcon} from "../svg";
 
 import './Navigation.css'
+import {TRAVEL_TYPE} from "../../constants";
+
+
+type NavigationPropsType = {
+    className?: string
+}
 
 /**
  * Компонент отображает кнопки навигации снизу экрана
  * @param className
- * @returns {JSX.Element}
  * @category Components
  */
-export default function Navigation({className}) {
-    const {travelsType} = useParams()
-    const navLinkClassName = ({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""
+export default function Navigation({className}: NavigationPropsType) {
+    const {travelType} = useParams()
+    const navLinkClassName = ({ isActive, isPending }: {isActive: boolean, isPending: boolean} ) => isPending ? "pending" : isActive ? "active" : ""
 
     return (
         <div className={clsx('navigation', className)}>
@@ -33,7 +38,7 @@ export default function Navigation({className}) {
                     </NavLink>
                 </div>
                 <div className='navigation-item center'>
-                    <NavLink to={`/travels/${travelsType || 'current/'}`} className={navLinkClassName}>
+                    <NavLink to={`/travels/${localStorage.getItem(TRAVEL_TYPE) || travelType || 'current'}/`} className={navLinkClassName}>
                         <div className='navigation-icon'><CompassIcon/></div>
                         <div className='navigation-title'>Маршруты</div>
                     </NavLink>

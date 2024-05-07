@@ -13,20 +13,20 @@ import {
     TravelRoutes,
     TravelSettings
 } from "./pages";
+import {SectionController} from "./core/service-controllers/SectionController";
 import defaultHandleError from "./utils/error-handlers/defaultHandleError";
+import {SocketContextProvider} from "./contexts/SocketContextProvider";
+import {LimitContextProvider} from "./contexts/LimitContextProvider";
+import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
 import {useAppContext} from "./contexts/AppContextProvider";
 import {UserController} from "./core/service-controllers";
-import AuthRequired from "./hoc/AuthRequired";
 import Container from "./components/Container/Container";
+import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
+import {LimitAdd} from "./pages/LimitAdd/LimitAdd";
 import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
-import {SocketContextProvider} from "./contexts/SocketContextProvider";
-import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
-import {SectionController} from "./core/service-controllers/SectionController";
-import {LimitContextProvider} from "./contexts/LimitContextProvider";
-import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
+import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
-import {LimitAdd} from "./pages/LimitAdd/LimitAdd";
 
 
 function App() {
