@@ -1,5 +1,7 @@
 import {useAppSelector} from "./useAppSelector";
+import {loadMessages, addMessage, removeMessage} from "../../redux/slices/messages-slice";
 
 export function useMessages(){
-    return useAppSelector(state => state.travel.messages)
+    const {messages, loading, error} = useAppSelector(state => state.messages)
+    return {messages, loading, error, actions: {loadMessages, addMessage, removeMessage}}
 }
