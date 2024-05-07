@@ -2,7 +2,7 @@ import clsx from "clsx";
 import {useEffect, useMemo, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
-import {SectionController} from "../../core/service-controllers/SectionController";
+import {SectionController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useLimitContext} from "../../contexts/LimitContextProvider";
 import {Context, Expense, Limit, Section} from "../../core/classes";

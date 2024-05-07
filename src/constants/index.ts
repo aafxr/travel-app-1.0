@@ -22,3 +22,4 @@ export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
 export const ROUTE_FILTER = 'routeFilter'
 export const DEFAULT_ROUTE_FILTER: RouteFilterType = "byDays"
 export const TRAVEL_TYPE = 'travelType'
+export const EXPENSE_TYPE = 'expenseType'

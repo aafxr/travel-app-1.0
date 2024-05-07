@@ -1,4 +1,5 @@
-import {useParams} from "react-router-dom";
+import {useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 import {useSortedExpenses, useExpense, useExpenseFilterType} from "../../hooks";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
@@ -8,17 +9,29 @@ import Button from "../../components/ui/Button/Button";
 import {PageHeader, Tab} from "../../components/ui";
 import Loader from "../../components/Loader/Loader";
 import {ExpensesActual} from "./ExpensesActual";
+import {EXPENSE_TYPE} from "../../constants";
 import {ExpensesPlan} from "./ExpensesPlan";
 
 import './ExpensesPage.css'
 
 
 export function ExpensesPage() {
+    const navigate = useNavigate()
     const travel = useTravel()
     const {travelCode, expenseType} = useParams()
     const {type, setExpenseType} = useExpenseFilterType()
     const {expenses, expensesLoading} = useExpense(travelCode || '')
     const sortedExpenses = useSortedExpenses(expenses)
+
+
+    useEffect(() => {
+        if(!expenseType){
+            const type = localStorage.getItem(EXPENSE_TYPE) || 'actual'
+            navigate(`/travel/${travelCode}/expenses/${type}/`)
+        }else{
+            localStorage.setItem(EXPENSE_TYPE, expenseType)
+        }
+    }, [expenseType]);
 
 
     function handleExpensesFilterTypeChange(type: ExpenseFilterType) {
