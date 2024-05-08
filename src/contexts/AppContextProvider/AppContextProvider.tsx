@@ -1,32 +1,29 @@
-import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
+import {createContext, PropsWithChildren, useContext} from "react";
+import {useUser} from "../../hooks/redux-hooks/useUser";
+import {useTravel} from "../../hooks/redux-hooks";
 import {Context} from "../../core/classes";
 
 
-type AppContextType = { context: Context }
+type AppContextType = Context
 
-const defaultContext: AppContextType = {context: new Context()}
+const defaultContext: AppContextType =  new Context()
 
 export const AppContext = createContext<AppContextType>(defaultContext)
 
 
 export function AppContextProvider({children}: PropsWithChildren) {
     const context = useContext(AppContext)
-    const [state, setContext] = useState<AppContextType | null>(null)
 
-    useEffect(() => {
-        const ctx = new Context()
-        // const unsubscribe = ctx.subscribe('update', (ctx) => {
-        //     setContext({context:ctx})
-        // })
-        setContext({context: ctx})
-        // return () => unsubscribe()
-    }, [])
+    const {user} = useUser()
+    const {travel} = useTravel()
 
+    context.setUser(user)
+    context.setTravel(travel)
 
-    if(state) window.context = state.context
+    window.context = context
 
     return (
-        <AppContext.Provider value={state || context}>
+        <AppContext.Provider value={context}>
             {children}
         </AppContext.Provider>
     )

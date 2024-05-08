@@ -55,6 +55,7 @@ export function SocketContextProvider(){
 
         socket.on('connect', () => {
             console.log('socket connect')
+            context.setSocket(socket)
             DB.getAll<Travel>(StoreName.TRAVEL)
                 .then(travels => {
                     const ids = travels.map(t => t.id)
@@ -66,13 +67,12 @@ export function SocketContextProvider(){
 
         socket.on('disconnect', () => {
             console.log('socket disconnect')
-            // setState({socket: undefined})
-            // context.setSocket(null)
+            context.setSocket()
         })
 
         socket.on('connect_error', (err: Error) => {
             console.error(err)
-            setState({...state, errorMessage: err.message})
+            setState(prev => ({...prev, errorMessage: err.message}))
         })
 
 
@@ -91,9 +91,7 @@ export function SocketContextProvider(){
 
         context.setSocket(socket)
         setState({socket})
-
-        return () => { context.setSocket(null) }
-    }, [user, state])
+    }, [user])
 
 
     return (

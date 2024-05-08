@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
@@ -8,7 +9,6 @@ import {UserController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import {TelegramAuth} from "../../components/TelegramAuth";
 import {PageHeader} from "../../components/ui";
-import {useEffect} from "react";
 
 
 
@@ -40,7 +40,7 @@ export function Login() {
         UserController.logIn(ctx, authPayload)
             .then(user => {
                 if (user) ctx.setUser(user)
-                else ctx.setUser(null)
+                else ctx.setUser()
                 navigate('/')
             })
             .catch(defaultHandleError)

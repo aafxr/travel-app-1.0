@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 
 import {
@@ -19,10 +19,11 @@ import {LimitContextProvider} from "./contexts/LimitContextProvider";
 import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
 import {SectionController} from "./core/service-controllers";
 import {useAppContext} from "./contexts/AppContextProvider";
-import {UserController} from "./core/service-controllers";
 import Container from "./components/Container/Container";
 import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
+import {useUser} from "./hooks/redux-hooks/useUser";
 import {LimitAdd} from "./pages/LimitAdd/LimitAdd";
+import {useAppDispatch} from "./hooks/redux-hooks";
 import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import AuthRequired from "./hoc/AuthRequired";
@@ -30,30 +31,24 @@ import {TravelLayout} from "./layouts";
 
 
 function App() {
-    const context = useAppContext()
-    const [loading, setLoading] = useState(false)
+    const ctx = useAppContext()
+    const dispatch = useAppDispatch()
+    const {loading, actions: {loadUser}} = useUser()
 
 
     useEffect(() => {
-        SectionController.readAll(context)
+        SectionController.readAll(ctx)
             .then(sections => {
                 if(!sections.length)
-                    SectionController.init(context).catch(defaultHandleError)
+                    SectionController.init(ctx).catch(defaultHandleError)
             })
             .catch(defaultHandleError)
     }, []);
 
 
     useEffect(() => {
-        if (!context.user)
-            setLoading(true)
-        UserController.getLoggedInUser(context)
-            .then((user) => {
-                if (user) context.setUser(user)
-            })
-            .catch(defaultHandleError)
-            .finally(() =>  setLoading(false) )
-    }, [context])
+        dispatch(loadUser({ctx}))
+    }, [])
 
 
     if(loading)

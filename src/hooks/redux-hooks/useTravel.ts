@@ -1,5 +1,7 @@
 import {useAppSelector} from "./useAppSelector";
+import {loadTravel, updateTravel} from "../../redux/slices/travel-slice";
 
 export function useTravel(){
-    return useAppSelector(state => state.travel.travel)
+    const {travel, error, loading} = useAppSelector(state => state.travel)
+    return {travel, error, loading, actions: {loadTravel, updateTravel}}
 }

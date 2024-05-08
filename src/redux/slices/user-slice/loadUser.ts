@@ -4,13 +4,13 @@ import {UserController} from "../../../core/service-controllers";
 
 
 export type InitUserPayloadType = {
-    ctx: Context, userID: string
+    ctx: Context
 }
 
 
-export const loadUser = createAsyncThunk('user/initUser', async ({ctx, userID}: InitUserPayloadType, thunkAPI) => {
+export const loadUser = createAsyncThunk('user/initUser', async ({ctx}: InitUserPayloadType, thunkAPI) => {
     try {
-        const user = await UserController.read(ctx, userID)
+        const user = await UserController.getLoggedInUser(ctx)
         return {user}
     }catch (e){
         thunkAPI.abort((e as Error).message)

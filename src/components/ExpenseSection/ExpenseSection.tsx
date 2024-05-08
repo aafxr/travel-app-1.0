@@ -125,7 +125,7 @@ export function ExpenseSection({
             </div>
             <div className='expenses-list'>
                 {filtered.map(e => (
-                    <Swipe rightElement={<div className='h-full center'><TrashIcon className='icon'/></div>} >
+                    <Swipe key={e.id} rightElement={<div className='h-full center'><TrashIcon className='icon'/></div>} >
                         <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
                             <div className='flex-between'>
                                 <div className='expense-title'>{e.title}</div>

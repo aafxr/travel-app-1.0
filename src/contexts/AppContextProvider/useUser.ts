@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {User} from "../../core/classes";
 
 export function useUser(){
-    const [state, setState] = useState<{ user:User | null }>({user:null})
+    const [state, setState] = useState<{ user?:User }>({user:undefined})
     const context = useAppContext()
 
     useEffect(() => {
