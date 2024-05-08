@@ -2,21 +2,28 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 import {ExpenseSection} from "../../components/ExpenseSection/ExpenseSection";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
-import {SortedExpensesType} from "../../hooks";
+import {useExpensesActualSorted} from "../../hooks/redux-hooks";
+import Loader from "../../components/Loader/Loader";
 import {PlusIcon} from "../../components/svg";
 
 type ExpensesActualPropsType = {
-    actual: SortedExpensesType['actual']
     filterType: ExpenseFilterType
 }
 
 
-export function ExpensesActual({actual, filterType}: ExpensesActualPropsType){
+export function ExpensesActual({filterType}: ExpensesActualPropsType) {
     const location = useLocation()
     const navigate = useNavigate()
+    const {sortedExpenses, loading, error} = useExpensesActualSorted()
 
 
-    const  handleAddExpense = () => navigate(location.pathname + 'add/')
+    const handleAddExpense = () => navigate(location.pathname + 'add/')
+
+    if (loading)
+        return <div className='h-full center'><Loader/></div>
+
+    if (error)
+        return <div className='h-full center'>{error}</div>
 
     return (
         <>
@@ -26,7 +33,7 @@ export function ExpensesActual({actual, filterType}: ExpensesActualPropsType){
                 </div>
                 Записать расходы
             </button>
-            {Object.entries(actual)
+            {Object.entries(sortedExpenses)
                 .map(([sectionID, expenses]) => (
                     <ExpenseSection key={sectionID} sectionID={sectionID} expenses={expenses} filterType={filterType}/>
                 ))

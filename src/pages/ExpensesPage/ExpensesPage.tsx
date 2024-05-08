@@ -1,13 +1,12 @@
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-import {useSortedExpenses, useExpense, useExpenseFilterType} from "../../hooks";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import Container from "../../components/Container/Container";
 import {useTravel} from "../../contexts/AppContextProvider";
 import Button from "../../components/ui/Button/Button";
 import {PageHeader, Tab} from "../../components/ui";
-import Loader from "../../components/Loader/Loader";
+import {useExpenseFilterType} from "../../hooks";
 import {ExpensesActual} from "./ExpensesActual";
 import {EXPENSE_TYPE} from "../../constants";
 import {ExpensesPlan} from "./ExpensesPlan";
@@ -20,15 +19,13 @@ export function ExpensesPage() {
     const travel = useTravel()
     const {travelCode, expenseType} = useParams()
     const {type, setExpenseType} = useExpenseFilterType()
-    const {expenses, expensesLoading} = useExpense(travelCode || '')
-    const sortedExpenses = useSortedExpenses(expenses)
 
 
     useEffect(() => {
-        if(!expenseType){
+        if (!expenseType) {
             const type = localStorage.getItem(EXPENSE_TYPE) || 'actual'
             navigate(`/travel/${travelCode}/expenses/${type}/`)
-        }else{
+        } else {
             localStorage.setItem(EXPENSE_TYPE, expenseType)
         }
     }, [expenseType]);
@@ -48,11 +45,9 @@ export function ExpensesPage() {
                 <Tab name={'Планы'} to={`/travel/${travelCode}/expenses/plan/`}/>
             </div>
             <Container className='expenses-content content'>
-                {expensesLoading
-                    ? <div className='h-full center'><Loader/></div>
-                    : expenseType === 'actual'
-                        ? <ExpensesActual actual={sortedExpenses.actual} filterType={type} />
-                        : <ExpensesPlan plan={sortedExpenses.plan} filterType={type} />
+                {expenseType === 'actual'
+                    ? <ExpensesActual filterType={type}/>
+                    : <ExpensesPlan filterType={type}/>
                 }
             </Container>
             {Boolean(travel?.members_count) && (

@@ -4,19 +4,27 @@ import {ExpenseSection} from "../../components/ExpenseSection/ExpenseSection";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import {SortedExpensesType} from "../../hooks";
 import {PlusIcon} from "../../components/svg";
+import Loader from "../../components/Loader/Loader";
+import {useExpensesPlanSorted} from "../../hooks/redux-hooks";
 
 type ExpensesPlanPropsType = {
-    plan: SortedExpensesType['plan']
     filterType: ExpenseFilterType
 }
 
 
-export function ExpensesPlan({plan, filterType}: ExpensesPlanPropsType){
+export function ExpensesPlan({filterType}: ExpensesPlanPropsType){
     const location = useLocation()
     const navigate = useNavigate()
+    const {sortedExpenses, loading, error} = useExpensesPlanSorted()
 
 
     const  handleAddExpense = () => navigate(location.pathname + 'add/')
+
+    if (loading)
+        return <div className='h-full center'><Loader/></div>
+
+    if (error)
+        return <div className='h-full center'>{error}</div>
 
     return (
         <>
@@ -26,7 +34,7 @@ export function ExpensesPlan({plan, filterType}: ExpensesPlanPropsType){
                 </div>
                 Запланировать расходы
             </button>
-            { Object.entries(plan)
+            { Object.entries(sortedExpenses)
                 .map(([sectionID, expenses]) => (
                     <ExpenseSection sectionID={sectionID} expenses={expenses} filterType={filterType}/>
                 ))
