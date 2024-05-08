@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
 import {Travel} from "../../../core/classes";
 import {loadTravel} from "./LoadTravelThunk";
@@ -20,6 +20,9 @@ export const travelSlice = createSlice({
     name: 'travel',
     initialState,
     reducers: {
+        updateTravel(state, action:PayloadAction<Travel>){
+            state.travel = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(loadTravel.pending, (state, action) => {
@@ -42,4 +45,4 @@ export const travelSlice = createSlice({
 
 
 export const travelReducer = travelSlice.reducer
-export const {} = travelSlice.actions
+export const {updateTravel} = travelSlice.actions

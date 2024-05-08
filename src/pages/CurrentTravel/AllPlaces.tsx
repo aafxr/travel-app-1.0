@@ -14,7 +14,7 @@ export function AllPlaces({places}: AllPlacesPropsType){
             <Container className='all-places content'>
                 {places.filter(p => p instanceof Place)
                     .map(p => (
-                        <Swipe rightElement={<div className='h-full center'><TrashIcon className='icon'/></div>}>
+                        <Swipe key={p.id} rightElement={<div className='h-full center'><TrashIcon className='icon'/></div>}>
                             <PlaceCard key={p.id} place={p as Place} />
                         </Swipe>
                     ))

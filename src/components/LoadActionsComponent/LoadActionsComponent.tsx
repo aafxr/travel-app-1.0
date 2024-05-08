@@ -13,6 +13,7 @@ import {
     usePlaceSubject,
     useTravelSubject
 } from "../../contexts/SubjectContextProvider";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 
 
 /**
@@ -31,7 +32,7 @@ export function LoadActionsComponent(){
     const hotelSubject = useHotelSubject()
     const photoSubject = usePhotoSubject()
 
-    const [online, setOnline] = useState(true)
+    const [online, setOnline] = useState(false)
 
 
 
@@ -59,6 +60,8 @@ export function LoadActionsComponent(){
 
         const  handleOffline = () => online && setOnline(false)
 
+
+        handleOnline().catch(defaultHandleError)
 
         window.addEventListener('online', handleOnline)
         window.addEventListener('offline', handleOffline)

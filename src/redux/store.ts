@@ -7,6 +7,7 @@ import {membersReducer} from "./slices/members-slice";
 import {expensesReducer} from "./slices/expenses-slice";
 import {limitsReducer} from "./slices/limit-slice";
 import {sectionsReducer} from "./slices/sections-slice";
+import {userReducer} from "./slices/user-slice";
 
 export const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
         members: membersReducer,
         expenses: expensesReducer,
         limits: limitsReducer,
-        sections: sectionsReducer
+        sections: sectionsReducer,
+        user: userReducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false})
 })

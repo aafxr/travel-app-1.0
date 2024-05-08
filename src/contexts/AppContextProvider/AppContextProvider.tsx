@@ -15,11 +15,11 @@ export function AppContextProvider({children}: PropsWithChildren) {
 
     useEffect(() => {
         const ctx = new Context()
-        const unsubscribe = ctx.subscribe('update', (ctx) => {
-            setContext({context:ctx})
-        })
+        // const unsubscribe = ctx.subscribe('update', (ctx) => {
+        //     setContext({context:ctx})
+        // })
         setContext({context: ctx})
-        return () => unsubscribe()
+        // return () => unsubscribe()
     }, [])
 
 

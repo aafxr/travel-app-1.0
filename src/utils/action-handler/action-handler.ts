@@ -6,6 +6,13 @@ import {ActionController} from "../../core/service-controllers";
 import {ActionDto} from "../../core/classes/dto";
 import {Update} from "../../core/classes/Update";
 import {StoreName} from "../../types/StoreName";
+import {store} from "../../redux";
+import {updateTravel} from "../../redux/slices/travel-slice";
+import {ActionType} from "../../types/ActionType";
+import {addExpense, removeExpense} from "../../redux/slices/expenses-slice";
+import {addLimit, removeLimit} from "../../redux/slices/limit-slice";
+import {addPlace, removePlace} from "../../redux/slices/places-slice";
+import {addHotel, removeHotel} from "../../redux/slices/hotel-slice";
 
 
 export type ActionHandlerOptionsType = {
@@ -32,6 +39,7 @@ export function actionHandler({
                               }: ActionHandlerOptionsType) {
 
     return async (actionDTO: ActionDto) => {
+        const dispatch = store.dispatch
         console.log(actionDTO, typeof actionDTO)
         try {
             const result = await ActionController.add(context, actionDTO)
@@ -48,28 +56,51 @@ export function actionHandler({
             switch (action.entity) {
                 case StoreName.TRAVEL:
                     const travel = await Update.travel(action)
-                    if (travel) travelSubject?.next(travel)
+                    if (travel) {
+                        travelSubject?.next(travel)
+                        dispatch(updateTravel(travel))
+                    }
                     break
 
                 case StoreName.EXPENSES_ACTUAL:
                 case StoreName.EXPENSES_PLAN:
                     const expense = await Update.expense(action)
-                    if (expense) expenseSubject?.next(expense)
+                    if (expense) {
+                        expenseSubject?.next(expense)
+                        action.action === ActionType.DELETE
+                            ? dispatch(removeExpense(expense))
+                            : dispatch(addExpense(expense))
+                    }
                     break
 
                 case StoreName.LIMIT:
                     const limit = await Update.limit(action)
-                    if (limit) limitSubject?.next(limit)
+                    if (limit) {
+                        limitSubject?.next(limit)
+                        action.action === ActionType.DELETE
+                            ? dispatch(removeLimit(limit))
+                            : dispatch(addLimit(limit))
+                    }
                     break
 
                 case StoreName.PLACE:
                     const place = await Update.place(action)
-                    if (place) placeSubject?.next(place)
+                    if (place) {
+                        placeSubject?.next(place)
+                        action.action === ActionType.DELETE
+                            ? dispatch(removePlace(place))
+                            : dispatch(addPlace(place))
+                    }
                     break
 
                 case StoreName.HOTELS:
                     const hotel = await Update.hotel(action)
-                    if (hotel) hotelSubject?.next(hotel)
+                    if (hotel) {
+                        hotelSubject?.next(hotel)
+                        action.action === ActionType.DELETE
+                            ? dispatch(removeHotel(hotel))
+                            : dispatch(addHotel(hotel))
+                    }
                     break
 
                 case StoreName.Photo:

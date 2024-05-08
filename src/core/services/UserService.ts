@@ -24,7 +24,7 @@ export class UserService{
     }
 
     static async read(ctx: Context, userID:string){
-        return await DB.getOne(StoreName.USERS, userID)
+        return await DB.getOne<User>(StoreName.USERS, userID)
     }
 
     static async update(ctx: Context, user:User){

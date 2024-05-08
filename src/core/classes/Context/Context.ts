@@ -1,14 +1,12 @@
 import {Socket} from "socket.io-client";
 import {Travel, User} from "../store";
-import EventEmitter from "../EventEmmiter";
 
-export class Context extends EventEmitter {
-    user: User | null = null
-    travel: Travel | null = null
-    socket: Socket | null = null
+export class Context {
+    user?: User
+    travel?: Travel
+    socket?: Socket
 
     constructor(context?: Context) {
-        super();
         if(!context) return
 
         if(context.user) this.user = context.user
@@ -17,19 +15,16 @@ export class Context extends EventEmitter {
     }
 
 
-    setUser(user: User | null) {
+    setUser(user?: User) {
         this.user = user
-        this.emit('update', [this])
     }
 
-    setTravel(travel: Travel | null) {
+    setTravel(travel?: Travel) {
         this.travel = travel
-        this.emit('update', [this])
     }
 
-    setSocket(socket: Socket | null){
+    setSocket(socket?: Socket){
         this.socket = socket
-        this.emit('update', [this])
     }
 
     get isLogIn(){

@@ -127,7 +127,7 @@ export function CurrentTravel() {
             <Curtain>
                 <div className='wrapper'>
                     <Container>
-                        <div className='route-filter-list'>
+                        <div className='route-filter-list pt-20'>
                             <Button
                                 className='route-filter-btn'
                                 onClick={() => handleRouteFilterChange("byDays")}
