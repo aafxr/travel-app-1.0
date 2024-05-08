@@ -13,11 +13,11 @@ import {
     TravelRoutes,
     TravelSettings
 } from "./pages";
-import {SectionController} from "./core/service-controllers/SectionController";
 import defaultHandleError from "./utils/error-handlers/defaultHandleError";
 import {SocketContextProvider} from "./contexts/SocketContextProvider";
 import {LimitContextProvider} from "./contexts/LimitContextProvider";
 import {ExpensesPage} from "./pages/ExpensesPage/ExpensesPage";
+import {SectionController} from "./core/service-controllers";
 import {useAppContext} from "./contexts/AppContextProvider";
 import {UserController} from "./core/service-controllers";
 import Container from "./components/Container/Container";
