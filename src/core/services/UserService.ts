@@ -12,7 +12,9 @@ import {ActionService} from "./ActionService";
 const devUser = {
     id: 'dev',
     first_name: 'Иван',
-    last_name: 'Алексеев'
+    last_name: 'Алексеев',
+    token: process.env.REACT_APP_DEV_TOKEN,
+    refresh_token: process.env.REACT_APP_DEV_TOKEN_REFRESH
 }
 
 export class UserService{
@@ -97,6 +99,8 @@ export class UserService{
     static async getLoggedInUser(ctx: Context) {
         if (location.hostname === 'localhost') {
             const dev_user = await DB.getOne<User>(StoreName.USERS, devUser.id)
+            await DB.update(StoreName.STORE, {name: ACCESS_TOKEN, value: devUser.token})
+            await DB.update(StoreName.STORE, {name: REFRESH_TOKEN, value: devUser.refresh_token})
             if (!dev_user) await DB.add(StoreName.USERS, devUser)
             const user = new User(dev_user || devUser)
             if (user.photo) {

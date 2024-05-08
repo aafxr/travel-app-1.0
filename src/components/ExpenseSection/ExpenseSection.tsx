@@ -2,19 +2,21 @@ import clsx from "clsx";
 import {useEffect, useMemo, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
-import {SectionController} from "../../core/service-controllers";
+import {ExpenseController, LimitController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useLimitContext} from "../../contexts/LimitContextProvider";
 import {Context, Expense, Limit, Section} from "../../core/classes";
+import {SectionController} from "../../core/service-controllers";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {currencyFormatter} from "../../utils/currencyFormatter";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
-import {ExpenseController, LimitController} from "../../core/service-controllers";
+import {removeExpense} from "../../redux/slices/expenses-slice";
 import formatTime from "../../utils/date-utils/formatTime";
-
-import './ExpenseSection.css'
+import {useAppDispatch} from "../../hooks/redux-hooks";
 import Swipe from "../ui/Swipe/Swipe";
 import {TrashIcon} from "../svg";
+
+import './ExpenseSection.css'
 
 export type ExpenseSectionPropsType = {
     sectionID: string
@@ -41,6 +43,7 @@ export function ExpenseSection({
     const navigate = useNavigate()
     const limits = useLimitContext()
     const [state, setState] = useState<SectionState>()
+    const dispatch = useAppDispatch()
 
     const filtered = useMemo(() => filteredExpenses(context, expenses, filterType), [expenses, filterType])
     const total = filtered.reduce((a, el) => a + el.value, 0)
@@ -99,7 +102,8 @@ export function ExpenseSection({
 
     function handleRemoveExpence(e: Expense){
         ExpenseController.delete(context, e)
-            .then()
+            .then(() => dispatch(removeExpense(e)))
+            .catch(defaultHandleError)
     }
 
 
@@ -125,7 +129,11 @@ export function ExpenseSection({
             </div>
             <div className='expenses-list'>
                 {filtered.map(e => (
-                    <Swipe key={e.id} rightElement={<div className='h-full center'><TrashIcon className='icon'/></div>} >
+                    <Swipe key={e.id} rightElement={
+                        <div className='h-full center' onClick={() => handleRemoveExpence(e)}>
+                            <TrashIcon className='icon'/>
+                        </div>}
+                    >
                         <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
                             <div className='flex-between'>
                                 <div className='expense-title'>{e.title}</div>

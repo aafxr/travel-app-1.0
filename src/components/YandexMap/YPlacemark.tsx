@@ -52,8 +52,7 @@ export function YPlacemark({coordinates, iconContent, icon}: YPlaceMarkPropsType
         map.geoObjects.add(marker)
         setState(marker)
 
-        return () => {
-            map && state && map.geoObjects.remove(marker)
+        return () => {map.geoObjects.remove(marker)
         }
     }, [map, coordinates, iconContent, icon])
 

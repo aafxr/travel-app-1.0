@@ -1,14 +1,14 @@
 import {YandexMapContainer, YPlacemark} from "../../components/YandexMap";
-import {useTravel} from "../../contexts/AppContextProvider";
 import {Hotel, Place} from "../../core/classes";
 import {Tab} from "../../components/ui";
+import {useTravel} from "../../hooks/redux-hooks";
 
 type RouteOnMapPropsType = {
     places: Array<Place | Hotel>
 }
 
 export function RouteOnMap({places}: RouteOnMapPropsType) {
-    const travel = useTravel()
+    const {travel} = useTravel()
 
     return (
         <>

@@ -35,7 +35,6 @@ const depth: RadioButtonGroupItemType[] = [
  * Страница формирования путешествия ( добавление даты / отели / встречи / участники)
  * @function
  * @name TravelSettings
- * @returns {JSX.Element}
  * @category Pages
  */
 export function TravelSettings() {
@@ -46,7 +45,7 @@ export function TravelSettings() {
     const [travel, setTravel] = useState<Travel>()
     const [change, setChange] = useState(false)
     const [message, setMessage] = useState<string>('')
-
+    console.log(context)
 
     useEffect(() => {
         const t = context.travel
@@ -154,7 +153,7 @@ export function TravelSettings() {
             ? travel.preference.interests[key] = 0
             : travel.preference.interests[key] = 1
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
 

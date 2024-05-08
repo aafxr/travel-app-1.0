@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
-import {pushAlertMessage} from "../../components/Alerts";
 import Container from "../../components/Container/Container";
-import {Input, PageHeader} from "../../components/ui";
+import {updateTravel} from "../../redux/slices/travel-slice";
+import {useUser} from "../../contexts/AppContextProvider";
+import {pushAlertMessage} from "../../components/Alerts";
 import Button from "../../components/ui/Button/Button";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import {Input, PageHeader} from "../../components/ui";
 import {Travel} from "../../core/classes";
 
 import './TravelAdd.css'
@@ -13,13 +15,12 @@ import './TravelAdd.css'
 
 /**
  * @name TravelAdd
- * @returns {JSX.Element}
  * @category Pages
  */
 export function TravelAdd() {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
     const user = useUser()
-    const context = useAppContext()
 
     const [title, setTitle] = useState('')
 
@@ -31,7 +32,7 @@ export function TravelAdd() {
         }
         if (title.length && user) {
             const travel = new Travel({title, owner_id: user.id})
-            context.setTravel(travel)
+            dispatch(updateTravel(travel))
             navigate(`/travel/${travel.id}/settings/`)
 
             // TravelService.create(travel, user)

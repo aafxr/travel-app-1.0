@@ -7,7 +7,9 @@ import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {APIRouteType, fetchRouteAdvice} from "../../api/fetch";
 import Container from "../../components/Container/Container";
+import {loadTravel} from "../../redux/slices/travel-slice";
 import Button from "../../components/ui/Button/Button";
+import {useAppDispatch} from "../../hooks/redux-hooks";
 import {Hotel, Place} from "../../core/classes";
 import {PageHeader} from "../../components/ui";
 
@@ -20,6 +22,7 @@ export function RouteAdvice() {
     const navigate = useNavigate()
     const [route, setRoute] = useState<APIRouteType>()
     const [routes, setRoutes] = useState<APIRouteType[]>([])
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const travel = context.travel
@@ -96,6 +99,7 @@ export function RouteAdvice() {
 
 
         await TravelController.create(context, travel)
+
         for (const hotel of hotels){
             try {
                 await HotelController.create(context, hotel)
@@ -109,7 +113,7 @@ export function RouteAdvice() {
 
         await TravelController.update(context, travel)
 
-        context.setTravel(travel)
+        dispatch(loadTravel({ctx: context, travelID: travel.id}))
         navigate(`/travel/${travel.id}/`)
     }
 
