@@ -9,6 +9,8 @@ import {UserController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import {TelegramAuth} from "../../components/TelegramAuth";
 import {PageHeader} from "../../components/ui";
+import {useAppDispatch} from "../../hooks/redux-hooks";
+import {removeUser, setUser} from "../../redux/slices/user-slice";
 
 
 
@@ -22,6 +24,7 @@ import {PageHeader} from "../../components/ui";
 export function Login() {
     const navigate = useNavigate()
     const ctx = useAppContext()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if(location.hostname === 'localhost')
@@ -39,8 +42,8 @@ export function Login() {
     function tgAuthHandler(authPayload: TelegramAuthPayloadType) {
         UserController.logIn(ctx, authPayload)
             .then(user => {
-                if (user) ctx.setUser(user)
-                else ctx.setUser()
+                if (user) dispatch(setUser(user))
+                else dispatch(removeUser())
                 navigate('/')
             })
             .catch(defaultHandleError)
