@@ -8,6 +8,7 @@ import {expensesReducer} from "./slices/expenses-slice";
 import {limitsReducer} from "./slices/limit-slice";
 import {sectionsReducer} from "./slices/sections-slice";
 import {userReducer} from "./slices/user-slice";
+import {currencyReducer} from "./slices/currency-slice/currency-slice";
 
 export const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
         expenses: expensesReducer,
         limits: limitsReducer,
         sections: sectionsReducer,
-        user: userReducer
+        user: userReducer,
+        currency: currencyReducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false})
 })
