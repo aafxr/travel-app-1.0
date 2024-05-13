@@ -1,4 +1,4 @@
-export type APICurrencyType = {
+export type CurrencyType = {
     char_code: string
     mame: string
     num_code: number
