@@ -10,6 +10,7 @@ import {loadMessages} from "../messages-slice";
 import {loadExpenses} from "../expenses-slice";
 import {loadLimits} from "../limit-slice";
 import {loadSections} from "../sections-slice";
+import {loadCurrency} from "../currency-slice/loadCurrency";
 
 export type LoadTravelThunkPropsType = {
     travelID: string
@@ -35,6 +36,13 @@ export const loadTravel = createAsyncThunk('travel/loadTravel', async ({
         dispatch(loadExpenses({ctx, travel}))
         dispatch(loadLimits({ctx, travel}))
         dispatch(loadSections({ctx, travel}))
+        if(travel.date_start.getTime()) {
+            dispatch(loadCurrency({
+                ctx,
+                from: new Date(travel.date_start),
+                to: new Date(travel.date_end)
+            }))
+        }
 
         return {travel}
 

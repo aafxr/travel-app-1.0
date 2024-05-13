@@ -20,7 +20,6 @@ type MenuPropsType = {
  * Компонент для отображения меню
  * @param children
  * @param className
- * @returns {JSX.Element}
  * @category Components
  */
 export default function Menu({children, className}: MenuPropsType) {
@@ -57,4 +56,13 @@ export default function Menu({children, className}: MenuPropsType) {
             </div>
         </div>
     )
+}
+
+
+export type MenuITemPropsType = {
+
+}
+
+function Item(){
+
 }

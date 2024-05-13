@@ -28,6 +28,7 @@ import {
 } from "../../components/svg";
 
 import './CurrentTravel.css'
+import Menu from "../../components/ui/Menu/Menu";
 
 
 export function CurrentTravel() {
@@ -71,7 +72,7 @@ export function CurrentTravel() {
                     className='current-travel-header transparent'
                     arrowBack
                     titleClassName='flex-end'
-                    MenuEl={<div><MenuIcon/></div>}
+                    MenuEl={<Menu>asd</Menu>}
                 >
                     {/*<div className='current-travel-icons'>*/}
                     {/*    <span className='current-travel-icon'><CopyIcon className='icon'/></span>*/}
