@@ -5,6 +5,7 @@ import {Travel} from "../store";
 
 export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_at' | 'date_start' | 'date_end'>{
     id?: string;
+    uid?: string;
     admins?: string[];
     children_count?: number;
     code?: string;
@@ -34,6 +35,7 @@ export class TravelDTO implements Omit<Partial<Travel>, 'created_at' | 'updated_
 
     constructor(travel: Partial<Travel>) {
         if(travel.id !== undefined) this.id = travel.id
+        this.uid = this.id
         if(travel.admins !== undefined) this.admins = travel.admins
         if(travel.children_count !== undefined) this.children_count = travel.children_count
         if(travel.code !== undefined) this.code = travel.code

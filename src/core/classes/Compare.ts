@@ -2,7 +2,7 @@ import {Expense, Hotel, Limit, Photo, Travel, User, Place} from "./store";
 
 export class Compare{
     static travel(oldTravel: Travel, newTravel: Travel){
-        const result: Partial<Travel> = {id: newTravel.id}
+        const result: Partial<Travel> = {id: newTravel.id, uid: newTravel.uid}
 
         if(oldTravel.code !== newTravel.code) result.code = newTravel.code
         if(oldTravel.description !== newTravel.description) result.description = newTravel.description

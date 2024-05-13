@@ -43,6 +43,7 @@ import {MemberRole} from "../../../types/MemberRole";
 export class Travel {
 
     id: string;
+    uid: string;
     code: string;
     description: string;
     direction: string;
@@ -79,6 +80,7 @@ export class Travel {
         if(!travel) travel = {}
 
         this.id             = travel.id !== undefined ? travel.id : nanoid(7)
+        this.uid            = this.id
         this.code           = travel.code !== undefined ? travel.code : ''
         this.description    = travel.description !== undefined ? travel.description : ''
         this.direction      = travel.direction !== undefined ? travel.direction : ''
