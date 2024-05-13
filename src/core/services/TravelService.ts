@@ -21,6 +21,9 @@ export class TravelService{
             console.error(e)
             throw TravelError.travelWithIDAlreadyExist(travel)
         }
+        try {
+            const response = await sendNewTravel(travel)
+        }catch (e){console.error(e)}
         // const response = await sendNewTravel(travel)
         // if (!response.ok) {
         //     await DB.delete(StoreName.TRAVEL, travel.id)
