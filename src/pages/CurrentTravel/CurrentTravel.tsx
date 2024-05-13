@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
-import { TravelController} from "../../core/service-controllers";
+import {TravelController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import {RouteFilterType} from "../../types/RouteFilterType";
 import Curtain from "../../components/ui/Curtain/Curtain";
@@ -23,7 +23,7 @@ import {
     ChecklistIcon,
     FlagIcon,
     MapIcon,
-    MenuIcon, MoneyIcon,
+    MoneyIcon,
     VisibilityIcon,
 } from "../../components/svg";
 
@@ -58,7 +58,7 @@ export function CurrentTravel() {
     }, [])
 
 
-    function handleRouteFilterChange(type: RouteFilterType){
+    function handleRouteFilterChange(type: RouteFilterType) {
         localStorage.setItem(ROUTE_FILTER, type)
         setRouteFilter(type)
     }
@@ -72,7 +72,11 @@ export function CurrentTravel() {
                     className='current-travel-header transparent'
                     arrowBack
                     titleClassName='flex-end'
-                    MenuEl={<Menu>asd</Menu>}
+                    MenuEl={
+                        <Menu>
+                            <Menu.Item arrow>asd</Menu.Item>
+                        </Menu>
+                    }
                 >
                     {/*<div className='current-travel-icons'>*/}
                     {/*    <span className='current-travel-icon'><CopyIcon className='icon'/></span>*/}
@@ -152,9 +156,10 @@ export function CurrentTravel() {
                             </Button>
                         </div>
                     </Container>
-                    {routeFilter === 'byDays' && <RouteByDay places={places} placesLoading={placesLoading} travel={travel}/>}
-                    {routeFilter === 'onMap' && <RouteOnMap places={places} /> }
-                    {routeFilter === 'allPlaces' && <AllPlaces places={places} /> }
+                    {routeFilter === 'byDays' &&
+                        <RouteByDay places={places} placesLoading={placesLoading} travel={travel}/>}
+                    {routeFilter === 'onMap' && <RouteOnMap places={places}/>}
+                    {routeFilter === 'allPlaces' && <AllPlaces places={places}/>}
                     {/*<Navigation className='footer'/>*/}
                 </div>
             </Curtain>

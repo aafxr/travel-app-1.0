@@ -7,8 +7,9 @@ import {LimitDTO} from "./Limit.dto";
 import {ExpenseDTO} from "./Expense.dto";
 import {PlaceDto} from "./Place.dto";
 import {HotelDto} from "./Hotel.dto";
+import {filter} from "rxjs";
 
-export class ActionDto implements Omit<Action<any>, 'datetime'>{
+export class ActionDto implements Omit<Action<any>, 'datetime'> {
     id: string;
     uid: string;
     user_id: string;
@@ -26,23 +27,29 @@ export class ActionDto implements Omit<Action<any>, 'datetime'>{
         this.entity = action.entity
         this.synced = action.synced
         this.datetime = action.datetime.getTime()
+        this.data = {}
 
-        switch (action.entity){
+        switch (action.entity) {
             case StoreName.TRAVEL:
-                this.data = new TravelDTO(action.data)
+                Object.entries(new TravelDTO(action.data))
+                    .forEach(([key, val]) => val !== undefined && (this.data[key] = val))
                 break
             case StoreName.LIMIT:
-                this.data = new LimitDTO(action.data)
+                Object.entries(new LimitDTO(action.data))
+                    .forEach(([key, val]) => val !== undefined && (this.data[key] = val))
                 break
             case 'expenses_actual':
             case 'expenses_plan':
-                this.data = new ExpenseDTO(action.data)
+                Object.entries(new ExpenseDTO(action.data))
+                    .forEach(([key, val]) => val !== undefined && (this.data[key] = val))
                 break
             case StoreName.PLACE:
-                this.data = new PlaceDto(action.data)
+                Object.entries(new PlaceDto(action.data))
+                    .forEach(([key, val]) => val !== undefined && (this.data[key] = val))
                 break
             case StoreName.HOTELS:
-                this.data = new HotelDto(action.data)
+                Object.entries(new HotelDto(action.data))
+                    .forEach(([key, val]) => val !== undefined && (this.data[key] = val))
                 break
             default:
                 this.data = action.data

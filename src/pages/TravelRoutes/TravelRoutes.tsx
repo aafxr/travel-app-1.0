@@ -4,7 +4,7 @@ import {filter} from "rxjs";
 
 
 import {ShowTravelsList} from "./ShowTravelsList";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import {useActionSubject} from "../../contexts/SubjectContextProvider";
 import {Travel} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
@@ -14,6 +14,7 @@ import Container from "../../components/Container/Container";
 import {PageHeader, Tab} from "../../components/ui";
 import Navigation from "../../components/Navigation/Navigation";
 import {TRAVEL_TYPE} from "../../constants";
+import {useUser} from "../../hooks/redux-hooks/useUser";
 
 /**
  * @typedef {'old' | 'current' | 'plan'} TravelDateStatus
@@ -26,7 +27,7 @@ import {TRAVEL_TYPE} from "../../constants";
  * @category Pages
  */
 export function TravelRoutes() {
-    const user = useUser()
+    const {user} = useUser()
     const ctx = useAppContext()
     const actionSubject = useActionSubject()
 

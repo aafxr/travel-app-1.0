@@ -3,8 +3,8 @@ import {useNavigate} from "react-router-dom";
 
 import IconButton from "../../components/ui/IconButton/IconButton";
 import TravelCard from "../../components/TravelCard/TravelCard";
-import {useUser} from "../../contexts/AppContextProvider";
 import {Travel} from "../../core/classes";
+import {useUser} from "../../hooks/redux-hooks/useUser";
 
 
 
@@ -14,7 +14,7 @@ type ShowTravelsListPropsType = {
 }
 
 export function ShowTravelsList({travels, onRemove}: ShowTravelsListPropsType) {
-    const user = useUser()
+    const {user} = useUser()
     const navigate = useNavigate()
 
 

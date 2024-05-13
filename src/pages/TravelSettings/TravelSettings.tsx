@@ -15,6 +15,7 @@ import {MovementType} from "../../types/MovementType";
 import {Chip, PageHeader} from "../../components/ui";
 import Counter from "../../components/Counter/Counter";
 import Button from "../../components/ui/Button/Button";
+import {useAppDispatch, useTravel} from "../../hooks/redux-hooks";
 
 import './TravelSettings.css'
 
@@ -39,6 +40,8 @@ const depth: RadioButtonGroupItemType[] = [
  */
 export function TravelSettings() {
     const user = useUser()!
+    const {actions} = useTravel()
+    const dispatch = useAppDispatch()
     const context = useAppContext()
     const navigate = useNavigate()
 
@@ -120,7 +123,7 @@ export function TravelSettings() {
     function handleSaveTravelButton() {
         if (!user) return
         if (!travel) return;
-        context.setTravel(travel)
+        dispatch(actions.updateTravel(travel))
         navigate(`/travel/${travel.id}/advice-route/`)
     }
 

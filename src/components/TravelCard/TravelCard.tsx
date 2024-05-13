@@ -42,6 +42,7 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX
     }
 
     function handleClickCard() {
+        console.log(`/travel/${travel.id}/`)
         context.setTravel(travel)
         navigate(`/travel/${travel.id}/`)
     }

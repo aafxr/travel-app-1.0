@@ -4,6 +4,8 @@ import {Socket} from "socket.io-client";
 import {DB} from "./classes/db/DB";
 import ymaps from "ymaps/index";
 import {Compare} from "./classes/Compare";
+import {Action} from "./core/classes";
+import {ActionDto} from "./core/classes/dto";
 
 
 declare global {
@@ -27,6 +29,8 @@ declare global {
         socket: Socket
         sendMessage: function
         Compare: Compare
+        Action: Action
+        ActionDto: ActionDto
     }
 
     interface GlobalEventHandlersEventMap{
