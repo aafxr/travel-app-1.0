@@ -19,6 +19,10 @@ const userSlice = createSlice({
     reducers: {
         setUser(state, action: PayloadAction<User>){
             state.user = action.payload
+        },
+
+        removeUser(state){
+            state.user = undefined
         }
     },
     extraReducers: builder => {
@@ -40,4 +44,4 @@ const userSlice = createSlice({
 })
 
 export const userReducer = userSlice.reducer
-export const {setUser} = userSlice.actions
+export const {setUser, removeUser} = userSlice.actions
