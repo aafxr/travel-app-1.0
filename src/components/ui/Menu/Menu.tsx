@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {ReactNode, useState} from "react";
+import {PropsWithChildren, ReactNode, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import defaultHandleError from "../../../utils/error-handlers/defaultHandleError";
@@ -7,7 +7,7 @@ import {useAppContext, useUser} from "../../../contexts/AppContextProvider";
 import {UserController} from "../../../core/service-controllers";
 import MenuIconList from "../../MenuIconList/MenuIconList";
 import {useOutside} from "../../../hooks";
-import {MenuIcon} from "../../svg";
+import {ChevronRightIcon, MenuIcon} from "../../svg";
 
 import './Menu.css'
 
@@ -22,7 +22,7 @@ type MenuPropsType = {
  * @param className
  * @category Components
  */
-export default function Menu({children, className}: MenuPropsType) {
+function Menu({children, className}: MenuPropsType) {
     const user = useUser()
     const ctx = useAppContext()
     const navigate = useNavigate()
@@ -59,10 +59,19 @@ export default function Menu({children, className}: MenuPropsType) {
 }
 
 
-export type MenuITemPropsType = {
+export interface MenuITemPropsType extends PropsWithChildren, Partial<Pick<HTMLDivElement, 'onclick'>>{
+    arrow?: boolean
+    className?: string
+}
+
+function Item({arrow, children, className,...rest}: MenuITemPropsType){
+    return (
+        <div {...rest} className={clsx('menu-item', className)} >
+            {children}
+            {arrow && <ChevronRightIcon className='menu-item-icon icon' /> }
+        </div>
+    )
 
 }
 
-function Item(){
-
-}
+export default Object.assign(Menu, {Item})

@@ -72,6 +72,10 @@
 }
 
 .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
     padding: .5rem;
     cursor: pointer;
 }
@@ -79,3 +83,8 @@
 .menu-item:hover {
     color: var(--color-primary);
 }
+
+.menu-item-icon{
+
+}
+
