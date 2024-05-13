@@ -8,7 +8,7 @@ import {expensesReducer} from "./slices/expenses-slice";
 import {limitsReducer} from "./slices/limit-slice";
 import {sectionsReducer} from "./slices/sections-slice";
 import {userReducer} from "./slices/user-slice";
-import {currencyReducer} from "./slices/currency-slice/currency-slice";
+import {currencyReducer} from "./slices/currency-slice";
 
 export const store = configureStore({
     reducer: {
