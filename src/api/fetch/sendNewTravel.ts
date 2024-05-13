@@ -1,5 +1,6 @@
 import aFetch from "../../axios";
 import {Travel} from "../../core/classes";
+import {TravelDTO} from "../../core/classes/dto";
 
 type ResponseSendTravelType = {
     ok:boolean
@@ -12,7 +13,7 @@ type ResponseSendTravelType = {
  * @param travel
  */
 export async function sendNewTravel(travel: Travel){
-    const response = await aFetch.post<ResponseSendTravelType>('/travel/add/', [travel])
+    const response = await aFetch.post<ResponseSendTravelType>('/travel/add/', [new TravelDTO(travel)])
     if(response.statusText === 'ok') {
         return response.data
     }

@@ -5,7 +5,7 @@ import {HotelController, PlaceController} from "../core/service-controllers";
 import {Hotel, Place} from "../core/classes";
 import defaultHandleError from "../utils/error-handlers/defaultHandleError";
 
-export function _usePlaces(day?: number){
+function _usePlaces(day?: number){
     const context = useAppContext()
     const travel = useTravel()
     const [places, setPlaces] = useState<Array<Place | Hotel>>([])

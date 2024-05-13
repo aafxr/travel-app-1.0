@@ -28,8 +28,6 @@ import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
-import {Action} from "./core/classes";
-import {ActionDto} from "./core/classes/dto";
 
 
 function App() {

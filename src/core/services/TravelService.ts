@@ -1,11 +1,10 @@
-import {fetchTravelByID} from "../../api/fetch/fetchTravelByID";
 import {Action, Compare, Context, Travel} from "../classes";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {ActionService} from "./ActionService";
-import {fetchTravels} from "../../api/fetch";
 import {TravelError} from "../errors";
 import {DB} from "../db/DB";
+import {sendNewTravel} from "../../api/fetch/sendNewTravel";
 
 export class TravelService{
     static async create(ctx: Context, travel: Travel){
@@ -22,6 +21,11 @@ export class TravelService{
             console.error(e)
             throw TravelError.travelWithIDAlreadyExist(travel)
         }
+        // const response = await sendNewTravel(travel)
+        // if (!response.ok) {
+        //     await DB.delete(StoreName.TRAVEL, travel.id)
+        //     return
+        // }
 
         await ActionService.create(ctx, action)
         return travel
@@ -32,12 +36,18 @@ export class TravelService{
         let travel = await DB.getOne<Travel>(StoreName.TRAVEL, travelID)
         if(travel) return travel
 
-        const result = await fetchTravelByID(travelID)
-        if(result.ok){
-            travel = new Travel(result.data)
-            await DB.add(StoreName.TRAVEL, travelID)
-            return travel
-        }
+        // const result = await fetchTravels()
+        //
+        // if(result.length){
+        //     let _t: Travel | undefined
+        //     for (const t of result){
+        //         try {
+        //             await DB.add(StoreName.TRAVEL, t)
+        //             if(travelID === t.id) _t = t
+        //         } catch (r){}
+        //     }
+        //     return _t
+        // }
     }
 
     static async readAll(ctx: Context, ...travelIDs:string[]){
@@ -50,12 +60,14 @@ export class TravelService{
     }
 
     static async getList(ctx: Context){
-        let travels = await fetchTravels()
-        if(travels.length) {
-            for (const t of travels){
-                await DB.update(StoreName.TRAVEL, t)
-            }
-        } else travels = await DB.getAll<Travel>(StoreName.TRAVEL)
+        // let travels = await fetchTravels()
+        // if(travels.length) {
+        //     for (const t of travels){
+        //         await DB.update(StoreName.TRAVEL, t)
+        //     }
+        // } else travels = await DB.getAll<Travel>(StoreName.TRAVEL)
+
+        let travels = await DB.getAll<Travel>(StoreName.TRAVEL)
 
         return travels.map(t => new Travel(t))
     }

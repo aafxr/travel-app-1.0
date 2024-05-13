@@ -7,7 +7,6 @@ import {LimitDTO} from "./Limit.dto";
 import {ExpenseDTO} from "./Expense.dto";
 import {PlaceDto} from "./Place.dto";
 import {HotelDto} from "./Hotel.dto";
-import {filter} from "rxjs";
 
 export class ActionDto implements Omit<Action<any>, 'datetime'> {
     id: string;

@@ -16,7 +16,7 @@ export enum StoreName{
     STORE_ACTIONS = 'storeActions',
     USERS = 'User',
     UPDATE = 'update',
-    HOTELS = 'hotels',
+    HOTELS = 'Hotel',
     ROAD = 'ROAD',
     APPOINTMENTS = 'appointment',
     ERRORS = 'errors',

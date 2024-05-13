@@ -97,7 +97,6 @@ export function RouteAdvice() {
         travel.hotels_id = hotels.map(h => h.id)
 
 
-
         await TravelController.create(context, travel)
 
         for (const hotel of hotels){

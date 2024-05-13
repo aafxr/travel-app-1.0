@@ -5,6 +5,7 @@ import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
 import {TravelController} from "../../core/service-controllers";
+import {useMembers, usePlaces} from "../../hooks/redux-hooks";
 import Container from "../../components/Container/Container";
 import {RouteFilterType} from "../../types/RouteFilterType";
 import Curtain from "../../components/ui/Curtain/Curtain";
@@ -13,7 +14,7 @@ import dateRange from "../../utils/date-utils/dateRange";
 import Button from "../../components/ui/Button/Button";
 import {Chip, PageHeader} from "../../components/ui";
 import Loader from "../../components/Loader/Loader";
-import {useMembers, _usePlaces} from "../../hooks";
+import Menu from "../../components/ui/Menu/Menu";
 import {Image} from "../../components/Image";
 import {RouteByDay} from "./RouteByDay";
 import {RouteOnMap} from "./RouteOnMap";
@@ -28,7 +29,6 @@ import {
 } from "../../components/svg";
 
 import './CurrentTravel.css'
-import Menu from "../../components/ui/Menu/Menu";
 
 
 export function CurrentTravel() {
@@ -37,8 +37,8 @@ export function CurrentTravel() {
     const navigate = useNavigate()
 
     const travel = useTravel()
-    const {members, membersLoading} = useMembers()
-    const {places, placesLoading} = _usePlaces(Number(travelDay) || 1)
+    const {members, loading: membersLoading} = useMembers()
+    const {places, loading: placesLoading} = usePlaces()
     const [routeFilter, setRouteFilter] = useState<RouteFilterType>(localStorage.getItem(ROUTE_FILTER) as RouteFilterType || DEFAULT_ROUTE_FILTER)
 
 
