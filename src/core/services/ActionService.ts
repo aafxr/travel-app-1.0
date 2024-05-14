@@ -6,6 +6,7 @@ import {DB} from "../db/DB";
 import {ActionError} from "../errors";
 import {IndexName} from "../../types/IndexName";
 import {PredicateType} from "../../types/Predicate";
+import {fetchActions} from "../../api/fetch";
 
 export class ActionService{
     static async create(ctx: Context, action: Action<any>){
@@ -41,5 +42,16 @@ export class ActionService{
         const action = (await cursor.next()).value
         if (action) return new Date(action.datetime)
         return new Date(0)
+    }
+
+
+    static async loadActionsFromTimestamp(ctx:Context, time_ms: number){
+        const actionDtoList = await fetchActions(time_ms)
+         for (const dto of actionDtoList){
+             const action = new Action(dto)
+             try{
+                 await DB.add(StoreName.ACTION, action)
+             }catch (e){}
+         }
     }
 }

@@ -116,4 +116,13 @@ export class ActionController{
             throw e
         }
     }
+
+
+    static async loadActionsFromTimestamp(ctx:Context, time_ms: number){
+        try {
+            return await ActionService.loadActionsFromTimestamp(ctx, time_ms)
+        }catch (e){
+            throw e
+        }
+    }
 }

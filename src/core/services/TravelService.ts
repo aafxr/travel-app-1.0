@@ -1,11 +1,12 @@
-import {Action, Compare, Context, Travel} from "../classes";
+import {Action, Compare, Context, Recover, Travel} from "../classes";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {ActionService} from "./ActionService";
 import {TravelError} from "../errors";
 import {DB} from "../db/DB";
 import {sendNewTravel} from "../../api/fetch/sendNewTravel";
-import {fetchTravels} from "../../api/fetch";
+import {fetchActions, fetchTravels} from "../../api/fetch";
+import {ActionController} from "../service-controllers";
 
 export class TravelService {
     static async create(ctx: Context, travel: Travel) {
@@ -72,7 +73,15 @@ export class TravelService {
             for (let i = 0; i < travels.length; i++){
                 const t = travels[i]
                 const ex = await DB.getOne<Travel>(StoreName.TRAVEL, t.id)
-                if(!ex) await DB.add<Travel>(StoreName.TRAVEL, t)
+                if(!ex) {
+                    await DB.add<Travel>(StoreName.TRAVEL, t)
+                    await ActionController.loadActionsFromTimestamp(ctx, t.created_at.getTime()).catch(console.error)
+                    const recoverTravel = await Recover.travel(t.id)
+                    if(recoverTravel) {
+                        await DB.add<Travel>(StoreName.TRAVEL, recoverTravel)
+                        travels[i] = recoverTravel
+                    }
+                }
                 else travels[i] = ex
             }
         } else travels = await DB.getAll<Travel>(StoreName.TRAVEL)
