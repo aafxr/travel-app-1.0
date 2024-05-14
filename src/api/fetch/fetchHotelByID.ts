@@ -9,6 +9,6 @@ type FetchHotelByIDResponseType = {
 
 
 export async function fetchHotelByID(hotelID: string){
-    return (await aFetch.post<FetchHotelByIDResponseType>('/hotels/getByID/', {id: hotelID})).data
+    return (await aFetch.post<FetchHotelByIDResponseType>('/places/getByID/', {id: hotelID})).data
 
 }

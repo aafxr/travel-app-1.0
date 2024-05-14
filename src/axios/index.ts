@@ -6,10 +6,19 @@ import {DB} from "../core/db/DB";
 import sleep from "../utils/sleep";
 import {User} from "../core/classes";
 import clearUserData from "../utils/clearUserData";
+import {AppDispatch, store} from "../redux";
+import {removeUser} from "../redux/slices/user-slice";
 
 
 interface AxiosInstanceWithFlag extends AxiosInstance{
     refresh:boolean
+}
+
+
+let dispatch: AppDispatch
+if(window){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    dispatch = store.dispatch
 }
 
 
@@ -145,6 +154,7 @@ function refreshAuth() {
                 return resolve(undefined)
             } else if (window) {
                 window.localStorage.removeItem(USER_AUTH)
+                if(dispatch) dispatch(removeUser())
             } else if (postMessage) {
                 postMessage({type: UNAUTHORIZED})
             }

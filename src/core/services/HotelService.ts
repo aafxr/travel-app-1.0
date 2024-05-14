@@ -49,6 +49,7 @@ export class HotelService{
             const response = await fetchHotelByID(id)
             if(response.ok){
                 hotel = new Hotel(response.data)
+                hotel.id = hotelID
                 await DB.add(StoreName.HOTELS, hotel)
                 return new Hotel(hotel)
             }

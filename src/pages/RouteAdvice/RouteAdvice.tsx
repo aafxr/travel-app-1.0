@@ -10,7 +10,7 @@ import Container from "../../components/Container/Container";
 import {loadTravel} from "../../redux/slices/travel-slice";
 import Button from "../../components/ui/Button/Button";
 import {useAppDispatch} from "../../hooks/redux-hooks";
-import {Hotel, Place} from "../../core/classes";
+import {Hotel, Place, Travel} from "../../core/classes";
 import {PageHeader} from "../../components/ui";
 
 import './RouteAdvice.css'
@@ -47,8 +47,9 @@ export function RouteAdvice() {
 
 
     async function handleRouteSubmit() {
-        const travel = context.travel
+        let travel = context.travel
         if (!travel) return
+        travel = new Travel(travel)
 
         if(!route) {
             await TravelController.create(context, travel)

@@ -65,7 +65,7 @@
 
 .travel-card-icon{
     height: 100%;
-    width: calc(var(--swiper-shift) + var(--border-radius));
+    width: var(--swiper-shift);
     display: flex;
     flex-direction: column;
     justify-content: center;

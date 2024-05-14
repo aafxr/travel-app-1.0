@@ -10,7 +10,7 @@ import {loadMessages} from "../messages-slice";
 import {loadExpenses} from "../expenses-slice";
 import {loadLimits} from "../limit-slice";
 import {loadSections} from "../sections-slice";
-import {loadCurrency} from "../currency-slice/loadCurrency";
+import {loadCurrency} from "../currency-slice";
 
 export type LoadTravelThunkPropsType = {
     travelID: string

@@ -49,6 +49,7 @@ export class PlaceService{
             const response = await fetchPlaceByID(id)
             if(response.ok){
                 place = new Place(response.data)
+                place.id = placeID
                 await DB.add(StoreName.PLACE, place)
                 return new Place(place)
             }
