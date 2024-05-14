@@ -74,11 +74,12 @@ export class TravelService {
                 const t = travels[i]
                 const ex = await DB.getOne<Travel>(StoreName.TRAVEL, t.id)
                 if(!ex) {
+                    console.log(`Found new travel: ${t}`)
                     await DB.add<Travel>(StoreName.TRAVEL, t)
                     await ActionController.loadActionsFromTimestamp(ctx, t.created_at.getTime()).catch(console.error)
                     const recoverTravel = await Recover.travel(t.id)
                     if(recoverTravel) {
-                        await DB.add<Travel>(StoreName.TRAVEL, recoverTravel)
+                        await DB.update<Travel>(StoreName.TRAVEL, recoverTravel)
                         travels[i] = recoverTravel
                     }
                 }
