@@ -19,7 +19,8 @@ export class PlaceService{
         const action = new Action({
             action:ActionType.ADD,
             entity: StoreName.PLACE,
-            data: place
+            data: place,
+            user_id: ctx.user?.id
         })
 
         try {
@@ -79,7 +80,8 @@ export class PlaceService{
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.PLACE,
-            data: dif
+            data: dif,
+            user_id: ctx.user?.id
         })
 
         await ActionService.create(ctx, action)
@@ -97,7 +99,8 @@ export class PlaceService{
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.PLACE,
-            data: {id}
+            data: {id},
+            user_id: ctx.user?.id
         })
 
         // try {

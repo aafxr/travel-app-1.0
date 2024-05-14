@@ -20,7 +20,8 @@ export class HotelService{
         const action = new Action({
             action:ActionType.ADD,
             entity: StoreName.HOTELS,
-            data: hotel
+            data: hotel,
+            user_id: ctx.user?.id
         })
 
         // try {
@@ -75,7 +76,8 @@ export class HotelService{
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.HOTELS,
-            data: dif
+            data: dif,
+            user_id: ctx.user?.id
         })
 
         await ActionService.create(ctx, action)
@@ -93,7 +95,8 @@ export class HotelService{
         const action = new Action({
             action:ActionType.UPDATE,
             entity: StoreName.HOTELS,
-            data: {id}
+            data: {id},
+            user_id: ctx.user?.id
         })
 
         try {

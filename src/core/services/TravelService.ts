@@ -14,7 +14,8 @@ export class TravelService {
         const action = new Action({
             action: ActionType.ADD,
             entity: StoreName.TRAVEL,
-            data: travel
+            data: travel,
+            user_id: ctx.user?.id
         })
 
         try {
@@ -78,6 +79,8 @@ export class TravelService {
                     await DB.add<Travel>(StoreName.TRAVEL, t)
                     await ActionController.loadActionsFromTimestamp(ctx, t.created_at.getTime()).catch(console.error)
                     const recoverTravel = await Recover.travel(t.id)
+                    console.log('recovered travel')
+                    console.log(recoverTravel)
                     if(recoverTravel) {
                         await DB.update<Travel>(StoreName.TRAVEL, recoverTravel)
                         travels[i] = recoverTravel
@@ -101,7 +104,8 @@ export class TravelService {
         const action = new Action({
             action: ActionType.UPDATE,
             entity: StoreName.TRAVEL,
-            data: dif
+            data: dif,
+            user_id: ctx.user?.id
         })
 
         await DB.update(StoreName.TRAVEL, travel)
@@ -116,7 +120,8 @@ export class TravelService {
         const action = new Action({
             action: ActionType.UPDATE,
             entity: StoreName.TRAVEL,
-            data: {id: travel.id}
+            data: {id: travel.id},
+            user_id: ctx.user?.id
         })
 
         await DB.delete(StoreName.TRAVEL, travel.id)

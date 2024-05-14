@@ -28,6 +28,7 @@ import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
+import {Recover} from "./core/classes";
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
         dispatch(loadUser({ctx}))
     }, [])
 
+    window.Recover = Recover
 
     if(loading)
         return (

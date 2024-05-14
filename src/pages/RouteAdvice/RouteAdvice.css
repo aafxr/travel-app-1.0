@@ -1,5 +1,6 @@
 .route{
     padding: 10px;
+    color: var(--color-black);
     background: var(--color-grey-light);
 }
 

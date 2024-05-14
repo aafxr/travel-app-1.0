@@ -90,6 +90,7 @@ export class ActionController{
             // @ts-ignore
             if(validation && validation.error){
                 response.ok = false
+                response.action = new Action(actionDto)
                 response.message = validation.error.message
                 return response
             }
