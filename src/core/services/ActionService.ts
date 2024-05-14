@@ -19,6 +19,7 @@ export class ActionService{
                 await DB.update(StoreName.ACTION, action)
             }
         }catch (e){
+            console.error(e)
             // throw NetworkError.connectionError()
         }
     }

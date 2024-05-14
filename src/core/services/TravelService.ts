@@ -5,7 +5,7 @@ import {ActionService} from "./ActionService";
 import {TravelError} from "../errors";
 import {DB} from "../db/DB";
 import {sendNewTravel} from "../../api/fetch/sendNewTravel";
-import {fetchActions, fetchTravels} from "../../api/fetch";
+import {fetchTravels} from "../../api/fetch";
 import {ActionController} from "../service-controllers";
 
 export class TravelService {
@@ -25,7 +25,6 @@ export class TravelService {
             throw TravelError.travelWithIDAlreadyExist(travel)
         }
         try {
-            // const response = await sendNewTravel(travel)
             const response = await sendNewTravel(travel)
             if (!response.ok) {
                 await DB.delete(StoreName.TRAVEL, travel.id)

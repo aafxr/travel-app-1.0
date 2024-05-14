@@ -28,7 +28,8 @@ import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
-import {Recover} from "./core/classes";
+import {Action, Recover} from "./core/classes";
+import {DB} from "./core/db/DB";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
     }, [])
 
     window.Recover = Recover
+    window.DB = DB
 
     if(loading)
         return (

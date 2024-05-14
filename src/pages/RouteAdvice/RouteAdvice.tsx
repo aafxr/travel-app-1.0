@@ -98,8 +98,6 @@ export function RouteAdvice() {
         travel.hotels_id = hotels.map(h => h.id)
 
 
-        await TravelController.create(context, travel)
-
         for (const hotel of hotels){
             try {
                 await HotelController.create(context, hotel)
@@ -111,7 +109,9 @@ export function RouteAdvice() {
             }catch(r){}
         }
 
-        await TravelController.update(context, travel)
+        try {
+            await TravelController.create(context, travel)
+        }catch (e){defaultHandleError(e as Error)}
 
         dispatch(loadTravel({ctx: context, travelID: travel.id}))
         navigate(`/travel/${travel.id}/`)

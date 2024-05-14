@@ -21,7 +21,7 @@ export async function sendNewTravel(travel: Travel){
         return {
             ok: false,
             request: travel,
-            message: response.statusText
+            message: response.data?.message || response.statusText
         }
     }
 }
