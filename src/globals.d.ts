@@ -5,7 +5,7 @@ import {DB} from "./classes/db/DB";
 import ymaps from "ymaps/index";
 import {Compare} from "./classes/Compare";
 import {Action} from "./core/classes";
-import {ActionDto} from "./core/classes/dto";
+import {ActionDto, TravelDTO} from "./core/classes/dto";
 
 
 declare global {
@@ -16,6 +16,7 @@ declare global {
         chrome?: any
         Travel: Travel.prototype
         travel: Travel
+        TravelDTO: TravelDTO
         Place: Place.prototype
         Expense: Expense.prototype
         User:User.prototype

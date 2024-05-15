@@ -28,8 +28,9 @@ import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
-import {Action, Recover} from "./core/classes";
+import {Action, Recover, Travel} from "./core/classes";
 import {DB} from "./core/db/DB";
+import {ActionDto, TravelDTO} from "./core/classes/dto";
 
 
 function App() {
@@ -54,6 +55,12 @@ function App() {
 
     window.Recover = Recover
     window.DB = DB
+    // @ts-ignore
+    window.TravelDTO = TravelDTO
+    window.Travel = Travel
+    window.Action = Action
+    // @ts-ignore
+    window.ActionDto = ActionDto
 
     if(loading)
         return (
