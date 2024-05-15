@@ -34,4 +34,8 @@ export class TravelError extends CustomError {
     static travelWithIDAlreadyExist(travel: Travel){
         return new TravelError(`Путешествие с id=${travel.id} уже существует`, ErrorCode.TRAVEL_WITH_ID_ALREADY_EXIST)
     }
+
+    static createTravelFail(travel: Travel, reason: string){
+        return new TravelError(`Не возможно создать путешествие с id=${travel.id}. \nПричина: ${reason}`, ErrorCode.TRAVEL_CREATE_FAIL)
+    }
 }

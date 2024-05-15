@@ -98,16 +98,19 @@ export function RouteAdvice() {
         travel.hotels_id = hotels.map(h => h.id)
 
 
+        const promises: Promise<any>[] = []
         for (const hotel of hotels){
-            try {
-                await HotelController.create(context, hotel)
-            }catch(r){}
+            promises.push((async () => {
+                try { await HotelController.create(context, hotel) }catch(r){}
+            })())
         }
         for (const place of places){
-            try {
-                await PlaceController.create(context, place)
-            }catch(r){}
+            promises.push((async () => {
+                try { await PlaceController.create(context, place) }catch(r){}
+            })())
         }
+
+        await Promise.all(promises)
 
         try {
             await TravelController.create(context, travel)

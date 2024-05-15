@@ -27,12 +27,13 @@ export class TravelService {
         try {
             const response = await sendNewTravel(travel)
             if (!response.ok) {
-                await DB.delete(StoreName.TRAVEL, travel.id)
-                return
+                throw TravelError.createTravelFail(travel, response.message)
             }
         } catch (e) {
+            if(e instanceof TravelError) throw e
             console.error(e)
         }
+
 
         await ActionService.create(ctx, action)
         return travel

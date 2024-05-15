@@ -10,6 +10,7 @@ import {TrashIcon} from "../svg";
 import {Chip} from "../ui";
 
 import './TravelCard.css'
+import clsx from "clsx";
 
 interface TravelCardPropsType {
     travel: Travel,
@@ -69,7 +70,7 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX
                                 {travel.title || travel.direction || ''}
                             </div>
                             <div
-                                className='travel-movement row w-full gap-0.5'
+                                className={clsx('travel-movement row w-full gap-0.5', {tagsScrolling})}
                                 onTouchStart={(e) => handleTagsMoving(e, true)}
                                 onTouchMove={(e) => handleTagsMoving(e, true)}
                                 onTouchEnd={(e) => handleTagsMoving(e, false)}

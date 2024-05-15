@@ -42,6 +42,11 @@
 
 .travel-movement{
     margin-top: auto;
+    overflow-x: hidden;
+}
+
+.travel-movement.tagsScrolling{
+    overflow-x: auto;
 }
 
 .travel-button{
