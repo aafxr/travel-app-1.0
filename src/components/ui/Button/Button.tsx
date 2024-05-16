@@ -34,7 +34,7 @@ export default function Button({
 
     return (
         <button className={clsx('full-screen-btn', {active}, className)} {...props}>
-            {loading && <Loader className='icon'/>}
+            {loading && <Loader />}
             {children || ''}
         </button>
     )

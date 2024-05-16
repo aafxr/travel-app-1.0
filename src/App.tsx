@@ -32,6 +32,7 @@ import {Action, Recover, Travel} from "./core/classes";
 import {DB} from "./core/db/DB";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
 import {StoreName} from "./types/StoreName";
+import {Recover2} from "./core/classes/Recover2";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
     }, [])
 
     window.Recover = Recover
+    window.Recover2 = Recover2
     window.DB = DB
     // @ts-ignore
     window.TravelDTO = TravelDTO

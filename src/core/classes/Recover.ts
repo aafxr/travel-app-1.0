@@ -7,29 +7,46 @@ import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 import {ActionType} from "../../types/ActionType";
 import {PartialExpense, PartialHotel, PartialLimit, PartialPlace, PartialTravel} from "./store/partial";
 
-export class Recover {
-    static async travel(id: string) {
-        const result = new Travel({id})
-        const predicate: PredicateType<Action<PartialTravel>> = (item) => item.entity === StoreName.TRAVEL && item.data.id === id
-        const cursor = DB.openIndexCursor(StoreName.ACTION, IndexName.DATETIME, undefined, "next", predicate)
-        let travelAction = (await cursor.next()).value
-        while (travelAction) {
-            if(travelAction.action ===ActionType.DELETE) return
-            travelAction = (await cursor.next()).value
-            if (travelAction) {
-                const t = new Travel(travelAction.data)
-                const keys = Object.keys(t) as Array<keyof Travel>
-                for (const key of keys){
-                    if (typeof t[key] === 'object') Object.assign(result[key]!, t[key])
-                    else {
-                        // @ts-ignore
-                        result[key] = t[key]
-                    }
 
+/**
+ * класс содержит методы для востановления данных после востановления сети и наличия необработанных actions
+ */
+export class Recover {
+    /**
+     * метод востановления путешествия после пропадания интернета и наличия необработанных actions
+     * @param travelID ид путешествия
+     */
+    static async travel(travelID: string){
+        let t = new Travel({id: travelID})
+
+        const predicate = (a:Action<Partial<Travel>>) => a.entity === StoreName.TRAVEL && a.data.id === travelID
+
+        let actions = await DB.getLocalActions(predicate)
+
+        actions = actions.sort((a, b) => a.datetime.getTime() - b.datetime.getTime())
+
+        actions.forEach(a => {
+            const data = a.data
+            const keys = Object.keys(data)
+            for (const k of keys){
+                const key = k as keyof Travel
+
+                if(Array.isArray(data[key])){
+                    // @ts-ignore
+                    t[key] = Array.from(data[key])
+                } else if(data[key] && typeof data[key] === 'object'){
+                    // @ts-ignore
+                    if(!t[key]) t[key] = {}
+                    // @ts-ignore
+                    Object.assign(t[key], data[key])
+                } else{
+                    // @ts-ignore
+                    t[key] = data[key]
                 }
             }
-        }
-        return result
+        })
+
+        return t
     }
 
     static async expense(id: string, entityType: ExpenseVariantType) {

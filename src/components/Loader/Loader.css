@@ -52,13 +52,14 @@
     content: '';
     box-sizing: border-box;
     position: absolute;
-    left: - calc(var(--loader-border-size) / 2);
+    left: calc(-1 * var(--loader-border-size) / 2);
     top: 0;
     width: calc(100% + var(--loader-border-size)) ;
     height: 100%;
     border-radius: 50%;
     border-bottom: var(--loader-border-size) solid #009CDE;
     border-left: var(--loader-border-size) solid transparent;
+    transform-origin: center;
 }
 @keyframes rotation {
     0% {
