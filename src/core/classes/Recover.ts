@@ -70,7 +70,7 @@ export class Recover {
             const data = a.data
             const keys = Object.keys(data) as Array<keyof T>
             for (const k of keys) {
-                const key = k as keyof Travel
+                const key = k as keyof T
                 if (Array.isArray(data[key])) {
                     // @ts-ignore
                     target[key] = Array.from(data[key])
