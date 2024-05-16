@@ -10,13 +10,13 @@ import {AppDispatch, store} from "../redux";
 import {removeUser} from "../redux/slices/user-slice";
 
 
-interface AxiosInstanceWithFlag extends AxiosInstance{
-    refresh:boolean
+interface AxiosInstanceWithFlag extends AxiosInstance {
+    refresh: boolean
 }
 
 
 let dispatch: AppDispatch
-if(window){
+if (window) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     dispatch = store.dispatch
 }
@@ -36,21 +36,23 @@ const urlWithAuth = [
     '/user/auth/refresh/'
 ]
 
-let access_token:string
-let refresh_token:string
+let access_token: string
+let refresh_token: string
 
 
 async function getTokensFromDB() {
     await Promise.all([
-        DB.getOne<{value:string}>(StoreName.STORE, ACCESS_TOKEN).then((res) => access_token = res ? res?.value : ''),
-        DB.getOne<{value:string}>(StoreName.STORE, REFRESH_TOKEN).then((res) => refresh_token = res ? res?.value : '')
+        DB.getOne<{ value: string }>(StoreName.STORE, ACCESS_TOKEN).then((res) => access_token = res ? res?.value : ''),
+        DB.getOne<{
+            value: string
+        }>(StoreName.STORE, REFRESH_TOKEN).then((res) => refresh_token = res ? res?.value : '')
     ])
         .catch(console.error)
 }
 
 type UserAuthType = {
-    token:string
-    refresh_token:string
+    token: string
+    refresh_token: string
 }
 
 /**
@@ -58,7 +60,7 @@ type UserAuthType = {
  * @param userAuth
  * @return {Promise<Awaited<number|string|Date|ArrayBufferView|ArrayBuffer|IDBValidKey[]>[]>}
  */
-async function saveTokensToDB(userAuth:UserAuthType) {
+async function saveTokensToDB(userAuth: UserAuthType) {
     return Promise.all([
         DB.update(StoreName.STORE, {name: ACCESS_TOKEN, value: userAuth.token}),
         DB.update(StoreName.STORE, {name: REFRESH_TOKEN, value: userAuth.refresh_token})
@@ -115,7 +117,7 @@ aFetch.interceptors.response.use(
     },
     async (err) => {
         console.error(err)
-        if(err.message === "Network Error") return err
+        if (err.message === "Network Error") return err
 
         const originalRequest = err.config;
         if (err.response.status === 401 && !originalRequest._retry) {
@@ -124,7 +126,7 @@ aFetch.interceptors.response.use(
                 await refreshAuth()
                 return await aFetch(originalRequest)
             } catch (err) {
-                return err
+                return Promise.reject(err)
             }
         }
     })
@@ -144,7 +146,7 @@ function refreshAuth() {
             })
 
             if (response.data.ok) {
-            const {data: userAuth} = response.data
+                const {data: userAuth} = response.data
                 await axios.get(baseURL + '/user/auth/refresh/confirm/', {
                     headers: {
                         Authorization: `Bearer ${userAuth.refresh_token}`,
@@ -154,7 +156,7 @@ function refreshAuth() {
                 return resolve(undefined)
             } else if (window) {
                 window.localStorage.removeItem(USER_AUTH)
-                if(dispatch) dispatch(removeUser())
+                if (dispatch) dispatch(removeUser())
             } else if (postMessage) {
                 postMessage({type: UNAUTHORIZED})
             }

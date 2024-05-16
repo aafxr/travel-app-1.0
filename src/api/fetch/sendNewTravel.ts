@@ -14,7 +14,6 @@ type ResponseSendTravelType = {
  * @param travel
  */
 export async function sendNewTravel(travel: Travel){
-    debugger
     const response = await aFetch.post<AxiosResponse<ResponseSendTravelType>>('/travel/add/', [new TravelDTO(travel)])
     if(response.statusText === 'ok') {
         return response.data.data
@@ -23,7 +22,7 @@ export async function sendNewTravel(travel: Travel){
         return {
             ok: false,
             request: travel,
-            message: response.data.data?.message || response.statusText
+            message: response.data?.data?.message || response.statusText
         }
     }
 }

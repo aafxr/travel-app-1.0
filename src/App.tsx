@@ -31,6 +31,7 @@ import {TravelLayout} from "./layouts";
 import {Action, Recover, Travel} from "./core/classes";
 import {DB} from "./core/db/DB";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
+import {StoreName} from "./types/StoreName";
 
 
 function App() {
@@ -61,6 +62,15 @@ function App() {
     window.Action = Action
     // @ts-ignore
     window.ActionDto = ActionDto
+
+    // async function travelActions(id){
+    //     const cursor = DB.openCursor('Action', undefined, "next", a => a.action === "Travel" && a.data.id === id)
+    //     let a = (await cursor.next()).value
+    //     while(a){
+    //         console.log(a)
+    //         a = (await cursor.next()).value
+    //     }
+    // }
 
     if(loading)
         return (
