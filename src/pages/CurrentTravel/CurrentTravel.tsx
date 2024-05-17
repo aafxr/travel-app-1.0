@@ -168,7 +168,7 @@ export function CurrentTravel() {
                     {routeFilter === 'byDays' &&
                         <RouteByDay places={filteredPlaces} placesLoading={placesLoading} travel={travel}/>}
                     {routeFilter === 'onMap' && <RouteOnMap places={filteredPlaces}/>}
-                    {routeFilter === 'allPlaces' && <AllPlaces places={filteredPlaces}/>}
+                    {routeFilter === 'allPlaces' && <AllPlaces places={places}/>}
                     {/*<Navigation className='footer'/>*/}
                 </div>
             </Curtain>

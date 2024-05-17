@@ -10,6 +10,7 @@
     z-index: 10;
 }
 
+.current-travel-header.copen .menu-dots,
 .current-travel-header.copen{
     color: black;
     fill: black;
