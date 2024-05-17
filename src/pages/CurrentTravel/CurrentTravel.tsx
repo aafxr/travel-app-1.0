@@ -29,6 +29,7 @@ import {
 } from "../../components/svg";
 
 import './CurrentTravel.css'
+import clsx from "clsx";
 
 
 export function CurrentTravel() {
@@ -41,6 +42,7 @@ export function CurrentTravel() {
     const {places, loading: placesLoading} = usePlaces()
     const {hotels} = useHotels()
     const [routeFilter, setRouteFilter] = useState<RouteFilterType>(localStorage.getItem(ROUTE_FILTER) as RouteFilterType || DEFAULT_ROUTE_FILTER)
+    const [cOpen, setCOpen] = useState(false);
 
 
     const filteredPlaces = useMemo(() => {
@@ -76,7 +78,7 @@ export function CurrentTravel() {
             <div className='current-travel wrapper'>
                 <PageHeader
                     to={`/travels/${localStorage.getItem(TRAVEL_TYPE) || 'current'}/`}
-                    className='current-travel-header transparent'
+                    className={clsx('current-travel-header transparent',{copen:!cOpen})}
                     arrowBack
                     titleClassName='flex-end'
                     MenuEl={
@@ -136,7 +138,7 @@ export function CurrentTravel() {
                     </div>
                 </Container>
             </div>
-            <Curtain>
+            <Curtain onChange={setCOpen}>
                 <div className='wrapper relative'>
                     <Container>
                         <div className='route-filter-list pt-20'>
