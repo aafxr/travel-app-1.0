@@ -5,7 +5,7 @@ import {createContext, useEffect, useRef, useState} from "react";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {actionHandler} from "../../utils/action-handler/action-handler";
 import {SocketMessageEntityType} from "./SocketMessageEntityType";
-import {useAppContext, useUser} from "../AppContextProvider";
+import {useAppContext} from "../AppContextProvider";
 import {StoreName} from "../../types/StoreName";
 import {Travel} from "../../core/classes";
 import {DB} from "../../core/db/DB";
@@ -18,6 +18,7 @@ import {
     usePlaceSubject,
     useTravelSubject
 } from "../SubjectContextProvider";
+import {useUser} from "../../hooks/redux-hooks";
 
 
 export type SocketContextType = {
@@ -33,7 +34,7 @@ export const  SocketContext = createContext<SocketContextType>({})
 export function SocketContextProvider(){
     const [state, setState] = useState<SocketContextType>({})
     const context = useAppContext()
-    const user = useUser()
+    const {user} = useUser()
     const init = useRef<Record<string, any>>({})
 
     const actionSubject = useActionSubject()
@@ -45,7 +46,7 @@ export function SocketContextProvider(){
     const photoSubject = usePhotoSubject()
 
     useEffect(() => {
-        if(!user) return
+        if(!user || state.socket) return
         if(init.current.initialization) return
 
         // const handle = socketManagement(context)
@@ -55,11 +56,10 @@ export function SocketContextProvider(){
 
         socket.on('connect', () => {
             console.log('socket connect')
-            context.setSocket(socket)
             DB.getAll<Travel>(StoreName.TRAVEL)
                 .then(travels => {
                     const ids = travels.map(t => t.id)
-                    socket.emit('travel:join',{travelID: ids})
+                    socket.emit('travel:join',{travelID: ['all']})
                     socket.emit('travel:join:result', console.log)
                 })
                 .catch(defaultHandleError)
@@ -89,7 +89,6 @@ export function SocketContextProvider(){
 
         socket.on(SocketMessageEntityType.ACTION, onAction)
 
-        context.setSocket(socket)
         setState({socket})
     }, [user])
 

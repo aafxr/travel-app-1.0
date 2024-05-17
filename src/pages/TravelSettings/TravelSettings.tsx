@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
 import {defaultMovementTags} from "../../components/defaultMovementTags/defaultMovementTags";
 import TravelInterests from "../../components/TravelInterests/TravelInterests";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import {TravelPeople} from "../../components/TravelPeople/TravelPeople";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import ToggleBox from "../../components/ui/ToggleBox/ToggleBox";
@@ -15,7 +15,7 @@ import {MovementType} from "../../types/MovementType";
 import {Chip, PageHeader} from "../../components/ui";
 import Counter from "../../components/Counter/Counter";
 import Button from "../../components/ui/Button/Button";
-import {useAppDispatch, useTravel} from "../../hooks/redux-hooks";
+import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
 
 import './TravelSettings.css'
 

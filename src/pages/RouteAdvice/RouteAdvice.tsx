@@ -102,6 +102,10 @@ export function RouteAdvice() {
             travel.hotels_id = hotels.map(h => h.id)
 
 
+            try {
+                await TravelController.create(context, travel)
+            }catch (e){defaultHandleError(e as Error)}
+
             const promises: Promise<any>[] = []
             for (const hotel of hotels){
                 promises.push((async () => {
@@ -116,9 +120,6 @@ export function RouteAdvice() {
 
             await Promise.all(promises)
 
-            try {
-                await TravelController.create(context, travel)
-            }catch (e){defaultHandleError(e as Error)}
 
             dispatch(loadTravel({ctx: context, travelID: travel.id}))
             navigate(`/travel/${travel.id}/`)

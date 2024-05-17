@@ -37,7 +37,7 @@ export default function AuthRequired() {
     }
 
 
-    if (context.user) {
+    if (user) {
         return <Outlet/>
     }
 

@@ -6,7 +6,6 @@ import ymaps from "ymaps/index";
 import {Compare} from "./classes/Compare";
 import {Action} from "./core/classes";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
-import {Recover2} from "./core/classes/Recover2";
 
 
 declare global {
@@ -24,7 +23,6 @@ declare global {
         context: Context
         DB: DB
         Recover: Recover
-        Recover2: Recover2
         TelegramLoginWidget: {
             dataOnauth: (user) => unknown,
         }

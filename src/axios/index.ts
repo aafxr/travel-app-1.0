@@ -6,8 +6,6 @@ import {DB} from "../core/db/DB";
 import sleep from "../utils/sleep";
 import {User} from "../core/classes";
 import clearUserData from "../utils/clearUserData";
-import {AppDispatch, store} from "../redux";
-import {removeUser} from "../redux/slices/user-slice";
 
 
 interface AxiosInstanceWithFlag extends AxiosInstance {
@@ -15,11 +13,7 @@ interface AxiosInstanceWithFlag extends AxiosInstance {
 }
 
 
-let dispatch: AppDispatch
-if (window) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    dispatch = store.dispatch
-}
+
 
 
 const baseURL = process.env.REACT_APP_SERVER_URL
@@ -80,7 +74,7 @@ aFetch.interceptors.request.use(async (c) => {
 
     await getTokensFromDB()
 
-    access_token && (c.headers.Authorization = `Bearer ${access_token}`)
+    access_token && (c.headers.authorization = `Bearer ${access_token}`)
     if (c.url?.includes('/user/auth/remove/') && c.data.refresh_token) {
         await Promise.all([
             DB.delete(StoreName.STORE, ACCESS_TOKEN),
@@ -142,21 +136,20 @@ function refreshAuth() {
             await getTokensFromDB()
 
             const response = await axios.post<APIResponseType<User>>(baseURL + '/user/auth/refresh/', {refresh_token}, {
-                headers: {Authorization: refresh_token ? `Bearer ${refresh_token}` : ''}
+                headers: {authorization: refresh_token ? `Bearer ${refresh_token}` : ''}
             })
 
             if (response.data.ok) {
                 const {data: userAuth} = response.data
                 await axios.get(baseURL + '/user/auth/refresh/confirm/', {
                     headers: {
-                        Authorization: `Bearer ${userAuth.refresh_token}`,
+                        authorization: `Bearer ${userAuth.refresh_token}`,
                     }
                 })
                 await saveTokensToDB(userAuth)
                 return resolve(undefined)
             } else if (window) {
                 window.localStorage.removeItem(USER_AUTH)
-                if (dispatch) dispatch(removeUser())
             } else if (postMessage) {
                 postMessage({type: UNAUTHORIZED})
             }
