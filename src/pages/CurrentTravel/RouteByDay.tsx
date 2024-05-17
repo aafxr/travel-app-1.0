@@ -18,10 +18,10 @@ type RouteByDayPropsType = {
 
 
 export function RouteByDay({
-                        travel,
-                        places,
-                        placesLoading,
-                    }: RouteByDayPropsType) {
+                               travel,
+                               places,
+                               placesLoading,
+                           }: RouteByDayPropsType) {
     const context = useAppContext()
 
     async function removePlace(place: Place | Hotel) {
@@ -46,12 +46,15 @@ export function RouteByDay({
 
     return (
         <>
+
             <div className='route-tabs'>
-                {Array.from({length: travel?.days || 0})
-                    .map((_, i) =>
-                        <Tab key={i} name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
-                    )
-                }
+                <div className='row'>
+                    {Array.from({length: travel?.days || 0})
+                        .map((_, i) =>
+                            <Tab key={i} name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
+                        )
+                    }
+                </div>
             </div>
 
             <Container className='route-content content '>

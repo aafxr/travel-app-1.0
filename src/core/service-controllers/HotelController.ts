@@ -1,6 +1,5 @@
-import {Context} from "../classes/Context";
+import {Context,Hotel} from "../classes";
 import {HotelService} from "../services/HotelService";
-import {Hotel} from "../classes/store";
 
 export class HotelController{
     static async create(ctx: Context, hotel: Hotel){

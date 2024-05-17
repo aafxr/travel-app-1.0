@@ -1,4 +1,5 @@
 .current-travel{
+    color: black;
     background: #E6EAE9;
     z-index: 0;
 }
@@ -97,8 +98,6 @@
 }
 
 .route-tabs{
-    display: flex;
-    flex-wrap: nowrap;
 }
 
 @media (min-width: 460px) {

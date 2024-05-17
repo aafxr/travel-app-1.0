@@ -13,11 +13,13 @@ export function RouteOnMap({places}: RouteOnMapPropsType) {
     return (
         <>
             <div className='route-tabs'>
-                {Array.from({length: travel?.days || 0})
-                    .map((_, i) =>
-                        <Tab key={i} name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
-                    )
-                }
+                <div className='row'>
+                    {Array.from({length: travel?.days || 0})
+                        .map((_, i) =>
+                            <Tab key={i} name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
+                        )
+                    }
+                </div>
             </div>
             <div className='on-map content' id={'YMapsID'}>
                 <YandexMapContainer id={'YMapsID'}>

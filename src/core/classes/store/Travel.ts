@@ -7,6 +7,8 @@ import {Preference} from "../Preference";
 import {TravelDTO} from "../dto";
 import {MS_IN_DAY} from "../../../constants";
 import {MemberRole} from "../../../types/MemberRole";
+import {Hotel} from "./Hotel";
+import {Place} from "./Place";
 
 /**
  * представление основной сущности путешествия

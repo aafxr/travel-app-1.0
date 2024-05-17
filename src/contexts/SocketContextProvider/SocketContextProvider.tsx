@@ -1,6 +1,6 @@
 import {Outlet} from "react-router-dom";
 import {io, Socket} from "socket.io-client";
-import {createContext, useEffect, useRef, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {actionHandler} from "../../utils/action-handler/action-handler";
@@ -35,7 +35,6 @@ export function SocketContextProvider(){
     const [state, setState] = useState<SocketContextType>({})
     const context = useAppContext()
     const {user} = useUser()
-    const init = useRef<Record<string, any>>({})
 
     const actionSubject = useActionSubject()
     const travelSubject = useTravelSubject()
@@ -46,19 +45,18 @@ export function SocketContextProvider(){
     const photoSubject = usePhotoSubject()
 
     useEffect(() => {
-        if(!user || state.socket) return
-        if(init.current.initialization) return
+        if(!user) return
+        if(state.socket) return
 
         // const handle = socketManagement(context)
 
-        init.current.initialization = true
         const socket =  io(process.env.REACT_APP_SOCKET_URL as string) //{ host: process.env.REACT_APP_SOCKET_HOST ,port:process.env.REACT_APP_SOCKET_PORT, secure: true}
 
         socket.on('connect', () => {
             console.log('socket connect')
             DB.getAll<Travel>(StoreName.TRAVEL)
                 .then(travels => {
-                    const ids = travels.map(t => t.id)
+                    // const ids = travels.map(t => t.id)
                     socket.emit('travel:join',{travelID: ['all']})
                     socket.emit('travel:join:result', console.log)
                 })
@@ -90,7 +88,7 @@ export function SocketContextProvider(){
         socket.on(SocketMessageEntityType.ACTION, onAction)
 
         setState({socket})
-    }, [user])
+    }, [])
 
 
     return (

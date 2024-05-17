@@ -21,6 +21,7 @@ interface PageHeaderPropsType extends PropsWithChildren{
  * @function
  * @param {boolean} arrowBack true добавляет стрелочку назад <=
  * @param {string} className css class
+ * @param {string} titleClassName css class
  * @param {string} title заголовок
  * @param {string | function} to url на который перенаправляется пользователь при клике либо назад
  * @param {JSX.Element} children child react elements child react elements

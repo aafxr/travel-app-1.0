@@ -73,7 +73,8 @@
     align-items: center;
     gap:8px;
 
-    color: var(--color-text);
+    /*color: var(--color-text);*/
+    color: inherit;
     font-weight: 600;
     background: transparent;
 }

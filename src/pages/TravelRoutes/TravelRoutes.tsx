@@ -5,7 +5,7 @@ import {filter} from "rxjs";
 
 import {ShowTravelsList} from "./ShowTravelsList";
 import {useAppContext} from "../../contexts/AppContextProvider";
-import {useActionSubject} from "../../contexts/SubjectContextProvider";
+import {useActionSubject, useTravelSubject} from "../../contexts/SubjectContextProvider";
 import {Travel} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
 import {TravelController} from "../../core/service-controllers";
@@ -15,6 +15,7 @@ import {PageHeader, Tab} from "../../components/ui";
 import Navigation from "../../components/Navigation/Navigation";
 import {TRAVEL_TYPE} from "../../constants";
 import {useUser} from "../../hooks/redux-hooks/useUser";
+import {pushAlertMessage} from "../../components/Alerts";
 
 /**
  * @typedef {'old' | 'current' | 'plan'} TravelDateStatus
@@ -38,6 +39,8 @@ export function TravelRoutes() {
     const [actualTravels, setActualTravels] = useState<Array<Travel>>([])
 
     const [loading, setLoading] = useState(true)
+
+    const travelSubject = useTravelSubject()
 
 
     useEffect(() => {
@@ -64,6 +67,21 @@ export function TravelRoutes() {
                 .finally(() => setLoading(false))
         }
     }, [])
+
+
+    useEffect(() => {
+        travelSubject
+            .subscribe(t => setTravels(prev => {
+                const idx = prev.findIndex(i => i.id === t.id)
+                if(idx === -1) return [...prev, t]
+                else {
+                    const newList = [...prev]
+                    newList[idx] = t
+                    return newList
+                }
+            }))
+    }, []);
+
 
     useEffect(() => {
         if(travelType) localStorage.setItem(TRAVEL_TYPE, travelType)

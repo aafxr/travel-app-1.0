@@ -63,7 +63,7 @@ export class Action<T extends Record<string, any>> {
                 this.data = new PartialHotel(action.data || {}) as T
                 break
             case StoreName.PLACE:
-                this.data = new PartialPlace(action.data || {}) as T
+                this.data = new PartialPlace(action.data || {}) as unknown as T
                 break
             case StoreName.USERS:
                 this.data = new PartialUser(action.data || {}) as T

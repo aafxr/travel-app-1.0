@@ -2,20 +2,26 @@ import {PlaceDto} from "../../dto";
 import {Place} from "../Place";
 
 
+
+
 /**
  * place should have id format like uniqHash:travelID:placeIDFromApi
  * hash  в ид используется для случаев если указанное место будет посещено несколько раз
  */
 export class PartialPlace implements Partial<Place>{
-    id?: string
-    name?: string
-    formatted_address?: string
-    photos?: string[]
-    location?: [number, number]
+    id
+    name
+    formatted_address
+    photos
+    location
 
-    day?: number
-    date_start?: Date
-    date_end?: Date
+    day
+    date_start
+    date_end
+
+    price
+    duration
+    popularity
 
     constructor(place: Partial<Place> | Partial<PlaceDto>) {
         if(place.id) this.id = place.id
@@ -27,5 +33,9 @@ export class PartialPlace implements Partial<Place>{
         this.day = place.day !== undefined ? place.day : 0
         this.date_start = place.date_start !== undefined ? new Date(place.date_start) : new Date(0)
         this.date_end = place.date_end !== undefined ? new Date(place.date_end) : new Date(0)
+
+        if('price' in place) this.price = place.price
+        if('duration' in place) this.duration = place.duration
+        if('popularity' in place) this.popularity = place.popularity
     }
 }
