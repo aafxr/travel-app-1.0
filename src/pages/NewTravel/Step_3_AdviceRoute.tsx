@@ -1,34 +1,35 @@
 import clsx from "clsx";
 import {useEffect, useState} from "react";
 
-import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext} from "../../contexts/AppContextProvider";
 import {APIRouteType, fetchRouteAdvice} from "../../api/fetch";
 import Container from "../../components/Container/Container";
-import {loadTravel} from "../../redux/slices/travel-slice";
 import {useNewTravelContext} from "./useNewTravelContext";
 import {Hotel, Place, Travel} from "../../core/classes";
-import {useAppDispatch} from "../../hooks/redux-hooks";
 import Button from "../../components/ui/Button/Button";
 import {TravelStepPropsType} from "./NewTravel";
 import {PageHeader} from "../../components/ui";
 
-export function Step_4_AdviceRoute({next}: TravelStepPropsType) {
+
+const formatter = Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+})
+
+
+export function Step_3_AdviceRoute({next}: TravelStepPropsType) {
     const ntc = useNewTravelContext()
-    const context = useAppContext()
     const [route, setRoute] = useState<APIRouteType>()
     const [routes, setRoutes] = useState<APIRouteType[]>([])
-    const dispatch = useAppDispatch()
     const [confirmBtnDisable, setConfirmBtnDisable] = useState(false)
 
     useEffect(() => {
         fetchRouteAdvice(ntc.travel)
             .then(response => {
                 if (!response) {
-                    TravelController.create(context, ntc.travel)
-                        .then(() => next(new Travel(ntc.travel)))
-                        .catch(defaultHandleError)
+                    next(new Travel(ntc.travel))
                     return
                 }
                 setRoutes(response.routes)
@@ -44,8 +45,7 @@ export function Step_4_AdviceRoute({next}: TravelStepPropsType) {
             setConfirmBtnDisable(true)
             travel = new Travel(travel)
 
-            if(!route) {
-                await TravelController.create(context, travel)
+            if (!route) {
                 next(new Travel(travel))
                 return
             }
@@ -90,29 +90,12 @@ export function Step_4_AdviceRoute({next}: TravelStepPropsType) {
             travel.places_id = places.map(p => p.id)
             travel.hotels_id = hotels.map(h => h.id)
 
+            ntc.places = places
+            ntc.hotels = hotels
+            ntc.travel = travel
 
-            try {
-                await TravelController.create(context, travel)
-            }catch (e){defaultHandleError(e as Error)}
-
-            const promises: Promise<any>[] = []
-            for (const hotel of hotels){
-                promises.push((async () => {
-                    try { await HotelController.create(context, hotel) }catch(r){}
-                })())
-            }
-            for (const place of places){
-                promises.push((async () => {
-                    try { await PlaceController.create(context, place) }catch(r){}
-                })())
-            }
-
-            await Promise.all(promises)
-
-
-            dispatch(loadTravel({ctx: context, travelID: travel.id}))
-            navigate(`/travel/${travel.id}/`)
-        } catch (e){
+            next(new Travel(ntc.travel))
+        } catch (e) {
             defaultHandleError(e as Error)
         } finally {
             setConfirmBtnDisable(false)
@@ -142,7 +125,6 @@ export function Step_4_AdviceRoute({next}: TravelStepPropsType) {
             <div className='footer footer-btn-container'>
                 <Button
                     onClick={handleRouteSubmit}
-                    disabled={confirmBtnDisable}
                     loading={confirmBtnDisable}
                 >Продолжить</Button>
             </div>

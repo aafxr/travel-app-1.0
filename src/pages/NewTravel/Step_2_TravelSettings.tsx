@@ -116,13 +116,13 @@ export function Step_2_TravelSettings({next}: TravelStepPropsType) {
 
 
     function handleAddDetails() {
-        next(new Travel(travel), "Step_3_AddDetails")
+        next(new Travel(travel), "Step_4_AddDetails")
     }
 
 
     function handleSaveTravelButton() {
         if (!change) return
-        next(new Travel(travel), "Step_3_AddDetails")
+        next(new Travel(travel), "Step_4_AddDetails")
     }
 
 
@@ -193,10 +193,10 @@ export function Step_2_TravelSettings({next}: TravelStepPropsType) {
                         </section>
 
                         <section className='travel-settings-members column gap-0.5 block'>
-                            <h4 className='title-semi-bold'>Участники</h4>
-                            {Travel.getMembers(travel).map(mid => (
-                                <TravelPeople key={mid} memberID={mid} onClick={handleUserClick}/>
-                            ))}
+                            {/*<h4 className='title-semi-bold'>Участники</h4>*/}
+                            {/*{Travel.getMembers(travel).map(mid => (*/}
+                            {/*    <TravelPeople key={mid} memberID={mid} onClick={handleUserClick}/>*/}
+                            {/*))}*/}
                             <div className='center'>
                                 {/*<AddButton to={`/travel/${travelCode}/settings/invite/`}>Добавить*/}
                                 {/*    участника</AddButton>*/}

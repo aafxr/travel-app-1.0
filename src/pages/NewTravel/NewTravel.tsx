@@ -1,17 +1,18 @@
-import {createContext, useContext, useEffect, useState, PropsWithChildren} from "react";
+import {createContext, useContext, useEffect, useState, PropsWithChildren, JSX} from "react";
 import {Hotel, Place, Travel} from "../../core/classes";
 import {Step_1_TravelName} from "./Step_1_TravelName";
 import {useUser} from "../../hooks/redux-hooks";
 import {Navigate, Outlet} from "react-router-dom";
 import {Step_2_TravelSettings} from "./Step_2_TravelSettings";
-import {Step_3_AddDetails} from "./Step_3_AddDetails";
+import {Step_4_AddDetails} from "./Step_4_AddDetails";
+import {Step_3_AdviceRoute} from "./Step_3_AdviceRoute";
 
 const steps = {
     Step_1_TravelName,
     Step_2_TravelSettings,
-    Step_3_AddDetails
+    Step_3_AdviceRoute,
+    Step_4_AddDetails
 }
-
 
 export type TravelStepPropsType = {
     next: (t: Travel, step?: keyof typeof steps) => unknown
@@ -32,7 +33,7 @@ const defaultNewTravelContext: NewTravelContextType= {
 
 export const NewTravelContext = createContext(defaultNewTravelContext)
 
-export function NewTravelContextProvider({children}: PropsWithChildren) {
+function NewTravelContextProvider({children}: PropsWithChildren) {
     const ntc = useContext(NewTravelContext)
 
     return (
@@ -64,37 +65,36 @@ function NewTravelSteps(){
 
     const handleStep_2_TravelSettings: TravelStepPropsType["next"] = (t, s) => {
         ntc.travel = t
-        s ? setStep(s) : setStep("Step_3_AddDetails")
+        s ? setStep(s) : setStep("Step_3_AdviceRoute")
     }
 
 
     if(!user) return <Navigate to={'/login/'}/>
 
 
-    let Step: JSX.Element | null = null;
+    let props: TravelStepPropsType
     switch (step){
         case "Step_1_TravelName":
-            Step = steps[step]({ next: handleStep_1_TravelName})
+            props = { next: handleStep_1_TravelName}
             break
         case "Step_2_TravelSettings":
-            Step = steps[step]({ next: handleStep_2_TravelSettings})
+            props = { next: handleStep_2_TravelSettings}
             break
+        default:
+            props = {next: t => {}}
     }
 
+    const Step = steps[step]
 
-    return (
-        <NewTravelContext.Provider value={ntc}>
-            {Step}
-        </NewTravelContext.Provider>
-    )
-
-
+    return <Step {...props} />
 }
 
 export function NewTravel(){
+    const ntc = useContext(NewTravelContext)
+
     return (
-        <NewTravelContextProvider>
+        <NewTravelContext.Provider value={ntc}>
             <NewTravelSteps />
-        </NewTravelContextProvider>
+        </NewTravelContext.Provider>
     )
 }

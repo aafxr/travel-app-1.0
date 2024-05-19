@@ -29,10 +29,9 @@ export function Step_1_TravelName({next}: TravelStepPropsType) {
                     <Input value={travelName} onChange={setTravelName} />
                 </PageHeader>
             </Container>
-            <Container className='container'>
-
+            <Container className='content'>
             </Container>
-            <div>
+            <div className='footer-btn-container footer'>
                 <Button
                     onClick={handleNext}
                     disabled={!travelName.length}
