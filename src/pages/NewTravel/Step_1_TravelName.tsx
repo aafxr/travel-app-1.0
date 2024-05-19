@@ -1,22 +1,24 @@
 import {useEffect, useState} from "react";
 import Container from "../../components/Container/Container";
+import {useNewTravelContext} from "./useNewTravelContext";
 import Button from "../../components/ui/Button/Button";
 import {Input, PageHeader} from "../../components/ui";
 import {TravelStepPropsType} from "./NewTravel";
 import {Travel} from "../../core/classes";
 
-export function Step_1_TravelName({travel, next}: TravelStepPropsType) {
+export function Step_1_TravelName({next}: TravelStepPropsType) {
+    const ntc = useNewTravelContext()
     const [travelName, setTravelName] = useState<string>('');
 
     useEffect(() => {
-        setTravelName(travel.title)
+        setTravelName(ntc.travel.title)
     }, [])
 
 
     function handleNext() {
-        const _travel = new Travel(travel)
-        _travel.title = travelName
-        next(_travel)
+        const travel = new Travel(ntc.travel)
+        travel.title = travelName
+        next(travel)
     }
 
 

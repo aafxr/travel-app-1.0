@@ -20,14 +20,16 @@ export function Main() {
     const user = useUser()
     // const context = useAppContext()
 
-    async function handleNewTravel() {
+    function handleNewTravel() {
         if (user) {
-            // const travel = new Travel({})
-            // context.setTravel(travel)
             navigate(`/travel/add/`)
         } else {
             navigate('/login/')
         }
+    }
+
+    function handleCreateNewTravel(){
+        navigate(`/newTravel/`)
     }
 
 
@@ -47,6 +49,14 @@ export function Main() {
                     >
                         {user ? 'Новая поездка' : 'Авторизоваться'}
                     </button>
+                    {Boolean(user) && (
+                        <button
+                            className='banner-button'
+                            onClick={handleCreateNewTravel}
+                        >
+                            {'Новая поездка'}
+                        </button>
+                    )}
                 </div>
 
 

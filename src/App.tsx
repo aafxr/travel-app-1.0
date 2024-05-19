@@ -30,6 +30,7 @@ import {TravelLayout} from "./layouts";
 import {Action, Recover, Travel} from "./core/classes";
 import {DB} from "./core/db/DB";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
+import {NewTravel} from "./pages/NewTravel/NewTravel";
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
                     <Route path={'/profile/'} element={<Profile/>}/>
                     <Route path={'/travels/:travelType/'} element={<TravelRoutes/>}/>
                     <Route path={'/travel/add/'} element={<TravelAdd/>}/>
+                    <Route path={'/newTravel/'} element={<NewTravel />}/>
                     <Route element={<TravelLayout />}>
                         <Route path={'/travel/:travelCode/settings/'} element={<TravelSettings/>}/>
                         <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>

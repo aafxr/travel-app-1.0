@@ -9,7 +9,7 @@ export interface UserSliceStateType {
 }
 
 const initialState: UserSliceStateType = {
-    loading: false,
+    loading: true,
     error: ''
 }
 

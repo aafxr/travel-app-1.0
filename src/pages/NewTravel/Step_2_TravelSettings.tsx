@@ -15,6 +15,7 @@ import {MovementType} from "../../types/MovementType";
 import {Chip, PageHeader} from "../../components/ui";
 import {useUser} from "../../hooks/redux-hooks";
 import {TravelStepPropsType} from "./NewTravel";
+import {useNewTravelContext} from "./useNewTravelContext";
 
 
 const sightseeingTime: RadioButtonGroupItemType[] = [
@@ -30,15 +31,14 @@ const depth: RadioButtonGroupItemType[] = [
 ]
 
 
-export function Step_2_TravelSettings({travel: travelProp, next}: TravelStepPropsType) {
+export function Step_2_TravelSettings({next}: TravelStepPropsType) {
     const user = useUser()!
+    const ntc = useNewTravelContext()
     const [travel, setTravel] = useState<Travel>(new Travel())
     const [change, setChange] = useState(false)
 
 
-    useEffect(() => {
-        setTravel(new Travel(travelProp))
-    }, [])
+    useEffect(() => { setTravel(new Travel(ntc.travel)) }, [])
 
 
     function handleMovementSelect(movementType: MovementType) {
