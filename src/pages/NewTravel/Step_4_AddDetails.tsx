@@ -6,16 +6,24 @@ import Button from "../../components/ui/Button/Button";
 import {PageHeader} from "../../components/ui";
 import {Travel} from "../../core/classes";
 
-import './Step_4_AddDetails.css'
 
 export function Step_4_AddDetails({next}: TravelStepPropsType){
     const ntc = useNewTravelContext()
 
 
+    function handleAddPlace(){
+        next(ntc.travel, "Step_AddPlace")
+    }
+
+    function handleAddHotel(){
+        next(ntc.travel, "Step_AddHotel")
+    }
+
 
     async function handleNextStep(){
         next(new Travel(ntc.travel))
     }
+
 
     return (
         <div className='wrapper'>
@@ -24,10 +32,16 @@ export function Step_4_AddDetails({next}: TravelStepPropsType){
             </Container>
 
             <Container className='content'>
-                <div className='block'>
+                <div
+                    className='block'
+                    onClick={handleAddHotel}
+                >
                     Добавить отель
                 </div>
-                <div className='block'>
+                <div
+                    className='block'
+                    onClick={handleAddPlace}
+                >
                     Добавить место
                 </div>
             </Container>

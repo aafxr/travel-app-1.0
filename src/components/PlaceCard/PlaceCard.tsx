@@ -13,6 +13,7 @@ import {DEFAULT_IMG_URL, month} from "../../constants";
 export interface PlaceCardPropsType {
     place: Place
     className?:string
+    onClick?:(place: Place) => unknown
 }
 
 export function PlaceCard({
