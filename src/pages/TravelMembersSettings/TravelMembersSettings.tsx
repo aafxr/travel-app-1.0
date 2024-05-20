@@ -44,7 +44,7 @@ export function TravelMembersSettings(){
                 <PageHeader arrowBack title={"добавить участника"} />
                 <Input value={memberName} onChange={setMemberName} placeholder={'Имя участника'} />
             </Container>
-            <Container>
+            <Container className='content'>
                 {message && <h4>{message}</h4>}
 
             </Container>

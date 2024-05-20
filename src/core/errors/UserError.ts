@@ -7,7 +7,7 @@ import {ErrorCode} from "./ErrorCode";
  */
 export class UserError extends CustomError{
     static unauthorized(){
-        return new UserError('Необходимо авторизоваться', ErrorCode.UNAUTHORIZED)
+        return new UserError('Пользователь не авторизован', ErrorCode.UNAUTHORIZED)
     }
 
     static updateBeforeCreate(){

@@ -18,6 +18,7 @@ export function MembersList({members}: MembersListType){
     const travel = useTravel()
     const [showMore, setShowMore] = useState(false)
 
+    console.error(members)
     return (
         <div className={clsx('members', {showMore})}>
             {

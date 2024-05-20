@@ -45,7 +45,6 @@ export class Recover {
     }
 
 
-
     static async hotel(id: string) {
         const h = new Hotel({id})
         const predicate: PredicateType<Action<PartialLimit>> = (item) => item.entity === StoreName.HOTELS && item.data.id === id
@@ -61,14 +60,15 @@ export class Recover {
         return Recover._recordFieldsToTarget(actions, p)
     }
 
-    static _recordFieldsToTarget<T extends Record<string, any>>(actions: Action<Partial<T>>[], target: T): T | undefined{
+    static _recordFieldsToTarget<T extends Record<string, any>>(actions: Action<Partial<T>>[], target: T): T | undefined {
         const _actions = actions.sort((a, b) => a.datetime.getTime() - b.datetime.getTime())
         console.log(_actions)
 
         for (const a of _actions) {
-            if(a.action === ActionType.DELETE) return
+            if (a.action === ActionType.DELETE) return
             const data = a.data
-            const keys = Object.keys(data) as Array<keyof T>
+            let keys = Object.keys(data) as Array<keyof T>
+            keys = keys.filter(k => data[k] !== undefined)
             for (const k of keys) {
                 const key = k as keyof T
                 if (Array.isArray(data[key])) {
