@@ -22,15 +22,16 @@ import {useAppDispatch, useUser} from "./hooks/redux-hooks";
 import {useAppContext} from "./contexts/AppContextProvider";
 import Container from "./components/Container/Container";
 import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
+import {ActionDto, TravelDTO} from "./core/classes/dto";
+import {Action, Recover, Travel} from "./core/classes";
+import {NewTravel} from "./pages/NewTravel/NewTravel";
 import {LimitAdd} from "./pages/LimitAdd/LimitAdd";
 import Loader from "./components/Loader/Loader";
 import {RouteAdvice} from "./pages/RouteAdvice";
 import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
-import {Action, Recover, Travel} from "./core/classes";
 import {DB} from "./core/db/DB";
-import {ActionDto, TravelDTO} from "./core/classes/dto";
-import {NewTravel} from "./pages/NewTravel/NewTravel";
+import {TravelDateChange} from "./pages/TravelDateChange/TravelDateChange";
 
 
 function App() {
@@ -86,6 +87,8 @@ function App() {
                         <Route path={'/travel/:travelCode/advice-route/'} element={<RouteAdvice/>}/>
                         <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
                         <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
+                        <Route path={'/travel/:travelCode/date/'} element={<TravelDateChange/>}/>
+
                         <Route element={<LimitContextProvider/>}>
                             <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>
                             <Route path={'/travel/:travelCode/expenses/:expenseType/'} element={<ExpensesPage/>}/>

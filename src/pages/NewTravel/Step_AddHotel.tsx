@@ -49,9 +49,7 @@ export function Step_AddHotel({next}: TravelStepPropsType){
             </Container>
             <Container className='content pt-20'>
                 <div className='column gap-1'>
-                    {/*{hotels.map(h => (*/}
-                    {/*    <PlaceCard key={h.id} place={h}/>*/}
-                    {/*))}*/}
+                    {/* show hotels here*/}
                 </div>
             </Container>
             <div className='footer-btn-container'>

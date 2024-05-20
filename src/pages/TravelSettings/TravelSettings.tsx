@@ -78,7 +78,7 @@ export function TravelSettings() {
         else
             travel.movementTypes = [...travel.movementTypes, movementType]
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
 
@@ -90,7 +90,7 @@ export function TravelSettings() {
         if (end) Travel.setDateEnd(travel, end)
         if (!change) setChange(true)
         console.log({start: travel.date_start.getHours(), end: travel.date_end.getHours()})
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
     function handleTravelDays(d: number) {
@@ -99,7 +99,7 @@ export function TravelSettings() {
 
         Travel.setDays(travel, d)
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
 
@@ -107,7 +107,7 @@ export function TravelSettings() {
         if (!travel) return;
         travel.preference.density = select[0].id as Preference['density']
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
 
@@ -115,7 +115,7 @@ export function TravelSettings() {
         if (!travel) return;
         travel.preference.depth = select[0].id as Preference['depth']
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
 
@@ -132,7 +132,7 @@ export function TravelSettings() {
         if (!travel) return
         travel.permission.public = isPublic ? 1 : 0
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
 
@@ -140,14 +140,14 @@ export function TravelSettings() {
         if (!travel) return
         travel.members_count = num
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
     function handleChildrenCountChange(num: number) {
         if (!travel) return
         travel.children_count = num
         if (!change) setChange(true)
-        setTravel({...travel})
+        setTravel(new Travel(travel))
     }
 
     function handleInterestsChange(key: keyof Preference['interests']) {

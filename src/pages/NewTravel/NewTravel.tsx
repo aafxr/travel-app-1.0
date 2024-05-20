@@ -1,6 +1,9 @@
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
-import {createContext, useContext, useEffect, useState, PropsWithChildren} from "react";
+import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
 
+import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import {Step_2_TravelSettings} from "./Step_2_TravelSettings";
 import {Hotel, Place, Travel} from "../../core/classes";
 import {Step_3_AdviceRoute} from "./Step_3_AdviceRoute";
@@ -9,9 +12,6 @@ import {Step_1_TravelName} from "./Step_1_TravelName";
 import {useUser} from "../../hooks/redux-hooks";
 import {Step_AddPlace} from "./Step_AddPlace";
 import {Step_AddHotel} from "./Step_AddHotel";
-import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
-import {useAppContext} from "../../contexts/AppContextProvider";
 
 const steps = {
     Step_1_TravelName,
@@ -43,17 +43,6 @@ const defaultNewTravelContext: NewTravelContextType= {
 }
 
 export const NewTravelContext = createContext(defaultNewTravelContext)
-
-function NewTravelContextProvider({children}: PropsWithChildren) {
-    const ntc = useContext(NewTravelContext)
-
-    return (
-        <NewTravelContext.Provider value={ntc}>
-            <Outlet/>
-            {children}
-        </NewTravelContext.Provider>
-    )
-}
 
 
 function NewTravelSteps(){
@@ -100,6 +89,11 @@ function NewTravelSteps(){
 
 
     async function createTravel(){
+        ntc.travel.days = Math.max(
+            ...ntc.places.map(el => el.day),
+            ...ntc.hotels.map(el => el.day),
+            1
+        )
         await TravelController.create(context, ntc.travel)
 
         const ppl = ntc.places.map(p => PlaceController.create(context, p).catch(defaultHandleError))

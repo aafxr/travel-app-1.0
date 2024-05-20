@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {PropsWithChildren, ReactNode, useState} from "react";
+import React, {PropsWithChildren, ReactNode, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import defaultHandleError from "../../../utils/error-handlers/defaultHandleError";
@@ -59,14 +59,15 @@ function Menu({children, className}: MenuPropsType) {
 }
 
 
-export interface MenuITemPropsType extends PropsWithChildren, Partial<Pick<HTMLDivElement, 'onclick'>>{
+export interface MenuITemPropsType extends PropsWithChildren{
     arrow?: boolean
     className?: string
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => unknown
 }
 
-function Item({arrow, children, className,...rest}: MenuITemPropsType){
+function Item({arrow, children, className, onClick}: MenuITemPropsType){
     return (
-        <div {...rest} className={clsx('menu-item', className)} >
+        <div onClick={onClick} className={clsx('menu-item', className)} >
             {children}
             {arrow && <ChevronRightIcon className='menu-item-icon icon' /> }
         </div>
