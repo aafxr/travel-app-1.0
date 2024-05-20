@@ -91,7 +91,10 @@ export function CurrentTravel() {
                 </PageHeader>
                 <Container className='current-travel-content content'>
                     <Image className='current-travel-image' src={travel?.previewPhotoId} alt={travel?.title}/>
-                    <div className='current-travel-title'>
+                    <div
+                        className='current-travel-title'
+                        onClick={() => navigate(`/travel/${travel?.id}/edite/`)}
+                    >
                         {travel?.title}
                         &nbsp;
                         {travel?.permission.public
@@ -139,7 +142,7 @@ export function CurrentTravel() {
             </div>
             <Curtain onChange={setCOpen}>
                 <div className='wrapper relative'>
-                    <Container className='pb-20'>
+                    <Container>
                         <div className='route-filter-list pt-20'>
                             <Button
                                 className='route-filter-btn'

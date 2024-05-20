@@ -26,7 +26,6 @@ interface PhotoPropsType extends Omit<HTMLAttributes<HTMLImageElement>, 'onChang
  * @param  item        Travel | User | Member, элемент, который содержит поле "photo"
  * @param  onChange  обработчик на изменение фото
  * @param  props     other props
- * @returns {JSX.Element}
  * @category Components
  */
 function PhotoComponent({className, item, onChange, ...props}: PhotoPropsType) {

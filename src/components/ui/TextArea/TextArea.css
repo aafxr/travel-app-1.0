@@ -6,10 +6,10 @@
     width: 100%;
     caret-color: var(--color-primary);
 
-    border-top-left-radius: var(--br-10);
-    border-bottom-left-radius: var(--br-10);
-    border-top-right-radius: var(--br-10);
-    border-bottom-right-radius: var(--br-10);
+    border-top-left-radius: var(--input-br);
+    border-bottom-left-radius: var(--input-br);
+    border-top-right-radius: var(--input-br);
+    border-bottom-right-radius: var(--input-br);
 
     border: 2px solid var(--color-grey-light);
     background-color: var(--color-background);

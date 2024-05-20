@@ -14,6 +14,8 @@ import {PageHeader} from "../../components/ui";
 import {Photo} from "../../core/classes";
 
 import './Profile.css'
+import {Image} from "../../components/Image";
+import {DEFAULT_IMG_URL} from "../../constants";
 
 
 /** компонент отбражает профиль пользователя  */
@@ -44,7 +46,8 @@ export function Profile() {
                 <div className='profile-backside column gap-1 pt-20'>
                     <div className='title title-bold center'>Профиль</div>
                     <div className='profile-image center'>
-                        <PhotoComponent className='photo' item={user} onChange={handlePhotoChange} />
+                        <Image src={user.photo || DEFAULT_IMG_URL} alt={user.username} />
+                        {/*<PhotoComponent className='photo' item={user} onChange={handlePhotoChange} />*/}
                     </div>
                     <div className='profile-user-name center'>
                         <span>{user.first_name}</span>&nbsp;

@@ -10,10 +10,11 @@
 }
 
 .profile-image img{
+    position: relative;
     /*margin: 0 auto;*/
     width: var(--photo-size);
     height: var(--photo-size);
-    border-radius: var(--br-20);
+    border-radius: var(--border-radius);
     object-fit: cover;
     overflow: hidden;
 }

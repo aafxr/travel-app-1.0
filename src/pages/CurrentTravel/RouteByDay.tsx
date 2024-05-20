@@ -4,7 +4,9 @@ import {useAppContext} from "../../contexts/AppContextProvider";
 import {PlaceCard} from "../../components/PlaceCard/PlaceCard";
 import {HotelCard} from "../../components/HotelCard/HotelCard";
 import Container from "../../components/Container/Container";
+import {updateTravel} from "../../redux/slices/travel-slice";
 import {Hotel, Place, Travel} from "../../core/classes";
+import {useAppDispatch} from "../../hooks/redux-hooks";
 import Loader from "../../components/Loader/Loader";
 import Swipe from "../../components/ui/Swipe/Swipe";
 import {TrashIcon} from "../../components/svg";
@@ -23,24 +25,48 @@ export function RouteByDay({
                                placesLoading,
                            }: RouteByDayPropsType) {
     const context = useAppContext()
+    const dispatch = useAppDispatch()
 
-    async function removePlace(place: Place | Hotel) {
+    // async function removePlace(place: Place | Hotel) {
+    //     if (!travel) return
+    //     if (place instanceof Place) {
+    //         travel.places_id = travel.places_id.filter(p => p !== place.id)
+    //         await TravelController.update(context, travel)
+    //             .catch(defaultHandleError)
+    //         await PlaceController.delete(context, place)
+    //             .catch(defaultHandleError)
+    //         context.setTravel(new Travel(travel))
+    //     } else {
+    //         travel.hotels_id = travel.hotels_id.filter(h => h !== place.id)
+    //         await TravelController.update(context, travel)
+    //             .catch(defaultHandleError)
+    //         await HotelController.delete(context, place)
+    //             .catch(defaultHandleError)
+    //         context.setTravel(new Travel(travel))
+    //     }
+    // }
+
+
+    async function handleRemovePlace(p: Place | Hotel) {
         if (!travel) return
-        if (place instanceof Place) {
-            travel.places_id = travel.places_id.filter(p => p !== place.id)
-            await TravelController.update(context, travel)
-                .catch(defaultHandleError)
-            await PlaceController.delete(context, place)
-                .catch(defaultHandleError)
-            context.setTravel(new Travel(travel))
-        } else {
-            travel.hotels_id = travel.hotels_id.filter(h => h !== place.id)
-            await TravelController.update(context, travel)
-                .catch(defaultHandleError)
-            await HotelController.delete(context, place)
-                .catch(defaultHandleError)
-            context.setTravel(new Travel(travel))
+        try {
+            const isPlace = p instanceof Place
+            const t = new Travel(travel)
+            isPlace
+                ? await PlaceController.delete(context, p).catch(defaultHandleError)
+                : await HotelController.delete(context, p).catch(defaultHandleError)
+
+            if (isPlace) {
+                t.places_id = t.places_id.filter(id => id !== p.id)
+            } else {
+                t.hotels_id = t.hotels_id.filter(id => id !== p.id)
+            }
+            await TravelController.update(context, t)
+            dispatch(updateTravel(t))
+        } catch (e){
+            defaultHandleError(e as Error)
         }
+
     }
 
 
@@ -66,7 +92,7 @@ export function RouteByDay({
                                 key={p.id}
                                 rightElement={
                                     <div className='h-full center'>
-                                        <TrashIcon className='icon' onClick={() => removePlace(p)}/>
+                                        <TrashIcon className='icon' onClick={() => handleRemovePlace(p)}/>
                                     </div>
                                 }
                             >
@@ -76,7 +102,7 @@ export function RouteByDay({
                                 key={p.id}
                                 rightElement={
                                     <div className='h-full center'>
-                                        <TrashIcon className='icon' onClick={() => removePlace(p)}/>
+                                        <TrashIcon className='icon' onClick={() => handleRemovePlace(p)}/>
                                     </div>
                                 }
                             >

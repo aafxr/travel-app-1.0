@@ -21,7 +21,6 @@ interface TextAreaPropsType extends Omit<TextareaHTMLAttributes<HTMLTextAreaElem
  * @param {boolean} autoResize default = true, автоматический пересчет высоты компонента при изменении контента
  * так, чтобы весь контент помещался в область textarea
  * @param props other props for textarea
- * @returns {JSX.Element}
  * @category UI-Components
  */
 export default function TextArea({
