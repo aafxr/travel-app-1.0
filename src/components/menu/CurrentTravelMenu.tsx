@@ -22,7 +22,7 @@ export function CurrentTravelMenu(){
 
     function handleSettingsChange(){
         if(!travel) return
-        navigate(`/travel/${travel.id}/settings/`)
+        navigate(`/travel/${travel.id}/rules/`)
     }
 
 

@@ -56,6 +56,10 @@
     color: var(--color-text-silver);
 }
 
+.current-travel-title .icon.visible{
+    color: var(--color-success);
+}
+
 .current-travel-title.public .icon{
     color: var(--color-success);
 }

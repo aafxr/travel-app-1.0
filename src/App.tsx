@@ -32,6 +32,8 @@ import AuthRequired from "./hoc/AuthRequired";
 import {TravelLayout} from "./layouts";
 import {DB} from "./core/db/DB";
 import {TravelDateChange} from "./pages/TravelDateChange/TravelDateChange";
+import {TravelMembersSettings} from "./pages/TravelMembersSettings/TravelMembersSettings";
+import {TravelRules} from "./pages/TravelRules/TravelRules";
 
 
 function App() {
@@ -88,6 +90,8 @@ function App() {
                         <Route path={'/travel/:travelCode/'} element={<CurrentTravel/>}/>
                         <Route path={'/travel/:travelCode/:travelDay/'} element={<CurrentTravel/>}/>
                         <Route path={'/travel/:travelCode/date/'} element={<TravelDateChange/>}/>
+                        <Route path={'/travel/:travelCode/members/'} element={<TravelMembersSettings/>}/>
+                        <Route path={'/travel/:travelCode/rules/'} element={<TravelRules/>}/>
 
                         <Route element={<LimitContextProvider/>}>
                             <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>

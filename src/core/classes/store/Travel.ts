@@ -7,8 +7,7 @@ import {Preference} from "../Preference";
 import {TravelDTO} from "../dto";
 import {MS_IN_DAY} from "../../../constants";
 import {MemberRole} from "../../../types/MemberRole";
-import {Hotel} from "./Hotel";
-import {Place} from "./Place";
+import {Member} from "./Member";
 
 /**
  * представление основной сущности путешествия
@@ -153,5 +152,28 @@ export class Travel {
         if(travel.editors.includes(memberID)) return MemberRole.EDITOR
         if(travel.commentator.includes(memberID)) return MemberRole.COMMENTATOR
         return MemberRole.WATCHER
+    }
+
+    static isMemberInTravel(t: Travel, m: Member){
+        const list = Travel.getMembers(t)
+        return list.includes(m.id)
+    }
+
+    static addMember(t: Travel, m: Member, role: MemberRole = MemberRole.COMMENTATOR){
+        const isInTravel = Travel.isMemberInTravel(t,m)
+        if (isInTravel) return
+        switch (role){
+            case MemberRole.EDITOR:
+                t.editors.push(m.id)
+                break
+            case MemberRole.WATCHER:
+                t.commentator.push(m.id)
+                break
+            case MemberRole.COMMENTATOR:
+                t.commentator.push(m.id)
+                break
+            default:
+        }
+        return t
     }
 }

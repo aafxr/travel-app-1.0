@@ -78,7 +78,7 @@ export function CurrentTravel() {
             <div className='current-travel wrapper'>
                 <PageHeader
                     to={`/travels/${localStorage.getItem(TRAVEL_TYPE) || 'current'}/`}
-                    className={clsx('current-travel-header transparent',{copen:!cOpen})}
+                    className={clsx('current-travel-header transparent', {copen: !cOpen})}
                     arrowBack
                     titleClassName='flex-end'
                     MenuEl={<CurrentTravelMenu/>}
@@ -94,7 +94,10 @@ export function CurrentTravel() {
                     <div className='current-travel-title'>
                         {travel?.title}
                         &nbsp;
-                        <VisibilityIcon className='icon'/>
+                        {travel?.permission.public
+                            ? <VisibilityIcon className='icon'/>
+                            : <VisibilityIcon className='icon visible'/>
+                        }
                     </div>
                     {!!travel?.description && <div className='current-travel-subtitle'>{travel?.description}</div>}
                     {!!travel &&
@@ -115,19 +118,19 @@ export function CurrentTravel() {
 
                 <Container className='footer'>
                     <div className='current-travel-btns'>
-                        <button
+                        {!!travel?.permission.showExpenses && <button
                             className='rounded-button'
                             onClick={() => navigate(`/travel/${travel?.id}/expenses/`)}
                         >
                             <MoneyIcon className='icon'/>
                             &nbsp;
                             Расходы
-                        </button>
-                        <button className='rounded-button'>
+                        </button>}
+                        {!!travel?.permission.showCheckList && <button className='rounded-button'>
                             <ChecklistIcon className='icon'/>
                             &nbsp;
                             Чек-лист
-                        </button>
+                        </button>}
                         <button className='rounded-button'>
                             <ChatIcon className='icon'/>
                         </button>
