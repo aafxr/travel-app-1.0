@@ -25,9 +25,15 @@ export function CurrentTravelMenu(){
         navigate(`/travel/${travel.id}/rules/`)
     }
 
+    function handleEditeTravelChange(){
+        if(!travel) return
+        navigate(`/travel/${travel.id}/edite/`)
+    }
+
 
     return (
         <Menu>
+            <Menu.Item arrow onClick={handleEditeTravelChange}>Редактировать описание</Menu.Item>
             <Menu.Item arrow onClick={handleDateChange}>Дата поездки</Menu.Item>
             <Menu.Item arrow onClick={handleMembersChange}>Участники</Menu.Item>
             <Menu.Item arrow onClick={handleSettingsChange}>Настройки</Menu.Item>

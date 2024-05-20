@@ -101,6 +101,7 @@ export class TravelService {
         if (!ext) throw TravelError.updateBeforeCreate()
 
         const dif = Compare.travel(ext, travel)
+
         const action = new Action({
             action: ActionType.UPDATE,
             entity: StoreName.TRAVEL,

@@ -3,10 +3,9 @@ import {useNavigate} from "react-router-dom";
 
 import Container from "../../components/Container/Container";
 import {updateTravel} from "../../redux/slices/travel-slice";
-import {useUser} from "../../contexts/AppContextProvider";
 import {pushAlertMessage} from "../../components/Alerts";
 import Button from "../../components/ui/Button/Button";
-import {useAppDispatch} from "../../hooks/redux-hooks";
+import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import {Input, PageHeader} from "../../components/ui";
 import {Travel} from "../../core/classes";
 
@@ -20,7 +19,7 @@ import './TravelAdd.css'
 export function TravelAdd() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const user = useUser()
+    const {user} = useUser()
 
     const [title, setTitle] = useState('')
 

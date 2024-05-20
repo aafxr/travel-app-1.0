@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 
 import SessionItem from "../../components/ui/SessionItem/SessionItem";
 import Container from "../../components/Container/Container";
-import {useUser} from "../../contexts/AppContextProvider";
 import Swipe from "../../components/ui/Swipe/Swipe";
 import Loader from "../../components/Loader/Loader";
+import {useUser} from "../../hooks/redux-hooks";
 import {PageHeader} from "../../components/ui";
 import {REFRESH_TOKEN} from "../../constants";
 import aFetch from "../../axios";
@@ -48,11 +48,10 @@ export type SessionType ={
  * страница отображает активные сессии пользователя
  * @function
  * @name Sessions
- * @returns {JSX.Element}
  * @category Pages
  */
 export function Sessions() {
-    const user = useUser()
+    const {user} = useUser()
 
     const [currentSession, setCurrentSession] = useState<SessionType>()
     const [authList, setAuthList] = useState<SessionType[]>([])

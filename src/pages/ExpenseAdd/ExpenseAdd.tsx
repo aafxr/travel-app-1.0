@@ -1,9 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-import {SectionController} from "../../core/service-controllers/SectionController";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
+import {SectionController} from "../../core/service-controllers";
 import {ExpenseController} from "../../core/service-controllers";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
@@ -12,13 +12,14 @@ import {Chip, Input, PageHeader} from "../../components/ui";
 import Button from "../../components/ui/Button/Button";
 import {Expense, Section} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
+import {useUser} from "../../hooks/redux-hooks";
 
 import './ExpenseAdd.css'
 
 
 export function ExpenseAdd() {
     const context = useAppContext()
-    const user = useUser()!
+    const {user} = useUser()
     const navigate = useNavigate()
     const {expenseType, expenseCode, travelCode} = useParams()
     const [expense, setExpense] = useState<Expense>(new Expense({section_id:'misc', primary_entity_id: travelCode}))
@@ -37,7 +38,7 @@ export function ExpenseAdd() {
                 .catch(defaultHandleError)
         } else {
             expense.variant = expenseType === 'actual' ? StoreName.EXPENSES_ACTUAL: StoreName.EXPENSES_PLAN
-            expense.user_id = user.id
+            expense.user_id = user?.id || 'undefined'
             setExpense(expense)
         }
     }, []);

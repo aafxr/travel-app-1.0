@@ -96,6 +96,7 @@ export class ActionController{
             }
 
             const action = new Action(actionDto)
+            console.log('add action: ', action)
             await ActionService.add(ctx, action)
             response.action = action
 

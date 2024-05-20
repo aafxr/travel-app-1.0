@@ -3,9 +3,9 @@ import {useNavigate} from "react-router-dom";
 
 import Navigation from "../../components/Navigation/Navigation";
 import Container from "../../components/Container/Container";
-import {useUser} from "../../contexts/AppContextProvider";
 import Menu from "../../components/ui/Menu/Menu";
 import {PageHeader} from "../../components/ui";
+import {useUser} from "../../hooks/redux-hooks";
 
 import './Main.css'
 
@@ -17,7 +17,7 @@ import './Main.css'
  */
 export function Main() {
     const navigate = useNavigate()
-    const user = useUser()
+    const {user} = useUser()
     // const context = useAppContext()
 
     function handleNewTravel() {

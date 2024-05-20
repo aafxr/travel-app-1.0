@@ -3,11 +3,12 @@ import React, {PropsWithChildren, ReactNode, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import defaultHandleError from "../../../utils/error-handlers/defaultHandleError";
-import {useAppContext, useUser} from "../../../contexts/AppContextProvider";
+import {useAppContext} from "../../../contexts/AppContextProvider";
 import {UserController} from "../../../core/service-controllers";
 import MenuIconList from "../../MenuIconList/MenuIconList";
-import {useOutside} from "../../../hooks";
 import {ChevronRightIcon, MenuIcon} from "../../svg";
+import {useUser} from "../../../hooks/redux-hooks";
+import {useOutside} from "../../../hooks";
 
 import './Menu.css'
 
@@ -23,7 +24,7 @@ type MenuPropsType = {
  * @category Components
  */
 function Menu({children, className}: MenuPropsType) {
-    const user = useUser()
+    const {user} = useUser()
     const ctx = useAppContext()
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false)

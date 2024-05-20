@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
 
-import {useAppContext, useTravel} from "../contexts/AppContextProvider";
+import {useAppContext} from "../contexts/AppContextProvider";
 import {HotelController, PlaceController} from "../core/service-controllers";
 import {Hotel, Place} from "../core/classes";
 import defaultHandleError from "../utils/error-handlers/defaultHandleError";
+import {useTravel} from "./redux-hooks";
 
 function _usePlaces(day?: number){
     const context = useAppContext()
-    const travel = useTravel()
+    const {travel} = useTravel()
     const [places, setPlaces] = useState<Array<Place | Hotel>>([])
     const [placesLoading, setPlacesLoading] = useState(true)
 

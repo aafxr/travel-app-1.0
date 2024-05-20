@@ -34,6 +34,7 @@ import {DB} from "./core/db/DB";
 import {TravelDateChange} from "./pages/TravelDateChange/TravelDateChange";
 import {TravelMembersSettings} from "./pages/TravelMembersSettings/TravelMembersSettings";
 import {TravelRules} from "./pages/TravelRules/TravelRules";
+import {TravelEditDescription} from "./pages/TravelEditDescription/TravelEditDescription";
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
                         <Route path={'/travel/:travelCode/date/'} element={<TravelDateChange/>}/>
                         <Route path={'/travel/:travelCode/members/'} element={<TravelMembersSettings/>}/>
                         <Route path={'/travel/:travelCode/rules/'} element={<TravelRules/>}/>
+                        <Route path={'/travel/:travelCode/edite/'} element={<TravelEditDescription/>}/>
 
                         <Route element={<LimitContextProvider/>}>
                             <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>

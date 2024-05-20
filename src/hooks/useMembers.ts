@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
 
-import {useAppContext, useTravel} from "../contexts/AppContextProvider";
+import defaultHandleError from "../utils/error-handlers/defaultHandleError";
+import {useAppContext} from "../contexts/AppContextProvider";
 import {MemberController} from "../core/service-controllers";
 import {Member, Travel} from "../core/classes";
-import defaultHandleError from "../utils/error-handlers/defaultHandleError";
+import {useTravel} from "./redux-hooks";
 
 export function useMembers(){
     const context = useAppContext()
-    const travel = useTravel()
+    const {travel} = useTravel()
     const [members, setMembers] = useState<Member[]>([])
     const [loading, setLoading] = useState(true)
 

@@ -1,12 +1,12 @@
 import clsx from "clsx";
 
-import {useTravel} from "../../contexts/AppContextProvider";
 import {DEFAULT_IMG_URL, month} from "../../constants";
 import {Place} from "../../core/classes";
 import {StarIcon} from "../svg";
 import {Chip} from "../ui";
 
 import './PlaceCard.css'
+import {useTravel} from "../../hooks/redux-hooks";
 
 
 
@@ -20,7 +20,7 @@ export function PlaceCard({
                               place,
                               className
                           }: PlaceCardPropsType) {
-    const travel = useTravel()
+    const {travel} = useTravel()
 
     return (
         <div className={clsx('place', className)}>

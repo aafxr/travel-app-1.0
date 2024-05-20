@@ -1,11 +1,11 @@
 import React from 'react'
 import {useNavigate} from "react-router-dom";
 
-import {useUser} from "../../contexts/AppContextProvider";
 import Container from "../../components/Container/Container";
 import {PageHeader} from "../../components/ui";
 import IconButton from "../../components/ui/IconButton/IconButton";
 import Navigation from "../../components/Navigation/Navigation";
+import {useUser} from "../../hooks/redux-hooks";
 
 
 
@@ -18,7 +18,7 @@ import Navigation from "../../components/Navigation/Navigation";
  */
 export function Events() {
     const navigate = useNavigate()
-    const user = useUser()
+    const {user} = useUser()
 
     return (
         <div className='wrapper'>

@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import {useState} from "react";
 
-import {useTravel} from "../../contexts/AppContextProvider";
 import {MemberRole} from "../../types/MemberRole";
 import {Member, Travel} from "../../core/classes";
+import {useTravel} from "../../hooks/redux-hooks";
 import {DEFAULT_IMG_URL} from "../../constants";
 import Button from "../ui/Button/Button";
 import {PlusIcon} from "../svg";
@@ -15,10 +15,10 @@ export type MembersListType = {
 }
 
 export function MembersList({members}: MembersListType){
-    const travel = useTravel()
+    const {travel} = useTravel()
     const [showMore, setShowMore] = useState(false)
 
-    console.error(members)
+
     return (
         <div className={clsx('members', {showMore})}>
             {

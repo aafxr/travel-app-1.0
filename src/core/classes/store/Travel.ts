@@ -77,55 +77,55 @@ export class Travel {
     isPublic: DBFlagType
 
     constructor(travel?: Partial<Travel> | TravelDTO) {
-        if(!travel) travel = {}
+        if (!travel) travel = {}
 
-        this.id             = travel.id !== undefined ? travel.id : nanoid(7)
-        this.code           = travel.code !== undefined ? travel.code : ''
-        this.description    = travel.description !== undefined ? travel.description : ''
-        this.direction      = travel.direction !== undefined ? travel.direction : ''
-        this.owner_id       = travel.owner_id !== undefined ? travel.owner_id : ''
-        this.title          = travel.title !== undefined ? travel.title : ''
+        this.id = travel.id !== undefined ? travel.id : nanoid(7)
+        this.code = travel.code !== undefined ? travel.code : ''
+        this.description = travel.description !== undefined ? travel.description : ''
+        this.direction = travel.direction !== undefined ? travel.direction : ''
+        this.owner_id = travel.owner_id !== undefined ? travel.owner_id : ''
+        this.title = travel.title !== undefined ? travel.title : ''
 
-        if(travel.previewPhotoId) this.previewPhotoId = travel.previewPhotoId
+        if (travel.previewPhotoId) this.previewPhotoId = travel.previewPhotoId
 
-        this.days           = travel.days !== undefined ? travel.days : 1
-        this.isFromPoint    = travel.isFromPoint !== undefined ? travel.isFromPoint : 0
+        this.days = travel.days !== undefined ? travel.days : 1
+        this.isFromPoint = travel.isFromPoint !== undefined ? travel.isFromPoint : 0
         this.children_count = travel.children_count !== undefined ? travel.children_count : 0
-        this.members_count  = travel.members_count !== undefined ? travel.members_count : 1
+        this.members_count = travel.members_count !== undefined ? travel.members_count : 1
 
-        this.created_at     = travel.created_at !== undefined ? new Date(travel.created_at) : new Date()
-        this.date_end       = travel.date_end !== undefined ? new Date(travel.date_end) : new Date(0)
-        this.date_start     = travel.date_start !== undefined ? new Date(travel.date_start) : new Date(0)
-        this.updated_at     = travel.updated_at !== undefined ? new Date(travel.updated_at) : new Date()
+        this.created_at = travel.created_at !== undefined ? new Date(travel.created_at) : new Date()
+        this.date_end = travel.date_end !== undefined ? new Date(travel.date_end) : new Date(0)
+        this.date_start = travel.date_start !== undefined ? new Date(travel.date_start) : new Date(0)
+        this.updated_at = travel.updated_at !== undefined ? new Date(travel.updated_at) : new Date()
 
-        this.movementTypes  = travel.movementTypes !== undefined ? [...travel.movementTypes] : [ MovementType.CAR ]
-        this.places_id      = travel.places_id !== undefined ? [...travel.places_id] : []
-        this.hotels_id      = travel.hotels_id !== undefined ? [...travel.hotels_id] : []
-        this.waypoints_id   = travel.waypoints_id !== undefined ? [...travel.waypoints_id] : []
+        this.movementTypes = travel.movementTypes !== undefined ? [...travel.movementTypes] : [MovementType.CAR]
+        this.places_id = travel.places_id !== undefined ? [...travel.places_id] : []
+        this.hotels_id = travel.hotels_id !== undefined ? [...travel.hotels_id] : []
+        this.waypoints_id = travel.waypoints_id !== undefined ? [...travel.waypoints_id] : []
 
-        this.preference     = travel.preference !== undefined ? Object.assign({}, travel.preference) : new Preference()
-        this.permission     = travel.permission !== undefined ? Object.assign({}, travel.permission) : new TravelPermission()
+        this.preference = travel.preference !== undefined ? Object.assign({}, travel.preference) : new Preference()
+        this.permission = travel.permission !== undefined ? Object.assign({}, travel.permission) : new TravelPermission()
 
-        this.admins         = travel.admins !== undefined ? [...travel.admins] : []
-        this.editors        = travel.editors !== undefined ? [...travel.editors] : []
-        this.commentator    = travel.commentator !== undefined ? [...travel.commentator] : []
+        this.admins = travel.admins !== undefined ? [...travel.admins] : []
+        this.editors = travel.editors !== undefined ? [...travel.editors] : []
+        this.commentator = travel.commentator !== undefined ? [...travel.commentator] : []
 
-        this.isPublic       = travel.isPublic !== undefined ? travel.isPublic : 0
+        this.isPublic = travel.isPublic !== undefined ? travel.isPublic : 0
     }
 
-    static setDateStart(travel: Travel, start: Date){
-        if(start.getSeconds() || start.getMinutes() || start.getMilliseconds() || start.getHours()) start.setHours(0,0,0,0)
+    static setDateStart(travel: Travel, start: Date) {
+        if (start.getSeconds() || start.getMinutes() || start.getMilliseconds() || start.getHours()) start.setHours(0, 0, 0, 0)
         travel.date_start = new Date(start)
         travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * travel.days)
     }
 
-    static setDateEnd(travel: Travel, end: Date){
-        if(end.getHours() !== 23 || end.getMilliseconds() !== 999) end.setHours(23,59,59,999)
+    static setDateEnd(travel: Travel, end: Date) {
+        if (end.getHours() !== 23 || end.getMilliseconds() !== 999) end.setHours(23, 59, 59, 999)
         travel.date_end = new Date(end)
         travel.date_start = new Date(travel.date_end.getTime() - MS_IN_DAY * travel.days)
     }
 
-    static setDays(travel: Travel, days: number){
+    static setDays(travel: Travel, days: number) {
         if (days < 1) return
         travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * days)
         travel.days = days
@@ -146,23 +146,25 @@ export class Travel {
         return [travel.owner_id, ...travel.admins, ...travel.editors, ...travel.commentator]
     }
 
-    static getMemberRole(travel: Travel, memberID: string): MemberRole{
-        if(travel.owner_id === memberID) return MemberRole.OWNER
-        if(travel.admins.includes(memberID)) return MemberRole.ADMIN
-        if(travel.editors.includes(memberID)) return MemberRole.EDITOR
-        if(travel.commentator.includes(memberID)) return MemberRole.COMMENTATOR
+    static getMemberRole(travel: Travel, memberID: string): MemberRole {
+        if(travel){
+            if (travel.owner_id === memberID) return MemberRole.OWNER
+            if (travel.admins.includes(memberID)) return MemberRole.ADMIN
+            if (travel.editors.includes(memberID)) return MemberRole.EDITOR
+            if (travel.commentator.includes(memberID)) return MemberRole.COMMENTATOR
+        }
         return MemberRole.WATCHER
     }
 
-    static isMemberInTravel(t: Travel, m: Member){
+    static isMemberInTravel(t: Travel, m: Member) {
         const list = Travel.getMembers(t)
         return list.includes(m.id)
     }
 
-    static addMember(t: Travel, m: Member, role: MemberRole = MemberRole.COMMENTATOR){
-        const isInTravel = Travel.isMemberInTravel(t,m)
+    static addMember(t: Travel, m: Member, role: MemberRole = MemberRole.COMMENTATOR) {
+        const isInTravel = Travel.isMemberInTravel(t, m)
         if (isInTravel) return
-        switch (role){
+        switch (role) {
             case MemberRole.EDITOR:
                 t.editors.push(m.id)
                 break

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import {useTravel} from "../../contexts/AppContextProvider";
+import {useTravel} from "../../hooks/redux-hooks";
 import {DEFAULT_IMG_URL} from "../../constants";
 import {Hotel} from "../../core/classes";
 import {StarIcon} from "../svg";
@@ -19,7 +19,7 @@ export function HotelCard({
                               hotel,
                               className
                           }: HotelCardPropsType) {
-    const travel = useTravel()
+    const {travel} = useTravel()
 
     return (
         <div className={clsx('hotel', className)}>

@@ -2,7 +2,7 @@ import {useAppContext} from "./useAppContext";
 import {useEffect, useState} from "react";
 import {User} from "../../core/classes";
 
-export function useUser(){
+function useUser(){
     const [state, setState] = useState<{ user?:User }>({user:undefined})
     const context = useAppContext()
 

@@ -4,11 +4,12 @@ import PhotoComponent from "../../components/ui/PhotoComponents/PhotoComponent";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {PhotoController, UserController} from "../../core/service-controllers";
 import LinkComponent from "../../components/ui/LinkComponent/LinkComponent";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import Navigation from "../../components/Navigation/Navigation";
 import Container from "../../components/Container/Container";
 import Curtain from "../../components/ui/Curtain/Curtain";
 import Menu from "../../components/ui/Menu/Menu";
+import {useUser} from "../../hooks/redux-hooks";
 import {PageHeader} from "../../components/ui";
 import {Photo} from "../../core/classes";
 
@@ -18,7 +19,7 @@ import './Profile.css'
 /** компонент отбражает профиль пользователя  */
 export function Profile() {
     const ctx = useAppContext()
-    const user = useUser()
+    const {user} = useUser()
     const context = useAppContext()
 
     async function handlePhotoChange(blob:Blob){

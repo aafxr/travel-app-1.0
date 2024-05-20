@@ -3,7 +3,6 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import Container from "../../components/Container/Container";
-import {useTravel} from "../../contexts/AppContextProvider";
 import Button from "../../components/ui/Button/Button";
 import {PageHeader, Tab} from "../../components/ui";
 import {useExpenseFilterType} from "../../hooks";
@@ -12,11 +11,12 @@ import {EXPENSE_TYPE} from "../../constants";
 import {ExpensesPlan} from "./ExpensesPlan";
 
 import './ExpensesPage.css'
+import {useTravel} from "../../hooks/redux-hooks";
 
 
 export function ExpensesPage() {
     const navigate = useNavigate()
-    const travel = useTravel()
+    const {travel} = useTravel()
     const {travelCode, expenseType} = useParams()
     const {type, setExpenseType} = useExpenseFilterType()
 

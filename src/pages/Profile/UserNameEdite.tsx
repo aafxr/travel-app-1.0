@@ -2,12 +2,13 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import {UserController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import Button from "../../components/ui/Button/Button";
 import {Input, PageHeader} from "../../components/ui";
 import {User} from "../../core/classes";
+import {useUser} from "../../hooks/redux-hooks";
 
 
 
@@ -20,7 +21,7 @@ import {User} from "../../core/classes";
  */
 export function UserNameEdite() {
     const ctx = useAppContext()
-    const ctx_user = useUser()!
+    const {user: ctx_user} = useUser()
     const context = useAppContext()
     const navigate = useNavigate()
     const [user, setUser] = useState<User>()

@@ -2,13 +2,14 @@ import clsx from "clsx";
 import {useEffect, useState} from "react";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext, useTravel} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import {MemberController} from "../../core/service-controllers";
 import {MemberRole} from "../../types/MemberRole";
 import {Member, Travel} from "../../core/classes";
 import {Photo} from "../Photo/Photo";
 
 import './TravelPeople.css'
+import {useTravel} from "../../hooks/redux-hooks";
 
 interface ITravelPeople {
     classname?: string
@@ -22,9 +23,19 @@ export function TravelPeople({
                                  onClick
                              }: ITravelPeople){
     const ctx = useAppContext()
-    const travel = useTravel()!
+    const {travel} = useTravel()
     const [member, setMember] = useState<Member>()
     let role
+
+
+    useEffect(() => {
+        MemberController.read(ctx, memberID)
+            .then(setMember)
+            .catch(defaultHandleError)
+    }, [])
+
+
+    if(!travel) return null
 
     switch (Travel.getMemberRole(travel, memberID)){
         case MemberRole.OWNER:
@@ -43,11 +54,7 @@ export function TravelPeople({
             role = 'watcher'
     }
 
-    useEffect(() => {
-        MemberController.read(ctx, memberID)
-            .then(setMember)
-            .catch(defaultHandleError)
-    }, [])
+
 
     function handlePeopleClick(){
         if(!onClick || !member) return

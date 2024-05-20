@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useAppContext} from "./useAppContext";
 import {Travel} from "../../core/classes";
 
-export function useTravel(){
+function useTravel(){
     const [state, setState] = useState<{ travel?: Travel }>({travel: undefined})
     const context =  useAppContext()
 

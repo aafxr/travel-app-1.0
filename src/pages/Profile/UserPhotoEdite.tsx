@@ -3,19 +3,20 @@ import {useNavigate} from "react-router-dom";
 
 import PhotoComponent from "../../components/ui/PhotoComponents/PhotoComponent";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext, useUser} from "../../contexts/AppContextProvider";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import {PhotoController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
 import Button from "../../components/ui/Button/Button";
 import {Photo, User} from "../../core/classes";
 import {PageHeader} from "../../components/ui";
+import {useUser} from "../../hooks/redux-hooks";
 
 
 /**
  *
  */
 export function UserPhotoEdite() {
-    const ctx_user = useUser()!
+    const {user: ctx_user} = useUser()
     const ctx = useAppContext()
     const [photo, setPhoto] = useState<Photo>()
     const [user, setUser] = useState<User>()
