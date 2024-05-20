@@ -44,9 +44,13 @@ export class Update{
 
 
         if(travel.updated_at.getTime() < action.datetime.getTime()){
-            Object.assign(travel, action.data)
+            Object.keys(action.data)
+                .forEach(k => {
+                    // @ts-ignore
+                    if(action.data[k] !== undefined) travel[k] = action.data[k]
+                })
             await DB.update(StoreName.TRAVEL, travel)
-            return travel
+            return new Travel(travel)
         }
 
         travel = await Recover.travel(id)
