@@ -1,4 +1,4 @@
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import {createContext, useContext, useEffect, useState, PropsWithChildren} from "react";
 
 import {Step_2_TravelSettings} from "./Step_2_TravelSettings";
@@ -9,6 +9,9 @@ import {Step_1_TravelName} from "./Step_1_TravelName";
 import {useUser} from "../../hooks/redux-hooks";
 import {Step_AddPlace} from "./Step_AddPlace";
 import {Step_AddHotel} from "./Step_AddHotel";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {HotelController, PlaceController, TravelController} from "../../core/service-controllers";
+import {useAppContext} from "../../contexts/AppContextProvider";
 
 const steps = {
     Step_1_TravelName,
@@ -54,6 +57,8 @@ function NewTravelContextProvider({children}: PropsWithChildren) {
 
 
 function NewTravelSteps(){
+    const navigate = useNavigate()
+    const context = useAppContext()
     const ntc = useContext(NewTravelContext)
     const {user} = useUser()
     const [step, setStep] = useState<keyof typeof steps>('Step_1_TravelName');
@@ -80,13 +85,29 @@ function NewTravelSteps(){
 
     const  handleStep_3_AdviceRoute: TravelStepPropsType["next"] = (t, step) => {
         ntc.travel = t
-        step ? setStep(step) : setStep("Step_2_TravelSettings")
+        step ? setStep(step) : setStep("Step_4_AddDetails")
     }
 
 
     const handleStep_4_AddDetails: TravelStepPropsType["next"] = (t, step) => {
         ntc.travel = t
-        if(step) setStep(step)
+        if(step) {
+            setStep(step)
+        } else{
+            createTravel().catch(defaultHandleError)
+        }
+    }
+
+
+    async function createTravel(){
+        await TravelController.create(context, ntc.travel)
+
+        const ppl = ntc.places.map(p => PlaceController.create(context, p).catch(defaultHandleError))
+        const hpl = ntc.hotels.map(h => HotelController.create(context, h).catch(defaultHandleError))
+
+        await Promise.all([...ppl,...hpl])
+
+        navigate(`/travel/${ntc.travel.id}/1/`)
     }
 
 

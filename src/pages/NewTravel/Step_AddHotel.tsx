@@ -5,6 +5,7 @@ import Container from "../../components/Container/Container";
 import {useNewTravelContext} from "./useNewTravelContext";
 import {fetchHotels} from "../../api/fetch/fetchHotels";
 import Button from "../../components/ui/Button/Button";
+import Counter from "../../components/Counter/Counter";
 import {Input, PageHeader} from "../../components/ui";
 import {TravelStepPropsType} from "./NewTravel";
 import {Hotel} from "../../core/classes";
@@ -14,6 +15,8 @@ export function Step_AddHotel({next}: TravelStepPropsType){
     const [hotels, setHotels] = useState<Hotel[]>([])
     const [selected, setSelected] = useState<Hotel | undefined>()
     const [inputHotelName, setInputHotelName] = useState<string>("")
+    const [day, setDay] = useState(1)
+
 
 
     async function handelPlaceNameChange(text: string) {
@@ -38,7 +41,11 @@ export function Step_AddHotel({next}: TravelStepPropsType){
                     to={() => next(ntc.travel, 'Step_4_AddDetails')}
                     title={'Добавить отель'}
                 />
-                <Input value={inputHotelName} onChange={handelPlaceNameChange} delay={300}/>
+                <div className='column gap-0.5'>
+                    <Input value={inputHotelName} onChange={handelPlaceNameChange} delay={300}/>
+                    <div className='flex-between align-center'><span>День:</span><Counter init={day} min={1} onChange={setDay}/></div>
+                </div>
+
             </Container>
             <Container className='content pt-20'>
                 <div className='column gap-1'>

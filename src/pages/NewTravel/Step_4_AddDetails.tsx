@@ -28,7 +28,11 @@ export function Step_4_AddDetails({next}: TravelStepPropsType){
     return (
         <div className='wrapper'>
             <Container>
-                <PageHeader title='Детали путешествия' />
+                <PageHeader
+                    arrowBack
+                    to={() => next(ntc.travel, "Step_2_TravelSettings")}
+                    title='Детали путешествия'
+                />
             </Container>
 
             <Container className='content'>

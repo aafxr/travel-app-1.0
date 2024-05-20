@@ -130,7 +130,11 @@ export function Step_2_TravelSettings({next}: TravelStepPropsType) {
         <>
             <div className='travel-settings wrapper'>
                 <Container>
-                    <PageHeader arrowBack title={'Параметры'}/>
+                    <PageHeader
+                        to={() => next(ntc.travel, 'Step_1_TravelName')}
+                        arrowBack
+                        title={'Параметры'}
+                    />
                 </Container>
                 <Container className='content overflow-x-hidden'>
                     <div className='content column'>

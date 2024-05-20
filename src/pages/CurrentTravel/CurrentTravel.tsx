@@ -72,6 +72,7 @@ export function CurrentTravel() {
         setRouteFilter(type)
     }
 
+    console.log(places)
 
     return (
         <>
@@ -140,7 +141,7 @@ export function CurrentTravel() {
             </div>
             <Curtain onChange={setCOpen}>
                 <div className='wrapper relative'>
-                    <Container>
+                    <Container className='pb-20'>
                         <div className='route-filter-list pt-20'>
                             <Button
                                 className='route-filter-btn'

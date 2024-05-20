@@ -247,6 +247,11 @@ a{
     height: var(--icon-size);
 }
 
+.icon\/2{
+    width: calc(var(--icon-size) / 2);
+    height: calc(var(--icon-size) / 2);
+}
+
 .bg-grey-light{
     background-color: var(--color-grey-light);
 }
@@ -479,4 +484,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: transparent;
     border-radius: 2rem;
     border: 2px solid var(--color-text-silver);
+}
+
+.rounded-btn{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: var(--round-button-size);
+    height: var(--round-button-size);
+    background: var(--color-background);
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.border{
+    border: var(--border);
 }
