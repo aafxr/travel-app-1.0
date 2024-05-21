@@ -40,11 +40,9 @@ export function actionHandler({
 
     return async (actionDTO: ActionDto) => {
         const dispatch = store.dispatch
-        console.log(actionDTO, typeof actionDTO)
         try {
             const result = await ActionController.add(context, actionDTO)
             if (!result.ok) {
-                console.log(result)
                 return
             }
 

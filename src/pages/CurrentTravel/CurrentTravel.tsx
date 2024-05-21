@@ -32,6 +32,7 @@ import {
 import './CurrentTravel.css'
 
 
+
 export function CurrentTravel() {
     const context = useAppContext()
     const {travelCode, travelDay} = useParams()

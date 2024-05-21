@@ -7,7 +7,7 @@ import {useResize} from "../../../hooks";
 import './Curtain.css'
 
 interface CurtainPropsType extends PropsWithChildren {
-    direction?: string
+    title?: string
     minOffset?: number
     maxScroll?: number
     maxOpenPercent?: number
@@ -23,7 +23,7 @@ interface CurtainPropsType extends PropsWithChildren {
  * @function
  * @name Curtain
  * @param children
- * @param {string} direction направвление поездки, если указано, то будет отображаться вместо кнопки в шапке компонента
+ * @param {string} title направвление поездки, если указано, то будет отображаться вместо кнопки в шапке компонента
  * @param {number} minOffset минимальное смещение в пикселях (px) от верхнего положения
  * @param {number} maxScroll максимальное значение в px на которое открывается шторка
  * @param {number} maxOpenPercent 0 - 1 , величина, на которую открывается шторка
@@ -36,7 +36,7 @@ interface CurtainPropsType extends PropsWithChildren {
  */
 export default function Curtain({
                                     children,
-                                    direction,
+                                    title,
                                     minOffset = 0,
                                     maxScroll,
                                     maxOpenPercent,
@@ -76,6 +76,7 @@ export default function Curtain({
         }
     }, [])
 
+
     useEffect(() => {
         if (curtainRef.current) {
             if (topOffset > minOffset) {
@@ -104,7 +105,7 @@ export default function Curtain({
     }
 
     function curtainHandler(e: React.MouseEvent<HTMLDivElement>) {
-        if(!curtainRef.current) return
+        if (!curtainRef.current) return
         e.stopPropagation()
         if (e.type === 'mouseup') {
             if (topOffset > minOffset * (1 + scrollDiff)) {
@@ -127,7 +128,7 @@ export default function Curtain({
         maxHeight: `calc(100% - ${topOffset}px - ${minOffset})`
     }
 
-    //================= drag handlers ============================================================================
+//================= drag handlers ============================================================================
     function handleTouchStart(e: React.TouchEvent<HTMLDivElement>) {
         e.stopPropagation()
         document.documentElement.classList.add('disable-reload')
@@ -145,7 +146,7 @@ export default function Curtain({
         movePosition(e.touches[0].pageY)
     }
 
-    //====================================
+//====================================
     function handleDragStart(e: React.DragEvent<HTMLDivElement>) {
         e.stopPropagation()
         startPosition(e.pageY)
@@ -161,14 +162,14 @@ export default function Curtain({
         movePosition(e.pageY)
     }
 
-    //====================================
+//====================================
 
     function startPosition(y: number) {
         setDragStart(y)
     }
 
     function endPosition(y: number) {
-        if(!curtainRef.current) return
+        if (!curtainRef.current) return
 
         const diff = dragStart - dragEnd
         //минимальное смещение в пикселях, на которое не реагирует шторка
@@ -211,45 +212,45 @@ export default function Curtain({
         setTopOffset(y)
     }
 
-    //================= drag handlers end ========================================================================
+//================= drag handlers end ========================================================================
 
 
     return createPortal(
-            <div ref={cRef} className={clsx('curtain', {'hidden': !init})}>
-                <div
-                    ref={curtainRef}
-                    className={clsx('curtain-container', {'scrolled': topOffset})}
-                    style={curtainStyle}
-                >
-                    <div className='wrapper'>
-                        <div
-                            ref={cTopRef}
-                            className='curtain-header'
-                            onMouseUp={(e) => curtainHandler(e)}
-                            onMouseDown={(e) => curtainHandler(e)}
-                            onClick={(e) => curtainHandler(e)}
-                            onDoubleClick={(e) => curtainHandler(e)}
-                            onDragStart={handleDragStart}
-                            onDragEnd={handleDragEnd}
-                            onDrag={handleDrag}
-                            onTouchStart={handleTouchStart}
-                            onTouchEnd={handleTouchEnd}
-                            onTouchMove={handleTouchMove}
-                            draggable
-                        >
-                            {
-                                (typeof direction === 'string' && direction.length > 0)
-                                    ? <div className='title-semi-bold center'
-                                           style={{height: "1.8rem", textAlign: 'center'}}>{direction}</div>
-                                    : <button className='curtain-top-btn'/>
-                            }
-                        </div>
-                        <div className='content'>
-                            {children}
-                        </div>
+        <div ref={cRef} className={clsx('curtain', {'hidden': !init})}>
+            <div
+                ref={curtainRef}
+                className={clsx('curtain-container', {'scrolled': topOffset})}
+                style={curtainStyle}
+            >
+                <div className='wrapper'>
+                    <div
+                        ref={cTopRef}
+                        className='curtain-header'
+                        onMouseUp={(e) => curtainHandler(e)}
+                        onMouseDown={(e) => curtainHandler(e)}
+                        onClick={(e) => curtainHandler(e)}
+                        onDoubleClick={(e) => curtainHandler(e)}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                        onDrag={handleDrag}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                        onTouchMove={handleTouchMove}
+                        draggable
+                    >
+                        {
+                            (typeof title === 'string' && title.length > 0)
+                                ? <div className='title-semi-bold center'
+                                       style={{height: "1.8rem", textAlign: 'center'}}>{title}</div>
+                                : <button className='curtain-top-btn'/>
+                        }
+                    </div>
+                    <div className='content'>
+                        {children}
                     </div>
                 </div>
             </div>
+        </div>
         , document.body
     )
 }

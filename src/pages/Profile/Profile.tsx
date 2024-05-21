@@ -1,6 +1,5 @@
 import React from "react";
 
-import PhotoComponent from "../../components/ui/PhotoComponents/PhotoComponent";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {PhotoController, UserController} from "../../core/service-controllers";
 import LinkComponent from "../../components/ui/LinkComponent/LinkComponent";

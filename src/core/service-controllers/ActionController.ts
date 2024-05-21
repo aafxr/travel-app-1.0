@@ -17,46 +17,6 @@ import {ActionError} from "../errors";
 import {ErrorCode} from "../errors/ErrorCode";
 
 export class ActionController{
-    // static async create<T extends {}>(ctx: Context, expense: Action<T>){
-    //     try {
-    //
-    //     }catch (e){
-    //         throw e
-    //     }
-    // }
-    //
-    // static async read(ctx: Context, expenseID:string){
-    //     try {
-    //
-    //     }catch (e){
-    //         throw e
-    //     }
-    // }
-    //
-    // static async readAll(ctx: Context, ...expenseIDs:string[]){
-    //     try {
-    //
-    //     }catch (e){
-    //         throw e
-    //     }
-    // }
-    //
-    // static async update<T extends {}>(ctx: Context, expense:Action<T>){
-    //     try {
-    //
-    //     }catch (e){
-    //         throw e
-    //     }
-    // }
-    //
-    // static async delete<T extends {}>(ctx: Context, expense:Action<T>){
-    //     try {
-    //
-    //     }catch (e){
-    //         throw e
-    //     }
-    // }
-
     static async add<T extends ActionDto>(ctx: Context, actionDto: T){
         try {
             const response = new ControllerResponse()
@@ -96,7 +56,6 @@ export class ActionController{
             }
 
             const action = new Action(actionDto)
-            console.log('add action: ', action)
             await ActionService.add(ctx, action)
             response.action = action
 
