@@ -23,7 +23,7 @@ import {useAppContext} from "./contexts/AppContextProvider";
 import Container from "./components/Container/Container";
 import {ExpenseAdd} from "./pages/ExpenseAdd/ExpenseAdd";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
-import {Action, Recover, Travel} from "./core/classes";
+import {Action, Compare, Recover, Travel} from "./core/classes";
 import {NewTravel} from "./pages/NewTravel/NewTravel";
 import {LimitAdd} from "./pages/LimitAdd/LimitAdd";
 import Loader from "./components/Loader/Loader";
@@ -35,12 +35,15 @@ import {TravelDateChange} from "./pages/TravelDateChange/TravelDateChange";
 import {TravelMembersSettings} from "./pages/TravelMembersSettings/TravelMembersSettings";
 import {TravelRules} from "./pages/TravelRules/TravelRules";
 import {TravelEditDescription} from "./pages/TravelEditDescription/TravelEditDescription";
+import {useTravelSubject} from "./contexts/SubjectContextProvider";
+import {TravelAddPlace} from "./pages/TravelAddPlace/TravelAddPlace";
 
 
 function App() {
     const ctx = useAppContext()
     const dispatch = useAppDispatch()
     const {loading, actions: {loadUser}} = useUser()
+    const travelSubject = useTravelSubject()
 
 
     useEffect(() => {
@@ -57,6 +60,12 @@ function App() {
         dispatch(loadUser({ctx}))
     }, [])
 
+
+    useEffect(() => {
+        const sub = travelSubject.subscribe((t) => console.log('next: ', t))
+        return () => {sub.unsubscribe()}
+    }, []);
+
     window.Recover = Recover
     window.DB = DB
     // @ts-ignore
@@ -65,6 +74,7 @@ function App() {
     window.Action = Action
     // @ts-ignore
     window.ActionDto = ActionDto
+    window.Compare = Compare
 
     if(loading)
         return (
@@ -94,6 +104,7 @@ function App() {
                         <Route path={'/travel/:travelCode/members/'} element={<TravelMembersSettings/>}/>
                         <Route path={'/travel/:travelCode/rules/'} element={<TravelRules/>}/>
                         <Route path={'/travel/:travelCode/edite/'} element={<TravelEditDescription/>}/>
+                        <Route path={'/travel/:travelCode/newPlace/'} element={<TravelAddPlace/>}/>
 
                         <Route element={<LimitContextProvider/>}>
                             <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>

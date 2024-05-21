@@ -15,16 +15,31 @@
 }
 
 .time-list{
+    position: relative;
     width: 80px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+
+    height: 12rem;
+    background: var(--color-background);
+    border: var(--border);
+}
+
+.hh,.mm{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
 }
 
 
 .time-list .item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 4px;
 }
 
-.time-list .item .selected{
+.time-list .item.selected{
     background-color: var(--color-primary);
 }

@@ -1,13 +1,22 @@
 /**
  * копирует поля из resource в target, пропускает поля, значение которых undefined
  * @param target
- * @param resource
+ * @param res
  */
-export function assign<T extends {}>(target: T, resource: Record<string, any> ): T{
-    const keys = Object.keys(resource).filter(k => resource[k] !== undefined)
+export function assign<T extends {}>(target: T, res: Record<string, any> ): T{
+    const keys = Object.keys(res).filter(k => res[k] !== undefined)
     for (const key of keys){
+
+        if(res[key] !== null && typeof res[key] === "object"){
+            // @ts-ignore
+            if(!target[key]) target[key] = {}
+            // @ts-ignore
+            assign(target[key], res[key])
+            continue
+        }
+
         // @ts-ignore
-        target[key] = resource[key]
+        target[key] = res[key]
     }
     return target
 }

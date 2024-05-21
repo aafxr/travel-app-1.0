@@ -75,6 +75,7 @@ export default function PlaceCard({
             // rElemBg='place-swipe-right'
             // lElemBg='place-swipe-left'
             rightElement={
+                onDelete &&
                 <div className='h-full center'>
                     <TrashIcon className='icon' onClick={() => onDelete && onDelete(place)}/>
                 </div>

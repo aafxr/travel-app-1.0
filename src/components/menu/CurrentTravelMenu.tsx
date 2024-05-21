@@ -8,6 +8,12 @@ export function CurrentTravelMenu(){
     const {travel} = useTravel()
 
 
+    function handleAddPlace(){
+        if(!travel) return
+        navigate(`/travel/${travel.id}/newPlace/`)
+    }
+
+
     function handleDateChange(){
         if(!travel) return
         navigate(`/travel/${travel.id}/date/`)
@@ -33,6 +39,8 @@ export function CurrentTravelMenu(){
 
     return (
         <Menu>
+            <Menu.Item arrow onClick={handleAddPlace}>Добавить локацию</Menu.Item>
+            <hr/>
             <Menu.Item arrow onClick={handleEditeTravelChange}>Редактировать описание</Menu.Item>
             <Menu.Item arrow onClick={handleDateChange}>Дата поездки</Menu.Item>
             <Menu.Item arrow onClick={handleMembersChange}>Участники</Menu.Item>
