@@ -1,11 +1,12 @@
-import {Action, Expense, Photo, Travel} from "./store";
 import {PartialExpense, PartialHotel, PartialLimit, PartialPlace, PartialTravel} from "./store/partial";
-import {StoreName} from "../../types/StoreName";
-import {DB} from "../db/DB";
-import {Recover} from "./Recover";
-import {ActionType} from "../../types/ActionType";
-import {ActionError} from "../errors";
 import {ExpenseVariantType} from "../../types/ExpenseVariantType";
+import {Action, Expense, Photo, Travel} from "./store";
+import {ActionType} from "../../types/ActionType";
+import {StoreName} from "../../types/StoreName";
+import {assign} from "../../utils/assign";
+import {ActionError} from "../errors";
+import {Recover} from "./Recover";
+import {DB} from "../db/DB";
 
 /**
  * ### важно перед использование класса созранить action в бд
@@ -44,11 +45,7 @@ export class Update{
 
 
         if(travel.updated_at.getTime() < action.datetime.getTime()){
-            Object.keys(action.data)
-                .forEach(k => {
-                    // @ts-ignore
-                    if(action.data[k] !== undefined) travel[k] = action.data[k]
-                })
+            assign(travel, action.data)
             await DB.update(StoreName.TRAVEL, travel)
             return new Travel(travel)
         }

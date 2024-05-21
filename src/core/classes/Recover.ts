@@ -1,10 +1,11 @@
-import {DB} from "../db/DB";
-import {StoreName} from "../../types/StoreName";
-import {PredicateType} from "../../types/Predicate";
 import {Action, Expense, Hotel, Limit, Photo, Place, Travel} from "./store";
 import {ExpenseVariantType} from "../../types/ExpenseVariantType";
-import {ActionType} from "../../types/ActionType";
 import {PartialExpense, PartialLimit} from "./store/partial";
+import {PredicateType} from "../../types/Predicate";
+import {ActionType} from "../../types/ActionType";
+import {StoreName} from "../../types/StoreName";
+import {DB} from "../db/DB";
+import {assign} from "../../utils/assign";
 
 
 /**
@@ -62,7 +63,6 @@ export class Recover {
 
     static _recordFieldsToTarget<T extends Record<string, any>>(actions: Action<Partial<T>>[], target: T): T | undefined {
         const _actions = actions.sort((a, b) => a.datetime.getTime() - b.datetime.getTime())
-        console.log(_actions)
 
         for (const a of _actions) {
             if (a.action === ActionType.DELETE) return
@@ -74,11 +74,10 @@ export class Recover {
                 if (Array.isArray(data[key])) {
                     // @ts-ignore
                     target[key] = Array.from(data[key])
-                } else if (data[key] && typeof data[key] === 'object') {
+                } else if (data[key] !== undefined && typeof data[key] === 'object') {
                     // @ts-ignore
                     if (!target[key]) target[key] = {}
-                    // @ts-ignore
-                    Object.assign(target[key], data[key])
+                    assign(target[key], data[key]!)
                 } else {
                     // @ts-ignore
                     target[key] = data[key]
