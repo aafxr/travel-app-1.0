@@ -6,6 +6,7 @@ import ymaps from "ymaps/index";
 import {Compare} from "./classes/Compare";
 import {Action} from "./core/classes";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
+import {CompareFuncType} from "./utils/compare";
 
 
 declare global {
@@ -32,6 +33,7 @@ declare global {
         Compare: Compare
         Action: Action
         ActionDto: ActionDto
+        compare: CompareFuncType
     }
 
     interface GlobalEventHandlersEventMap{

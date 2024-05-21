@@ -283,4 +283,20 @@ export class DB {
         }
         return actions
     }
+
+
+
+    static async getStoreItem<T>(key: string){
+        const db = await openIDBDatabase()
+        const res = await db.get(StoreName.STORE, key)
+        if(res) return res.value as T
+    }
+
+
+    static async setStoreItem<T>(key: string, value: T){
+        const item = { key, value}
+        const db = await openIDBDatabase()
+        await db.put(StoreName.STORE, item)
+        return value
+    }
 }

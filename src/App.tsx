@@ -37,6 +37,7 @@ import {TravelRules} from "./pages/TravelRules/TravelRules";
 import {TravelEditDescription} from "./pages/TravelEditDescription/TravelEditDescription";
 import {useTravelSubject} from "./contexts/SubjectContextProvider";
 import {TravelAddPlace} from "./pages/TravelAddPlace/TravelAddPlace";
+import {compare} from "./utils/compare";
 
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
     // @ts-ignore
     window.ActionDto = ActionDto
     window.Compare = Compare
+    window.compare = compare
 
     if(loading)
         return (
