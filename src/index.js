@@ -12,6 +12,7 @@ import defaultHandleError from "./utils/error-handlers/defaultHandleError";
 import {SubjectContextProvider} from "./contexts/SubjectContextProvider";
 import {ThemeContextProvider} from "./contexts/ThemeContextProvider";
 import {CACHE_VERSION, THEME} from "./constants";
+import Alerts from "./components/Alerts/Alerts";
 import setFixedVH from "./utils/setFixedVH";
 import {store} from "./redux";
 import App from './App';
@@ -33,6 +34,7 @@ root.render(
                     <BrowserRouter>
                         <App/>
                         <LoadActionsComponent/>
+                        <Alerts />
                     </BrowserRouter>
                 </SubjectContextProvider>
             </ThemeContextProvider>
