@@ -74,6 +74,11 @@ export function CurrentTravel() {
     }
 
 
+    function handleDateClick(){
+        navigate(`/travel/${travelCode}/date`)
+    }
+
+
     return (
         <>
             <div className='current-travel wrapper'>
@@ -99,14 +104,18 @@ export function CurrentTravel() {
                         {travel?.title}
                         &nbsp;
                         {travel?.permission.public
-                            ? <VisibilityIcon className='icon'/>
-                            : <VisibilityIcon className='icon visible'/>
+                            ? <VisibilityIcon className='icon visible'/>
+                            : <VisibilityIcon className='icon'/>
                         }
                     </div>
                     {!!travel?.description && <div className='current-travel-subtitle'>{travel?.description}</div>}
                     {!!travel &&
                         <div className='current-travel-duration'>
-                            <Chip color={"orange"} rounded>
+                            <Chip
+                                color={"orange"}
+                                rounded
+                                onClick={handleDateClick}
+                            >
                                 {dateRange(travel.date_start || '', travel.date_end || '')}
                             </Chip>
                         </div>
@@ -123,19 +132,19 @@ export function CurrentTravel() {
                 <Container className='footer'>
                     <div className='current-travel-btns'>
                         {!!travel?.permission.showExpenses && <button
-                            className='rounded-button'
+                            className='rounded-button c1'
                             onClick={() => navigate(`/travel/${travel?.id}/expenses/`)}
                         >
                             <MoneyIcon className='icon'/>
                             &nbsp;
                             Расходы
                         </button>}
-                        {!!travel?.permission.showCheckList && <button className='rounded-button'>
+                        {!!travel?.permission.showCheckList && <button className='rounded-button c2'>
                             <ChecklistIcon className='icon'/>
                             &nbsp;
                             Чек-лист
                         </button>}
-                        <button className='rounded-button'>
+                        <button className='chat-btn c3'>
                             <ChatIcon className='icon'/>
                         </button>
                     </div>

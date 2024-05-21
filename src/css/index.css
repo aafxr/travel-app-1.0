@@ -501,6 +501,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
+.chat-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--color-text-silver);
+    overflow: hidden;
+    cursor: pointer;
+}
+
 .border{
     border: var(--border);
 }
