@@ -1,0 +1,30 @@
+.time{
+    position: relative;
+}
+
+.time-input{
+    padding-right: calc(var(--icon-size) + 12px);
+}
+
+.time-clock{
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    color: var(--color-text-silver);
+    transform: translateY(-50%);
+}
+
+.time-list{
+    width: 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+.time-list .item{
+    padding: 4px;
+}
+
+.time-list .item .selected{
+    background-color: var(--color-primary);
+}
