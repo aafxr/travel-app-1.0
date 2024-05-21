@@ -64,85 +64,95 @@ export class Compare {
     }
 
     static expense(o: Expense, n: Expense) {
-        const result: Partial<Expense> = {
-            id: n.id,
-            primary_entity_id: n.primary_entity_id
-        }
-
-        if (o.entity_id !== n.entity_id) result.entity_id = n.entity_id
-        if (o.entity_type !== n.entity_type) result.entity_type = n.entity_type
-        if (o.primary_entity_type !== n.primary_entity_type) result.primary_entity_type = n.primary_entity_type
-        if (o.section_id !== n.section_id) result.section_id = n.section_id
-        if (o.title !== n.title) result.title = n.title
-        if (o.user_id !== n.user_id) result.user_id = n.user_id
-        if (o.currency !== n.currency) result.currency = n.currency
-        if (o.created_at !== n.created_at) result.created_at = n.created_at
-        if (o.datetime !== n.datetime) result.datetime = n.datetime
-        if (o.personal !== n.personal) result.personal = n.personal
-        if (o.value !== n.value) result.value = n.value
-
-        return result
+        // const result: Partial<Expense> = {
+        //     id: n.id,
+        //     primary_entity_id: n.primary_entity_id
+        // }
+        const r = compare(o,n ,["id", "primary_entity_id"], ["deleted"])
+        if(r) return r
+        //
+        // if (o.entity_id !== n.entity_id) result.entity_id = n.entity_id
+        // if (o.entity_type !== n.entity_type) result.entity_type = n.entity_type
+        // if (o.primary_entity_type !== n.primary_entity_type) result.primary_entity_type = n.primary_entity_type
+        // if (o.section_id !== n.section_id) result.section_id = n.section_id
+        // if (o.title !== n.title) result.title = n.title
+        // if (o.user_id !== n.user_id) result.user_id = n.user_id
+        // if (o.currency !== n.currency) result.currency = n.currency
+        // if (o.created_at !== n.created_at) result.created_at = n.created_at
+        // if (o.datetime !== n.datetime) result.datetime = n.datetime
+        // if (o.personal !== n.personal) result.personal = n.personal
+        // if (o.value !== n.value) result.value = n.value
+        //
+        // return result
     }
 
     static limit(o: Limit, n: Limit) {
-        const result: Partial<Limit> = {
-            id: n.id,
-            primary_entity_id: n.primary_entity_id
-        }
+        // const result: Partial<Limit> = {
+        //     id: n.id,
+        //     primary_entity_id: n.primary_entity_id
+        // }
 
-        if (o.personal !== n.personal) result.personal = n.personal
-        if (o.section_id !== n.section_id) result.section_id = n.section_id
-        if (o.value !== n.value) result.value = n.value
-
-        return result
+        const r = compare(o,n ,["id", "primary_entity_id"])
+        if(r) return r
+        // if (o.personal !== n.personal) result.personal = n.personal
+        // if (o.section_id !== n.section_id) result.section_id = n.section_id
+        // if (o.value !== n.value) result.value = n.value
+        //
+        // return result
     }
 
     static user(o: User, n: User) {
-        const result: Partial<User> = {id: n.id}
-
-        if (o.username !== n.username) result.username = n.username
-        if (o.first_name !== n.first_name) result.first_name = n.first_name
-        if (o.last_name !== n.last_name) result.last_name = n.last_name
-        if (o.photo !== n.photo) result.photo = n.photo
-        if (o.age !== n.age) result.age = n.age
-        return result
+        // const result: Partial<User> = {id: n.id}
+        const r = compare(o,n ,["id"])
+        if(r) return r
+        // if (o.username !== n.username) result.username = n.username
+        // if (o.first_name !== n.first_name) result.first_name = n.first_name
+        // if (o.last_name !== n.last_name) result.last_name = n.last_name
+        // if (o.photo !== n.photo) result.photo = n.photo
+        // if (o.age !== n.age) result.age = n.age
+        // return result
     }
 
     static photo(o: Photo, n: Photo) {
-        const result: Partial<Photo> = {id: n.id}
-        if (o.base64 !== n.base64) result.base64 = n.base64
-        return result
+        // const result: Partial<Photo> = {id: n.id}
+        const r = compare(o,n ,["id"])
+        if(r) return r
+        // if (o.base64 !== n.base64) result.base64 = n.base64
+        // return result
     }
 
     static place(o: Place, n: Place) {
-        const result: Partial<Place> = {id: n.id}
-
-        if (o.name !== n.name) result.name = n.name
-        if (o.formatted_address !== n.formatted_address) result.formatted_address = n.formatted_address
-        if (o.photos !== n.photos) result.photos = n.photos
-        if (o.location !== n.location) result.location = n.location
-
-        if (o.day !== n.day) result.day = n.day
-        if (o.date_start.getTime() !== n.date_start.getTime()) result.date_start = new Date(n.date_start)
-        if (o.date_end.getTime() !== n.date_end.getTime()) result.date_end = new Date(n.date_end)
-
-        return result
+        // const result: Partial<Place> = {id: n.id}
+        const r = compare(o,n ,["id"])
+        if(r) return r
+        // if (o.name !== n.name) result.name = n.name
+        // if (o.formatted_address !== n.formatted_address) result.formatted_address = n.formatted_address
+        // if (o.photos !== n.photos) result.photos = n.photos
+        // if (o.location !== n.location) result.location = n.location
+        //
+        // if (o.day !== n.day) result.day = n.day
+        // if (o.date_start.getTime() !== n.date_start.getTime()) result.date_start = new Date(n.date_start)
+        // if (o.date_end.getTime() !== n.date_end.getTime()) result.date_end = new Date(n.date_end)
+        //
+        // return result
     }
 
     static hotel(o: Hotel, n: Hotel) {
-        const result: Partial<Hotel> = {id: n.id}
-
-        if (o.name !== n.name) result.name = n.name
-        if (o.photo !== n.photo) result.photo = n.photo
-        if (!o.position.every((c, idx) => c === n.position[idx])) result.position = n.position
-        if (o.price !== n.price) result.price = n.price
-        if (o.rate !== n.rate) result.rate = n.rate
-        if (!o.tags.every((el, idx) => el === n.tags[idx])) result.tags = n.tags
-
-        if (o.day !== n.day) result.day = n.day
-        if (o.date_start.getTime() !== n.date_start.getTime()) result.date_start = new Date(n.date_start)
-        if (o.date_end.getTime() !== n.date_end.getTime()) result.date_end = new Date(n.date_end)
-
-        return result
+        // const result: Partial<Hotel> = {id: n.id}
+        const r = compare(o,n ,["id"])
+        if(r) return r
+        //
+        // if (o.name !== n.name) result.name = n.name
+        // if (o.photo !== n.photo) result.photo = n.photo
+        // if (!o.position.every((c, idx) => c === n.position[idx])) result.position = n.position
+        // if (o.price !== n.price) result.price = n.price
+        // if (o.rate !== n.rate) result.rate = n.rate
+        // if (!o.tags.every((el, idx) => el === n.tags[idx])) result.tags = n.tags
+        //
+        // if (o.day !== n.day) result.day = n.day
+        // if (o.date_start.getTime() !== n.date_start.getTime()) result.date_start = new Date(n.date_start)
+        // if (o.date_end.getTime() !== n.date_end.getTime()) result.date_end = new Date(n.date_end)
+        //
+        // return result
     }
 }
