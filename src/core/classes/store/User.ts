@@ -49,4 +49,11 @@ export class User extends Member {
         if('refresh_token' in user && user.refresh_token !== undefined) this.refresh_token = user.refresh_token
     }
 
+
+    static getPartial(user: Partial<User> | UserDto = {}){
+        let res: Partial<User> = {}
+        res = Member.getPartial(user)
+        return res
+    }
+
 }

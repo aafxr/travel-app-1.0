@@ -31,4 +31,17 @@ export class Member {
         this.photo = member.photo ? member.photo : ''
         this.age = member.age ? member.age : 18
     }
+
+
+    static getPartial(member: Partial<Member> | MemberDto = {}) {
+        const res : Partial<Member> = {}
+        if(member.id) res.id = member.id
+        if(member.username) res.username = member.username
+        if(member.first_name) res.first_name = member.first_name
+        if(member.last_name) res.last_name = member.last_name
+        if(member.photo) res.photo = member.photo
+        if(member.age) res.age = member.age
+
+        return res
+    }
 }

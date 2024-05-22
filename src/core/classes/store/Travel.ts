@@ -113,6 +113,42 @@ export class Travel {
         this.isPublic = travel.isPublic !== undefined ? travel.isPublic : 0
     }
 
+    static getPartial(travel: Partial<Travel> | TravelDTO = {}) {
+        const res: Partial<Travel> = {}
+        if(travel.id !== undefined) res.id = travel.id
+        if(travel.code !== undefined) res.code = travel.code
+        if(travel.description !== undefined) res.description = travel.description
+        if(travel.direction !== undefined) res.direction = travel.direction
+        if(travel.owner_id !== undefined) res.owner_id = travel.owner_id
+        if(travel.title !== undefined) res.title = travel.title
+
+        if(travel.previewPhotoId) res.previewPhotoId = travel.previewPhotoId
+
+        if(travel.days !== undefined) res.days = travel.days
+        if(travel.isFromPoint !== undefined) res.isFromPoint = travel.isFromPoint
+        if(travel.children_count !== undefined) res.children_count = travel.children_count
+        if(travel.members_count !== undefined) res.members_count = travel.members_count
+
+        if(travel.created_at !== undefined) res.created_at = new Date(travel.created_at)
+        if(travel.date_end !== undefined) res.date_end = new Date(travel.date_end)
+        if(travel.date_start !== undefined) res.date_start = new Date(travel.date_start)
+        if(travel.updated_at !== undefined) res.updated_at = new Date(travel.updated_at)
+
+        if(travel.movementTypes !== undefined && Array.isArray(travel.movementTypes)) res.movementTypes = [...travel.movementTypes]
+        if(travel.places_id !== undefined && Array.isArray(travel.places_id)) res.places_id = [...travel.places_id]
+        if(travel.hotels_id !== undefined && Array.isArray(travel.hotels_id)) res.hotels_id = [...travel.hotels_id]
+        if(travel.waypoints_id !== undefined && Array.isArray(travel.waypoints_id)) res.waypoints_id = [...travel.waypoints_id]
+
+        if(travel.preference !== undefined) res.preference = {...travel.preference}
+        if(travel.permission !== undefined) res.permission = {...travel.permission}
+
+        if(travel.admins !== undefined && Array.isArray(travel.admins)) res.admins = [...travel.admins]
+        if(travel.editors !== undefined && Array.isArray(travel.editors)) res.editors = [...travel.editors]
+        if(travel.commentator !== undefined && Array.isArray(travel.commentator)) res.commentator = [...travel.commentator]
+
+        return res
+    }
+
     static setDateStart(travel: Travel, start: Date) {
         if (start.getSeconds() || start.getMinutes() || start.getMilliseconds() || start.getHours()) start.setHours(0, 0, 0, 0)
         travel.date_start = new Date(start)

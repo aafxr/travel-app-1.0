@@ -1,10 +1,15 @@
 import {nanoid} from "nanoid";
 
-import {PartialExpense, PartialHotel, PartialMessage, PartialPlace, PartialTravel, PartialUser} from "./partial";
 import {ActionType} from "../../../types/ActionType";
 import {StoreName} from "../../../types/StoreName";
 import {DBFlagType} from "../../../types/DBFlagType";
 import {ActionDto} from "../dto";
+import {Travel} from "./Travel";
+import {Expense} from "./Expense";
+import {Hotel} from "./Hotel";
+import {Place} from "./Place";
+import {User} from "./User";
+import {Message} from "./Message";
 
 
 /**
@@ -53,23 +58,23 @@ export class Action<T extends Record<string, any>> {
 
         switch(this.entity){
             case StoreName.TRAVEL:
-                this.data = new PartialTravel(action.data) as T
+                this.data = Travel.getPartial(action.data) as T
                 break
             case StoreName.EXPENSES_ACTUAL:
             case StoreName.EXPENSES_PLAN:
-                this.data = new PartialExpense(action.data) as T
+                this.data = Expense.getPartial(action.data) as T
                 break
             case StoreName.HOTELS:
-                this.data = new PartialHotel(action.data || {}) as T
+                this.data = Hotel.getPartial(action.data || {}) as T
                 break
             case StoreName.PLACE:
-                this.data = new PartialPlace(action.data || {}) as unknown as T
+                this.data = Place.getPartial(action.data || {}) as unknown as T
                 break
             case StoreName.USERS:
-                this.data = new PartialUser(action.data || {}) as T
+                this.data = User.getPartial(action.data || {}) as T
                 break
             case StoreName.MESSAGE:
-                this.data = new PartialMessage(action.data || {}) as T
+                this.data = Message.getPartial(action.data || {}) as T
                 break
             default:
                 this.data = action.data !== undefined ? action.data as T: {} as T

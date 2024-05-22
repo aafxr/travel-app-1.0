@@ -47,6 +47,24 @@ export class Hotel{
     }
 
 
+    static getPartial(hotel: Partial<Hotel> | Partial<HotelDto> = {}) {
+        const res: Partial<Hotel> = {}
+        if(hotel.id) res.id = hotel.id
+        if('name' in hotel && hotel.name !== undefined) res.name = hotel.name
+        if('photo' in hotel && hotel.photo !== undefined) res.photo = hotel.photo
+        if('position' in hotel && hotel.position !== undefined) res.position = hotel.position
+        if('price' in hotel && hotel.price !== undefined) res.price = hotel.price
+        if('rate' in hotel && hotel.rate !== undefined) res.rate = hotel.rate
+        if('tags' in hotel && hotel.tags !== undefined) res.tags = hotel.tags
+
+        if('day' in hotel && hotel.day !== undefined) res.day = hotel.day
+        if('date_start' in hotel && hotel.date_start !== undefined) res.date_start = new Date(hotel.date_start)
+        if('date_end' in hotel && hotel.date_end !== undefined) res.date_end = new Date(hotel.date_end)
+
+        return res
+    }
+
+
     static getID(travel: Travel, apiHotelID: string){
         return `${nanoid(7)}:${travel.id}:${apiHotelID}`
     }

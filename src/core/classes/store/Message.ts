@@ -19,6 +19,18 @@ export class Message{
     }
 
 
+    static getPartial(msg: Partial<Message> | MessageDto = {}) {
+        const res : Partial<Message> = {}
+        if(msg.id !== undefined) res.id = msg.id
+        if(msg.date !== undefined) res.date = new Date(msg.date)
+        if(msg.from !== undefined) res.from = msg.from
+        if(msg.text !== undefined) res.text = msg.text
+        if(msg.primary_entity_id !== undefined) res.primary_entity_id = msg.primary_entity_id
+
+        return res
+    }
+
+
     static isSelf(msg:Message, user?: User | undefined | null){
         return msg.from === user?.id
     }

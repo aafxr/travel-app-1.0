@@ -73,6 +73,26 @@ export class Expense {
         else this.deleted = false
     }
 
+
+    static getPartial(expense: Partial<Expense> | Partial<ExpenseDTO> = {}) {
+        const res: Partial<Expense> = {}
+        if(expense.id !==undefined) res.id = expense.id
+        if(expense.entity_id !==undefined) res.entity_id = expense.entity_id
+        if(expense.entity_type !==undefined) res.entity_type = expense.entity_type
+        if(expense.primary_entity_id !==undefined) res.primary_entity_id = expense.primary_entity_id
+        if(expense.primary_entity_type !==undefined) res.primary_entity_type = expense.primary_entity_type
+        if(expense.section_id !==undefined) res.section_id = expense.section_id
+        if(expense.title !==undefined) res.title = expense.title
+        if(expense.user_id !==undefined) res.user_id = expense.user_id
+        if(expense.currency !==undefined) res.currency = expense.currency
+        if(expense.personal !==undefined) res.personal = expense.personal
+        if(expense.value !==undefined) res.value = expense.value
+        if(expense.datetime !==undefined) res.datetime = new Date(expense.datetime)
+        if(expense.created_at !==undefined) res.created_at = new Date(expense.created_at)
+
+        return res
+    }
+
     static createPersonalID(userID: string){
         return `${userID}:${nanoid(7)}`
     }

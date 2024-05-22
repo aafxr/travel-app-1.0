@@ -44,6 +44,27 @@ export class Place{
         this.date_end = place.date_end !== undefined ? new Date(place.date_end) : new Date(0)
     }
 
+
+    static getPartial(place: Partial<Place> | Partial<PlaceDto> = {}) {
+        const res: Partial<Place> = {}
+        if(place.id) res.id = place.id
+        if('name' in place && place.name !== undefined) res.name = place.name
+        if('formatted_address' in place && place.formatted_address !== undefined) res.formatted_address = place.formatted_address
+        if('photos' in place && place.photos !== undefined) res.photos = place.photos
+        if('location' in place && place.location !== undefined) res.location = place.location
+
+        res.day = place.day !== undefined ? place.day : 0
+        res.date_start = place.date_start !== undefined ? new Date(place.date_start) : new Date(0)
+        res.date_end = place.date_end !== undefined ? new Date(place.date_end) : new Date(0)
+
+        if('price' in place) res.price = place.price
+        if('duration' in place) res.duration = place.duration
+        if('popularity' in place) res.popularity = place.popularity
+
+        return res
+    }
+
+
     static getID(travel: Travel, apiPlaceID: string){
         return `${nanoid(7)}:${travel.id}:${apiPlaceID}`
     }

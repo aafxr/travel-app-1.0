@@ -28,6 +28,17 @@ export function compare<T extends {}>(o: T, n:T, include: Array<keyof T> = [],  
             continue
         }
 
+        if(Array.isArray(n[k])){
+            // @ts-ignore
+            const r = compare(o[k], n[k])
+            if(r){
+                // @ts-ignore
+                res[k] = Object.values(r)
+                hasChange = true
+            }
+            continue
+        }
+
         if(n[k] && typeof n[k] === 'object'){
            // @ts-ignore
             const r = compare(o[k], n[k])

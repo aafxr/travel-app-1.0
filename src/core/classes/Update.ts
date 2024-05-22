@@ -1,6 +1,5 @@
-import {PartialExpense, PartialHotel, PartialLimit, PartialPlace, PartialTravel} from "./store/partial";
 import {ExpenseVariantType} from "../../types/ExpenseVariantType";
-import {Action, Expense, Photo, Travel} from "./store";
+import {Action, Expense, Hotel, Limit, Photo, Place, Travel} from "./store";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {assign} from "../../utils/assign";
@@ -20,7 +19,7 @@ export class Update{
      * - если были произведены обновления метод вернет обновленную сущность
      * @param action - новый эктион с измененными полями в travel
      */
-    static async travel(action: Action<PartialTravel>){
+    static async travel(action: Action<Partial<Travel>>){
         if (action.entity !== StoreName.TRAVEL) ActionError.tryToUpdateEntityByWrongAction(StoreName.TRAVEL, action)
 
         if(action.action === ActionType.ADD){
@@ -59,7 +58,7 @@ export class Update{
 
 
 
-    static async expense(action: Action<PartialExpense>){
+    static async expense(action: Action<Partial<Expense>>){
         if (!action.entity.includes('expense')) ActionError.tryToUpdateEntityByWrongAction('expense', action)
 
         const id = action.data.id
@@ -83,7 +82,7 @@ export class Update{
 
 
 
-    static async limit(action: Action<PartialLimit>){
+    static async limit(action: Action<Partial<Limit>>){
         if (action.entity !== StoreName.LIMIT) ActionError.tryToUpdateEntityByWrongAction(StoreName.LIMIT, action)
 
         const id = action.data.id
@@ -95,7 +94,7 @@ export class Update{
     }
 
 
-    static async place(action: Action<PartialPlace>){
+    static async place(action: Action<Partial<Place>>){
         if (action.entity !== StoreName.PLACE) ActionError.tryToUpdateEntityByWrongAction(StoreName.PLACE, action)
 
         const id = action.data.id
@@ -107,7 +106,7 @@ export class Update{
     }
 
 
-    static async hotel(action: Action<PartialHotel>){
+    static async hotel(action: Action<Partial<Hotel>>){
         if (action.entity !== StoreName.HOTELS) ActionError.tryToUpdateEntityByWrongAction(StoreName.HOTELS, action)
 
         const id = action.data.id
