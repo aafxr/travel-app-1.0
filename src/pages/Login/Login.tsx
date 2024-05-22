@@ -30,7 +30,11 @@ export function Login() {
         if(location.hostname === 'localhost')
             UserController
                 .getLoggedInUser(ctx)
-                .then(user => ctx.setUser(user))
+                .then(u => {
+                    console.log(u);
+                    return u
+                })
+                .then(u => u && dispatch(setUser(u)))
                 .then(() => navigate('/'))
                 .catch(defaultHandleError)
     }, [])

@@ -294,9 +294,14 @@ export class DB {
 
 
     static async setStoreItem<T>(key: string, value: T){
-        const item = { key, value}
+        const item = { name: key, value}
         const db = await openIDBDatabase()
         await db.put(StoreName.STORE, item)
         return value
+    }
+
+
+    static async deleteStoreItem(key: string){
+        return await DB.delete(StoreName.STORE, key)
     }
 }

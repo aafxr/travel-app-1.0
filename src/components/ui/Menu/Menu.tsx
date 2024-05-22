@@ -33,7 +33,6 @@ function Menu({children, className}: MenuPropsType) {
     function handleLogin() {
         if (user) {
             UserController.logOut(ctx, user)
-                .then(() => ctx.setUser())
                 .then(() => navigate('/'))
                 .catch(defaultHandleError)
         } else {

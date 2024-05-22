@@ -1,11 +1,10 @@
 import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
 import {ACCESS_TOKEN, REFRESH_TOKEN, USER_AUTH} from "../../constants";
 import {fetchRemoveUserAuth, fetchUserAuthTg} from "../../api/fetch";
-import {Context, Action, User, Compare} from "../classes";
-import { UserError} from "../errors";
+import {Action, Compare, Context, User} from "../classes";
+import {UserError} from "../errors";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
-import {PhotoService} from "./PhotoService";
 import {DB} from "../db/DB";
 import {ActionService} from "./ActionService";
 
@@ -75,6 +74,8 @@ export class UserService{
             await DB.update(StoreName.USERS, user)
             await DB.update(StoreName.STORE, {name: ACCESS_TOKEN, value: user.token})
             await DB.update(StoreName.STORE, {name: REFRESH_TOKEN, value: user.refresh_token})
+
+            await DB.setStoreItem(USER_AUTH, user)
             localStorage.setItem(USER_AUTH, JSON.stringify(user))
         }
         return user
@@ -86,11 +87,12 @@ export class UserService{
      * @param user
      */
     static async logOut(ctx: Context, user: User) {
+        await fetchRemoveUserAuth(user)
         localStorage.removeItem(USER_AUTH)
+        await DB.deleteStoreItem(USER_AUTH)
         await DB.delete(StoreName.USERS, user.id)
         await DB.delete(StoreName.STORE, ACCESS_TOKEN)
         await DB.delete(StoreName.STORE, REFRESH_TOKEN)
-        await fetchRemoveUserAuth(user)
     }
 
     /**
@@ -98,24 +100,23 @@ export class UserService{
      */
     static async getLoggedInUser(ctx: Context) {
         if (location.hostname === 'localhost') {
-            const dev_user = await DB.getOne<User>(StoreName.USERS, devUser.id)
-            await DB.update(StoreName.STORE, {name: ACCESS_TOKEN, value: devUser.token})
-            await DB.update(StoreName.STORE, {name: REFRESH_TOKEN, value: devUser.refresh_token})
-            if (!dev_user) await DB.add(StoreName.USERS, devUser)
-            const user = new User(dev_user || devUser)
-            if (user.photo) {
-                const pt = await PhotoService.read(ctx, user.photo)
-                if (pt) user.photo = pt.id
+            let dev_user: User | undefined = await DB.getStoreItem(USER_AUTH)
+            if (dev_user) {
+                dev_user = new User(dev_user)
+                return dev_user
+            }else{
+                dev_user = new User(devUser)
+                await DB.setStoreItem<User>(USER_AUTH, dev_user)
+                await DB.setStoreItem(ACCESS_TOKEN, dev_user.token)
+                await DB.setStoreItem(REFRESH_TOKEN, dev_user.refresh_token)
+                const d = await DB.getOne(StoreName.USERS, dev_user.id)
+                if(!d) await DB.add(StoreName.USERS, dev_user)
+                return dev_user
             }
-            return user
+
         }
 
-        if ('localStorage' in global) {
-            try {
-                const ls_user = JSON.parse(localStorage.getItem(USER_AUTH) || '')
-                if (ls_user) return new User(ls_user)
-            } catch (e) {
-            }
-        }
+        const u =  await DB.getStoreItem(USER_AUTH)
+        if(u) return new User(u)
     }
 }
