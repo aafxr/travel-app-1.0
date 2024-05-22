@@ -49,14 +49,14 @@ export function Main() {
                     >
                         {user ? 'Новая поездка' : 'Авторизоваться'}
                     </button>
-                    {Boolean(user) && (
-                        <button
-                            className='banner-button'
-                            onClick={handleCreateNewTravel}
-                        >
-                            {'Новая поездка'}
-                        </button>
-                    )}
+                    {/*{Boolean(user) && (*/}
+                    {/*    <button*/}
+                    {/*        className='banner-button'*/}
+                    {/*        onClick={handleCreateNewTravel}*/}
+                    {/*    >*/}
+                    {/*        {'Новая поездка'}*/}
+                    {/*    </button>*/}
+                    {/*)}*/}
                 </div>
 
 

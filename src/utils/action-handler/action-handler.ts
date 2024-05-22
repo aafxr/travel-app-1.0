@@ -42,11 +42,17 @@ export function actionHandler({
         const dispatch = store.dispatch
         try {
             const result = await ActionController.add(context, actionDTO)
+            if(actionDTO.entity === StoreName.HOTELS) {
+                console.log('-----------------------------------------------')
+                console.log('actionDTO', actionDTO)
+                console.log('result', result)
+            }
             if (!result.ok) {
                 return
             }
 
             const action = result.action
+
             if (!action) return
 
             actionSubject?.next(action)

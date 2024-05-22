@@ -28,7 +28,7 @@ export class ActionService{
         try {
             return await DB.add(StoreName.ACTION, action)
         }catch (e){
-            console.error(e)
+            console.error(e, action)
             throw ActionError.actionAlreadyExist()
         }
     }

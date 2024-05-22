@@ -18,8 +18,9 @@ import {ErrorCode} from "../errors/ErrorCode";
 
 export class ActionController{
     static async add<T extends ActionDto>(ctx: Context, actionDto: T){
+        const response = new ControllerResponse()
+        response.actionDTO = actionDto
         try {
-            const response = new ControllerResponse()
 
             let validation: ValidationResult
             switch (actionDto.entity){
@@ -54,16 +55,17 @@ export class ActionController{
                 response.message = validation.error.message
                 return response
             }
-
             const action = new Action(actionDto)
-            await ActionService.add(ctx, action)
+                await ActionService.add(ctx, action)
             response.action = action
 
             return response
 
         }catch (e){
             if(e instanceof ActionError && e.code === ErrorCode.ACTION_ALREADY_EXIST){
-                return new ControllerResponse({ok: false, message: e.message})
+                response.ok = false
+                response.message = e.message
+                return response
             }
 
             throw e

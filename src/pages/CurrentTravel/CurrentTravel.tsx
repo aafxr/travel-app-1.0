@@ -61,7 +61,7 @@ export function CurrentTravel() {
 
     useEffect(() => {
         if(travelDay) localStorage.setItem(DAY, travelDay)
-    }, []);
+    }, [travelDay]);
 
 
     useEffect(() => {

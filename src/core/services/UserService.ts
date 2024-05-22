@@ -7,6 +7,7 @@ import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../db/DB";
 import {ActionService} from "./ActionService";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 
 const devUser = {
     id: 'dev',
@@ -87,7 +88,7 @@ export class UserService{
      * @param user
      */
     static async logOut(ctx: Context, user: User) {
-        await fetchRemoveUserAuth(user)
+        await fetchRemoveUserAuth(user).catch(defaultHandleError)
         localStorage.removeItem(USER_AUTH)
         await DB.deleteStoreItem(USER_AUTH)
         await DB.delete(StoreName.USERS, user.id)

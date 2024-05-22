@@ -7,7 +7,7 @@ export const hotelActionSchema = Joi.object({
     action: Joi.string().required(),
     user_id: Joi.string().required().min(7),
     synced: Joi.number().required(),
-    entity: Joi.string().equal(StoreName.PLACE).required(),
+    entity: Joi.string().equal(StoreName.HOTELS).required(),
     datetime: Joi.number().required(),
     data: Joi.object({
         id: Joi.string().required().min(7)

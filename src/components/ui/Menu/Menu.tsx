@@ -7,10 +7,11 @@ import {useAppContext} from "../../../contexts/AppContextProvider";
 import {UserController} from "../../../core/service-controllers";
 import MenuIconList from "../../MenuIconList/MenuIconList";
 import {ChevronRightIcon, MenuIcon} from "../../svg";
-import {useUser} from "../../../hooks/redux-hooks";
+import {useAppDispatch, useUser} from "../../../hooks/redux-hooks";
 import {useOutside} from "../../../hooks";
 
 import './Menu.css'
+import {removeUser} from "../../../redux/slices/user-slice";
 
 type MenuPropsType = {
     children?: ReactNode,
@@ -29,10 +30,12 @@ function Menu({children, className}: MenuPropsType) {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false)
     const {ref} = useOutside<HTMLDivElement>(false, setIsOpen)
+    const dispatch = useAppDispatch()
 
     function handleLogin() {
         if (user) {
             UserController.logOut(ctx, user)
+                .then(() => dispatch(removeUser()))
                 .then(() => navigate('/'))
                 .catch(defaultHandleError)
         } else {
