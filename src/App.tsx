@@ -38,6 +38,7 @@ import {TravelEditDescription} from "./pages/TravelEditDescription/TravelEditDes
 import {useTravelSubject} from "./contexts/SubjectContextProvider";
 import {TravelAddPlace} from "./pages/TravelAddPlace/TravelAddPlace";
 import {compare} from "./utils/compare";
+import {assign} from "./utils/assign";
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
     window.ActionDto = ActionDto
     window.Compare = Compare
     window.compare = compare
+    window.assign = assign
 
     if(loading)
         return (

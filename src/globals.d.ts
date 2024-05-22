@@ -7,6 +7,7 @@ import {Compare} from "./classes/Compare";
 import {Action} from "./core/classes";
 import {ActionDto, TravelDTO} from "./core/classes/dto";
 import {CompareFuncType} from "./utils/compare";
+import {assign} from "./utils/assign";
 
 
 declare global {
@@ -34,6 +35,7 @@ declare global {
         Action: Action
         ActionDto: ActionDto
         compare: CompareFuncType
+        assign: typeof assign
     }
 
     interface GlobalEventHandlersEventMap{

@@ -3,7 +3,7 @@ import {useEffect, useMemo, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {useHotels, useMembers, usePlaces, useTravel} from "../../hooks/redux-hooks";
-import {DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
+import {DAY, DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {CurrentTravelMenu} from "../../components/menu/CurrentTravelMenu";
 import {useAppContext} from "../../contexts/AppContextProvider";
@@ -30,6 +30,7 @@ import {
 } from "../../components/svg";
 
 import './CurrentTravel.css'
+import {current} from "@reduxjs/toolkit";
 
 
 
@@ -56,6 +57,11 @@ export function CurrentTravel() {
         if (!travel) return
         if (!travelDay) navigate(`/travel/${travel.id}/1/`)
     }, [])
+
+
+    useEffect(() => {
+        if(travelDay) localStorage.setItem(DAY, travelDay)
+    }, []);
 
 
     useEffect(() => {
