@@ -1,11 +1,15 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {useAppDispatch, usePlaces} from "../../hooks/redux-hooks";
+import {useAppContext} from "../../contexts/AppContextProvider";
+import {PlaceController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
+import {addPlace} from "../../redux/slices/places-slice";
 import Button from "../../components/ui/Button/Button";
 import {Time} from "../../components/ui/Time/Time";
-import {usePlaces} from "../../hooks/redux-hooks";
 import {PageHeader} from "../../components/ui";
 import {Place} from "../../core/classes";
 
@@ -18,6 +22,9 @@ const density: RadioButtonGroupItemType[] = [
 
 
 export function PlaceEdite() {
+    const navigate = useNavigate()
+    const context = useAppContext()
+    const dispatch = useAppDispatch()
     const {placeCode} = useParams()
     const [place, setPlace] = useState<Place>();
     const {places} = usePlaces()
@@ -80,7 +87,13 @@ export function PlaceEdite() {
 
 
     async function handleSaveChange() {
-
+        if(!place) return
+        if(!change) return
+        PlaceController
+            .update(context, place)
+            .then(() => dispatch(addPlace(place)))
+            .then(() => navigate(`/travel/${context.travel?.id}/`))
+            .catch(defaultHandleError)
     }
 
     return (
