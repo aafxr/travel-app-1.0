@@ -1,9 +1,16 @@
 .time{
     position: relative;
+    width: 100%;
 }
 
-.time-input{
+.time-inner{
+    padding: 10px 40px 10px 16px;
     padding-right: calc(var(--icon-size) + 12px);
+    color: var(--color-input);
+    font-weight: 600;
+    background-color: var(--color-background-input);
+    border-radius: var(--border-radius);
+    border: var(--border);
 }
 
 .time-clock{
@@ -23,6 +30,7 @@
     height: 12rem;
     background: var(--color-background);
     border: var(--border);
+    border-radius: 4px;
 }
 
 .hh,.mm{
@@ -33,13 +41,19 @@
 }
 
 
-.time-list .item{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.time-list .time-item{
     padding: 4px;
 }
 
-.time-list .item.selected{
+.item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
+.time-list .time-item.selected .item{
     background-color: var(--color-primary);
+    border: 1px solid var(--color-grey-light);
 }

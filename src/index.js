@@ -34,7 +34,7 @@ root.render(
                     <BrowserRouter>
                         <App/>
                         <LoadActionsComponent/>
-                        <Alerts />
+                        <Alerts/>
                     </BrowserRouter>
                 </SubjectContextProvider>
             </ThemeContextProvider>

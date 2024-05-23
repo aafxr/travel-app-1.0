@@ -3,7 +3,7 @@
     /*position: relative;*/
     padding: 10px 40px 10px 16px;
     border-radius: var(--input-br);
-    color: black;
+    color: var(--color-input);
     text-overflow: ellipsis;
     caret-color: var(--color-primary);
     border: 2px solid var(--color-grey-light);

@@ -39,6 +39,7 @@ import {useTravelSubject} from "./contexts/SubjectContextProvider";
 import {TravelAddPlace} from "./pages/TravelAddPlace/TravelAddPlace";
 import {compare} from "./utils/compare";
 import {assign} from "./utils/assign";
+import {PlaceEdite} from "./pages/PlaceEdite/PlaceEdite";
 
 
 function App() {
@@ -109,6 +110,9 @@ function App() {
                         <Route path={'/travel/:travelCode/rules/'} element={<TravelRules/>}/>
                         <Route path={'/travel/:travelCode/edite/'} element={<TravelEditDescription/>}/>
                         <Route path={'/travel/:travelCode/newPlace/'} element={<TravelAddPlace/>}/>
+
+                        <Route path={'/travel/:travelCode/place/:placeCode/edite/'} element={<PlaceEdite/>}/>
+
 
                         <Route element={<LimitContextProvider/>}>
                             <Route path={'/travel/:travelCode/expenses/'} element={<ExpensesPage/>}/>
