@@ -40,7 +40,7 @@ export default function RadioButtonGroup({
                                              onChange,
                                              position = 'right',
                                              multy = false,
-                                             init
+                                             init,
                                          }:RadioButtonGroupPropsType) {
     const classNames = clsx('column', className)
     const isLeft = position === 'left'
@@ -50,6 +50,7 @@ export default function RadioButtonGroup({
     useEffect(() => {
         if (init) setSelected(init)
     }, [])
+
 
     if (!checklist || !checklist.length) {
         console.log('[RadioButtonGroup] list empty.')

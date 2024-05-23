@@ -1,43 +1,105 @@
 import {useEffect, useState} from "react";
-
-import {Place} from "../../core/classes";
 import {useParams} from "react-router-dom";
-import {usePlaces} from "../../hooks/redux-hooks";
-import {PageHeader} from "../../components/ui";
+
+import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
 import Container from "../../components/Container/Container";
 import Button from "../../components/ui/Button/Button";
 import {Time} from "../../components/ui/Time/Time";
+import {usePlaces} from "../../hooks/redux-hooks";
+import {PageHeader} from "../../components/ui";
+import {Place} from "../../core/classes";
 
 
-export function PlaceEdite(){
+const density: RadioButtonGroupItemType[] = [
+    {id: 0, title: 'Поверхностно:'},
+    {id: 1, title: 'Обычно:'},
+    {id: 2, title: 'Детально:'},
+]
+
+
+export function PlaceEdite() {
     const {placeCode} = useParams()
     const [place, setPlace] = useState<Place>();
     const {places} = usePlaces()
+    const [currentDensity, setCurrentChange] = useState(density[0])
     const [change, setChange] = useState(false)
 
 
     useEffect(() => {
-        if(!placeCode) return
+        if (!placeCode) return
         const p = places.find(p => p.id === placeCode)
-        if(p) setPlace(new Place(p))
+        if (p) {
+            setPlace(new Place(p))
+        }
     }, [placeCode, places]);
 
 
+    useEffect(() => {
+        if(!place) return
+        const md = (place.date_end.getTime() - place.date_start.getTime()) / 1000 * 60
+        if(md <= 25) setCurrentChange(density[0])
+        else if(md >= 90) setCurrentChange(density[2])
+        else  setCurrentChange(density[1])
+    }, [place]);
+    console.log(currentDensity)
 
-    async function handleSaveChange(){
+
+    function handleDateStartChange(date: Date){
+        if(!place) return
+        place.date_start = new Date(date)
+        setPlace(new Place(place))
+        if(!change) setChange(true)
+    }
+
+
+    function handleDateEndChange(date: Date){
+        if(!place) return
+        place.date_end = new Date(date)
+        setPlace(new Place(place))
+        if(!change) setChange(true)
+    }
+
+
+    function handleDensityChange(item: RadioButtonGroupItemType[]){
+        if(!place) return
+        setCurrentChange(item[0])
+        switch (item[0].id){
+            case 0:
+                place.date_end = new Date(place.date_start.getTime() + 25 * 60 * 1000)
+                break
+            case 2:
+                place.date_end = new Date(place.date_start.getTime() + 90 * 60 * 1000)
+                break
+            default:
+                place.date_end = new Date(place.date_start.getTime() + 45 * 60 * 1000)
+                break
+        }
+        setPlace(new Place(place))
+        if(!change) setChange(true)
+    }
+
+
+    async function handleSaveChange() {
 
     }
 
-    return(
+    return (
         <div className='wrapper'>
             <Container>
                 <PageHeader arrowBack title={place?.name}/>
             </Container>
-            <Container className='content'>
-                <div className='flex-stretch gap-0.25'>
-                    <Time value={place?.date_start}/>
-                    <Time value={place?.date_end}/>
-                </div>
+            <Container className='content column gap-1'>
+                {place && (
+                    <>
+                        <section className='flex-stretch gap-0.25 block'>
+                            <Time value={place.date_start} onChange={handleDateStartChange}/>
+                            <Time value={place.date_end} onChange={handleDateEndChange}/>
+                        </section>
+                        <section>
+                            <RadioButtonGroup checklist={density} init={currentDensity} title={'Глубина осмотра:'} onChange={handleDensityChange} />
+                        </section>
+                    </>
+                )}
             </Container>
             <div className='footer-btn-container footer'>
                 <Button disabled={!change} onClick={handleSaveChange}>Сохранить</Button>

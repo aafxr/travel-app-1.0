@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
 import {defaultMovementTags} from "../../components/defaultMovementTags/defaultMovementTags";
 import TravelInterests from "../../components/TravelInterests/TravelInterests";
-import {TravelPeople} from "../../components/TravelPeople/TravelPeople";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import ToggleBox from "../../components/ui/ToggleBox/ToggleBox";
 import {Member, Preference, Travel} from "../../core/classes";
