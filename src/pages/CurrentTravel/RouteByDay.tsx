@@ -7,6 +7,7 @@ import Loader from "../../components/Loader/Loader";
 import Swipe from "../../components/ui/Swipe/Swipe";
 import {TrashIcon} from "../../components/svg";
 import {Tab} from "../../components/ui";
+import {PlaceControls} from "../../components/card-controls/PlaceControls/PlaceControls";
 
 type RouteByDayPropsType = {
     travel?: Travel | null,
@@ -44,21 +45,13 @@ export function RouteByDay({
                         p instanceof Place
                             ? <Swipe
                                 key={p.id}
-                                rightElement={
-                                    <div className='h-full center'>
-                                        <TrashIcon className='icon' onClick={() => handleRemovePlace(p)}/>
-                                    </div>
-                                }
+                                rightElement={<PlaceControls place={p}/>}
                             >
                                 <PlaceCard key={p.id} className='flex-0' place={p}/>
                             </Swipe>
                             : <Swipe
                                 key={p.id}
-                                rightElement={
-                                    <div className='h-full center'>
-                                        <TrashIcon className='icon' onClick={() => handleRemoveHotel(p)}/>
-                                    </div>
-                                }
+                                rightElement={<PlaceControls place={p}/>}
                             >
                                 <HotelCard key={p.id} className='flex-0' hotel={p}/>
                             </Swipe>

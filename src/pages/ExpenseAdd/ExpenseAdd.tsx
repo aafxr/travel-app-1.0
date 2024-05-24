@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {SectionController} from "../../core/service-controllers";
 import {ExpenseController} from "../../core/service-controllers";
-import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
+import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
@@ -16,11 +16,13 @@ import {StoreName} from "../../types/StoreName";
 
 import './ExpenseAdd.css'
 import {addExpense} from "../../redux/slices/expenses-slice";
+import {loadLimits} from "../../redux/slices/limit-slice";
 
 
 export function ExpenseAdd() {
     const dispatch = useAppDispatch()
     const context = useAppContext()
+    const {travel} = useTravel()
     const {user} = useUser()
     const navigate = useNavigate()
     const {expenseType, expenseCode, travelCode} = useParams()
@@ -83,6 +85,7 @@ export function ExpenseAdd() {
 
 
     function handleSaveChanges(){
+        if (!travel) return
         inputRef.current?.classList.remove('danger-border')
         numberRef.current?.classList.remove('danger-border')
 
@@ -109,6 +112,7 @@ export function ExpenseAdd() {
         if(!expenseCode){
             ExpenseController.create(context, expense)
                 .then(() => dispatch(addExpense(expense)))
+                .then(() => dispatch(loadLimits({ctx: context, travel})))
                 .then(() => navigate(-1))
                 .catch(defaultHandleError)
             return
