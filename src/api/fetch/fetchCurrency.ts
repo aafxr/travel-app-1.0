@@ -12,7 +12,7 @@ export type APIResponseCurrency = {
 export async function fetchCurrency(from?: Date, to?: Date): Promise<APIResponseCurrency | undefined> {
     const payload: any = {}
     if (from) payload.from = from.toISOString()
-    if (to) payload.from = to.toISOString()
+    if (to) payload.to = to.toISOString()
 
     const res = await aFetch.post<APIResponseCurrency>('/main/currency/getList/',payload)
     if (res.status === 200) {

@@ -3,6 +3,7 @@ import {ExpenseVariantType} from "../../../types/ExpenseVariantType";
 import {DBFlagType} from "../../../types/DBFlagType";
 import {StoreName} from "../../../types/StoreName";
 import {ExpenseDTO} from "../dto";
+import {CurrencyType} from "../../../types/CurrencyType";
 
 /**
  * данный класс позволяет работать с расходами
@@ -40,7 +41,7 @@ export class Expense {
     section_id: string;
     title: string;
     user_id: string;
-    currency: string;
+    currency: CurrencyType['char_code'];
     created_at: Date;
     datetime: Date;
     personal: DBFlagType;

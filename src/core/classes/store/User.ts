@@ -36,7 +36,8 @@ export class User extends Member {
         curtain: 0,
         routeFilter: "byDays",
         expensesFilter: "all",
-        day: 1
+        day: 1,
+        currency: "RUB",
     };
 
     constructor(user: Partial<User> | UserDto) {
