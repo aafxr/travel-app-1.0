@@ -4,6 +4,7 @@ import {DBFlagType} from "../../../types/DBFlagType";
 import {StoreName} from "../../../types/StoreName";
 import {ExpenseDTO} from "../dto";
 import {CurrencyType} from "../../../types/CurrencyType";
+import {DEFAULT_CURRENCY} from "../../../constants";
 
 /**
  * данный класс позволяет работать с расходами
@@ -60,7 +61,7 @@ export class Expense {
         this.section_id         = expense.section_id !== undefined ? expense.section_id : ''
         this.title              = expense.title !== undefined ? expense.title : ''
         this.user_id            = expense.user_id !== undefined ? expense.user_id : ''
-        this.currency           = expense.currency !== undefined ? expense.currency : ''
+        this.currency           = expense.currency !== undefined ? expense.currency : DEFAULT_CURRENCY
         this.personal           = expense.personal !== undefined ? expense.personal : 0
         this.value              = expense.value !== undefined ? expense.value : 0
         this.datetime           = expense.datetime !== undefined ? new Date(expense.datetime) : new Date(0)

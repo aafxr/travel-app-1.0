@@ -1,5 +1,6 @@
 import {Expense} from '../store'
 import {DBFlagType} from "../../../types/DBFlagType";
+import {CurrencyType} from "../../../types/CurrencyType";
 
 
 export class ExpenseDTO implements Omit<Partial<Expense>, 'datetime' | 'created_at'>{
@@ -7,7 +8,7 @@ export class ExpenseDTO implements Omit<Partial<Expense>, 'datetime' | 'created_
     title?: string;
     value?: number;
     user_id?: string;
-    currency?: string;
+    currency?: CurrencyType["char_code"];
     entity_id?: string;
     entity_type?: string;
     personal?: DBFlagType;

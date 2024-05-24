@@ -1,4 +1,5 @@
 import {RouteFilterType} from "../types/RouteFilterType";
+import {CurrencyType} from "../types/CurrencyType";
 
 export const ACCESS_TOKEN = 'access_token'
 export const REFRESH_TOKEN = 'refresh_token'
@@ -18,6 +19,7 @@ export const month = ['января', 'февраля', 'марта', 'апре�
 
 export const DEFAULT_SECTION = 'misc'
 
+export const DEFAULT_CURRENCY: CurrencyType['char_code'] = "RUB"
 export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
 export const ROUTE_FILTER = 'routeFilter'
 export const DEFAULT_ROUTE_FILTER: RouteFilterType = "byDays"

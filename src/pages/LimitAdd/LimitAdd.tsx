@@ -1,26 +1,29 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-import {SectionController} from "../../core/service-controllers/SectionController";
 import {ExpenseController, LimitController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {SectionController} from "../../core/service-controllers";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import {currencyFormatter} from "../../utils/currencyFormatter";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import Container from "../../components/Container/Container";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
+import {useAppDispatch} from "../../hooks/redux-hooks";
 import Button from "../../components/ui/Button/Button";
 import {Chip, PageHeader} from "../../components/ui";
 import {Limit, Section} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
 
 import './LimitAdd.css'
+import {addLimit} from "../../redux/slices/limit-slice";
 
 
 const formatter = currencyFormatter()
 
 
 export function LimitAdd(){
+    const dispatch = useAppDispatch()
     const context = useAppContext()
     const navigate = useNavigate()
     const {travelCode, sectionCode} = useParams()
@@ -88,6 +91,7 @@ export function LimitAdd(){
             extLimit
                 ? await LimitController.update(context, limit)
                 : await LimitController.create(context, limit)
+            dispatch(addLimit(limit))
             navigate(-1)
         }catch (e){
             defaultHandleError(e as Error)

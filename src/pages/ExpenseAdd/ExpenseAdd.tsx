@@ -2,9 +2,10 @@ import {useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppContext} from "../../contexts/AppContextProvider";
 import {SectionController} from "../../core/service-controllers";
 import {ExpenseController} from "../../core/service-controllers";
+import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
 import Container from "../../components/Container/Container";
@@ -12,12 +13,13 @@ import {Chip, Input, PageHeader} from "../../components/ui";
 import Button from "../../components/ui/Button/Button";
 import {Expense, Section} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
-import {useUser} from "../../hooks/redux-hooks";
 
 import './ExpenseAdd.css'
+import {addExpense} from "../../redux/slices/expenses-slice";
 
 
 export function ExpenseAdd() {
+    const dispatch = useAppDispatch()
     const context = useAppContext()
     const {user} = useUser()
     const navigate = useNavigate()
@@ -98,6 +100,7 @@ export function ExpenseAdd() {
         /**update expense*/
         if(expenseCode){
             ExpenseController.update(context, expense)
+                .then(() => dispatch(addExpense(expense)))
                 .then(() => navigate(-1))
                 .catch(defaultHandleError)
             return
@@ -105,6 +108,7 @@ export function ExpenseAdd() {
         /**add new expense*/
         if(!expenseCode){
             ExpenseController.create(context, expense)
+                .then(() => dispatch(addExpense(expense)))
                 .then(() => navigate(-1))
                 .catch(defaultHandleError)
             return

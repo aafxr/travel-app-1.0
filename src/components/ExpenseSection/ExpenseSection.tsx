@@ -4,6 +4,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 import {ExpenseController, LimitController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {useAppDispatch, useCurrency} from "../../hooks/redux-hooks";
 import {useLimitContext} from "../../contexts/LimitContextProvider";
 import {Context, Expense, Limit, Section} from "../../core/classes";
 import {SectionController} from "../../core/service-controllers";
@@ -12,7 +13,6 @@ import {currencyFormatter} from "../../utils/currencyFormatter";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import {removeExpense} from "../../redux/slices/expenses-slice";
 import formatTime from "../../utils/date-utils/formatTime";
-import {useAppDispatch} from "../../hooks/redux-hooks";
 import Swipe from "../ui/Swipe/Swipe";
 import {TrashIcon} from "../svg";
 
@@ -39,6 +39,7 @@ export function ExpenseSection({
                                    filterType
                                }: ExpenseSectionPropsType) {
     const context = useAppContext()
+    const {convertor} = useCurrency()
     const location = useLocation()
     const navigate = useNavigate()
     const limits = useLimitContext()
@@ -46,7 +47,7 @@ export function ExpenseSection({
     const dispatch = useAppDispatch()
 
     const filtered = useMemo(() => filteredExpenses(context, expenses, filterType), [expenses, filterType])
-    const total = filtered.reduce((a, el) => a + el.value, 0)
+    const total = filtered.reduce((a, el) => a + (convertor.convert(context, el) || el.value), 0)
     const rest = state?.limit?.value ? state.limit.value - total : 0
 
     let restPercent = 0

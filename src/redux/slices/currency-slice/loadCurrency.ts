@@ -1,4 +1,4 @@
-import {Context} from "../../../core/classes";
+import {Context, CurrencyConvertor} from "../../../core/classes";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {CurrencyController} from "../../../core/service-controllers/CurrencyController";
 
@@ -12,7 +12,8 @@ export type LoadCurrencyPayloadType = {
 export const loadCurrency = createAsyncThunk('currency/loadCurrency', async ({ctx, from, to}: LoadCurrencyPayloadType, thunkAPI) => {
     try {
         const list = await CurrencyController.readByRange(ctx, from, to)
-        return {list}
+        const convertor = new CurrencyConvertor(list)
+        return {list, convertor}
     }catch (e){
         thunkAPI.abort((e as Error).message)
     }

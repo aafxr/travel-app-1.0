@@ -1,6 +1,7 @@
 import {Member} from "./Member";
 import {UserSettingsType} from "../../../types/UserSettingsType";
 import {UserDto} from "../dto";
+import {DEFAULT_CURRENCY} from "../../../constants";
 
 /**
  * представление пользователя приложения
@@ -37,7 +38,7 @@ export class User extends Member {
         routeFilter: "byDays",
         expensesFilter: "all",
         day: 1,
-        currency: "RUB",
+        currency: DEFAULT_CURRENCY,
     };
 
     constructor(user: Partial<User> | UserDto) {

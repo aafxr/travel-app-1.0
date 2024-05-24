@@ -1,14 +1,17 @@
 import {Currency} from "../../../core/classes/store/Currency";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loadCurrency} from "./loadCurrency";
+import {CurrencyConvertor} from "../../../core/classes";
 
 type CurrencySliceStateType = {
+    convertor: CurrencyConvertor
     list: Currency[]
     loading: boolean
     error: string
 }
 
 const initialState: CurrencySliceStateType = {
+    convertor: new CurrencyConvertor([]),
     list: [],
     loading: false,
     error: '',
@@ -34,6 +37,7 @@ const currencySlice = createSlice({
         builder.addCase(loadCurrency.fulfilled, (state, action) => {
             if(action.payload){
                 state.list = action.payload.list
+                state.convertor = action.payload.convertor
             }
             state.loading = false
         })
