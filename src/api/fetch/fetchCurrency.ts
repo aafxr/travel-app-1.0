@@ -1,16 +1,9 @@
 import aFetch from "../../axios";
-
-export type APICurrencyType = {
-    char_code: string
-    num_code: number
-    name: string
-    value: number
-    symbol: string
-}
+import {CurrencyType} from "../../types/CurrencyType";
 
 export type APIResponseCurrency = {
     ok: true
-    data: Record<string, APICurrencyType[]>
+    data: Record<string, CurrencyType[]>
 } | {
     ok: false
     message: string
@@ -21,7 +14,7 @@ export async function fetchCurrency(from?: Date, to?: Date): Promise<APIResponse
     if (from) payload.from = from.toISOString()
     if (to) payload.from = to.toISOString()
 
-    const res = await aFetch.post<APIResponseCurrency>(payload)
+    const res = await aFetch.post<APIResponseCurrency>('/main/currency/getList/',payload)
     if (res.status === 200) {
         return res.data
     }

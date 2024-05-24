@@ -16,6 +16,7 @@ import Alerts from "./components/Alerts/Alerts";
 import setFixedVH from "./utils/setFixedVH";
 import {store} from "./redux";
 import App from './App';
+import {LoadCurrencyComponent} from "./components/LoadCurrencyComponent/LoadCurrencyComponent";
 
 
 let theme = localStorage.getItem(THEME)
@@ -35,6 +36,7 @@ root.render(
                         <App/>
                         <LoadActionsComponent/>
                         <Alerts/>
+                        <LoadCurrencyComponent/>
                     </BrowserRouter>
                 </SubjectContextProvider>
             </ThemeContextProvider>
