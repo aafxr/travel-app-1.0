@@ -48,7 +48,6 @@ export function PlaceEdite() {
         else if(md >= 90) setCurrentChange(density[2])
         else  setCurrentChange(density[1])
     }, [place]);
-    console.log(currentDensity)
 
 
     function handleDateStartChange(date: Date){

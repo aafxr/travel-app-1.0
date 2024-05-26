@@ -17,21 +17,21 @@ export class Recover {
      */
     static async travel(id: string) {
         let t = new Travel({id: id})
-        const predicate = (a: Action<Partial<Travel>>) => a.entity === StoreName.TRAVEL && a.data.id === id
+        const predicate = (a: Action<Partial<Travel>>) => a.synced === 1 && a.entity === StoreName.TRAVEL && a.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, t)
     }
 
     static async expense(id: string, entityType: ExpenseVariantType) {
         const e = new Expense({id: id, variant: entityType})
-        const predicate = (a: Action<Partial<Expense>>) => a.entity === StoreName.EXPENSE && a.data.id === id
+        const predicate = (a: Action<Partial<Expense>>) => a.synced === 1 && a.entity === StoreName.EXPENSE && a.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, e)
     }
 
     static async limit(id: string) {
         const l = new Limit({id})
-        const predicate: PredicateType<Action<Partial<Limit>>> = (item) => item.entity === StoreName.LIMIT && item.data.id === id
+        const predicate: PredicateType<Action<Partial<Limit>>> = (item) => item.synced === 1 && item.entity === StoreName.LIMIT && item.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, l)
     }
@@ -39,7 +39,7 @@ export class Recover {
 
     static async place(id: string) {
         const p = new Place({id})
-        const predicate: PredicateType<Action<Partial<Place>>> = (item) => item.entity === StoreName.PLACE && item.data.id === id
+        const predicate: PredicateType<Action<Partial<Place>>> = (item) => item.synced === 1 && item.entity === StoreName.PLACE && item.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, p)
     }
@@ -47,7 +47,7 @@ export class Recover {
 
     static async hotel(id: string) {
         const h = new Hotel({id})
-        const predicate: PredicateType<Action<Partial<Hotel>>> = (item) => item.entity === StoreName.HOTELS && item.data.id === id
+        const predicate: PredicateType<Action<Partial<Hotel>>> = (item) => item.synced === 1 && item.entity === StoreName.HOTELS && item.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, h)
     }
@@ -55,7 +55,7 @@ export class Recover {
 
     static async photo(id: string) {
         const p = new Photo({id, base64: ''})
-        const predicate: PredicateType<Action<Partial<Photo>>> = (item) => item.entity === StoreName.Photo && item.data.id === id
+        const predicate: PredicateType<Action<Partial<Photo>>> = (item) => item.synced === 1 && item.entity === StoreName.Photo && item.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, p)
     }

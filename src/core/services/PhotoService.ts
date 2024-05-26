@@ -13,12 +13,12 @@ export class PhotoService{
             data: photo
         })
 
+        await ActionService.create(ctx, action)
         try {
             await DB.add(StoreName.Photo, photo)
         }catch (e){
             throw PhotoError.photoAlreadyExist(photo)
         }
-        await ActionService.create(ctx, action)
         return photo
     }
 
@@ -42,9 +42,8 @@ export class PhotoService{
             data: photo
         })
 
-        await DB.update(StoreName.Photo, photo)
-
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.Photo, photo)
         return photo
     }
 

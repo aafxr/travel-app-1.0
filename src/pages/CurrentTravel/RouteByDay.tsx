@@ -21,8 +21,6 @@ export function RouteByDay({
                                places,
                                placesLoading,
                            }: RouteByDayPropsType) {
-    const handleRemovePlace = useHandleRemovePlace()
-    const handleRemoveHotel = useHandleRemoveHotel()
 
 
     return (

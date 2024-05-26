@@ -24,20 +24,13 @@ export class HotelService{
             user_id: ctx.user?.id
         })
 
-        // try {
-        //     travel.hotels_id.push(hotel.id)
-        //     await TravelService.update(ctx, travel)
-        // } catch (e){
-        //     if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
-        //     else throw e
-        // }
+        await ActionService.create(ctx, action)
 
         try {
             await DB.add(StoreName.HOTELS, hotel)
         }catch (e){
             throw HotelError.hotelAlreadyExist(hotel)
         }
-        await ActionService.create(ctx, action)
         return hotel
     }
 
@@ -81,6 +74,7 @@ export class HotelService{
         })
 
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.HOTELS, hotel)
         return hotel
     }
 

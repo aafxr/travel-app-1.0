@@ -1,4 +1,3 @@
-import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 import {Action, Expense, Hotel, Limit, Photo, Place, Travel} from "./store";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
@@ -6,6 +5,7 @@ import {assign} from "../../utils/assign";
 import {ActionError} from "../errors";
 import {Recover} from "./Recover";
 import {DB} from "../db/DB";
+import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 
 /**
  * ### важно перед использование класса созранить action в бд
@@ -64,19 +64,30 @@ export class Update{
         const id = action.data.id
         if(!id) return
 
-        if(action.action === ActionType.ADD){
-            const expense = await Recover.expense(id, action.entity as ExpenseVariantType)
-            if(expense) {
-                await DB.update(StoreName.EXPENSE, expense)
-                return expense
-            }
-        }else if(action.action === ActionType.DELETE){
-            const expense = await DB.getOne<Expense>(StoreName.EXPENSE, id)
-            if(!expense) return
-            await DB.delete(StoreName.EXPENSE, id)
-            expense.deleted = true
-            return expense
+        const e = await Recover.expense(id, action.entity as ExpenseVariantType)
+        if(e){
+            await DB.update(StoreName.EXPENSE, e)
         }
+        return e
+
+        // const extExpense =  await DB.getOne<Expense>(StoreName.EXPENSE, id)
+
+
+        // if(action.action === ActionType.ADD){
+        //     const expense = new Expense(action.data)
+        //     if(expense) {
+        //         await DB.update(StoreName.EXPENSE, expense)
+        //         return expense
+        //     }
+        // }else if(action.action === ActionType.DELETE){
+        //     const expense = await DB.getOne<Expense>(StoreName.EXPENSE, id)
+        //     if(!expense) return
+        //     await DB.delete(StoreName.EXPENSE, id)
+        //     expense.deleted = true
+        //     return expense
+        // }else{
+        //
+        // }
     }
 
 
@@ -99,7 +110,6 @@ export class Update{
 
         const id = action.data.id
         if(!id) return
-
         let place = await Recover.place(id)
         if(place) await DB.update(StoreName.PLACE, place)
         return place

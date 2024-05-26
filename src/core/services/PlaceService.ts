@@ -23,21 +23,13 @@ export class PlaceService{
             user_id: ctx.user?.id
         })
 
+        await ActionService.create(ctx, action)
+
         try {
             await DB.add(StoreName.PLACE, place)
         }catch (e){
             throw PlaceError.placeAlreadyExist(place)
         }
-
-        // try {
-        //     travel.places_id.push(place.id)
-        //     await TravelService.update(ctx, travel)
-        // } catch (e){
-        //     if(e instanceof CustomError && e.code === ErrorCode.NETWORK_ERROR){}
-        //     else throw e
-        // }
-
-        await ActionService.create(ctx, action)
         return place
     }
 
@@ -75,6 +67,7 @@ export class PlaceService{
     }
 
     static async update(ctx: Context, place: Place){
+        if (place.day === 0) debugger
         const ext = await DB.getOne<Place>(StoreName.PLACE, place.id) || new Place({})
         const dif = Compare.place(ext, place)
         const action = new Action({
@@ -83,8 +76,8 @@ export class PlaceService{
             data: dif,
             user_id: ctx.user?.id
         })
-
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.PLACE, place)
         return place
     }
 

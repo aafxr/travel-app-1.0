@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 
 import {defaultMovementTags} from "../defaultMovementTags/defaultMovementTags";
 import PhotoComponent from "../ui/PhotoComponents/PhotoComponent";
-import {useAppContext} from "../../contexts/AppContextProvider";
 import {Travel} from "../../core/classes";
 import Swipe from "../ui/Swipe/Swipe";
 import {TrashIcon} from "../svg";
@@ -26,7 +25,6 @@ interface TravelCardPropsType {
  */
 export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX.Element{
     const navigate = useNavigate()
-    const context = useAppContext()
     const [tagsScrolling, setTextScrolling] = useState(false)
     const travelDays = travel.days === 1 ? '1 день' : `${travel.days} дней`
 
@@ -43,8 +41,6 @@ export default function TravelCard({travel, onRemove}: TravelCardPropsType): JSX
     }
 
     function handleClickCard() {
-        console.log(`/travel/${travel.id}/`)
-        context.setTravel(travel)
         navigate(`/travel/${travel.id}/`)
     }
 

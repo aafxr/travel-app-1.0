@@ -14,12 +14,12 @@ export class MessageService{
             user_id: message.from
         })
 
+        await ActionService.create(ctx, action)
         try {
             await DB.add(StoreName.MESSAGE, message)
         }catch (e){
             throw MessageError.messageAlreadyExist(message)
         }
-        await ActionService.create(ctx, action)
         return message
     }
 
@@ -52,8 +52,8 @@ export class MessageService{
             user_id: message.from
         })
 
-        await DB.update(StoreName.MESSAGE, message)
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.MESSAGE, message)
         return message
     }
 

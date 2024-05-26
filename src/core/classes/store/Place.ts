@@ -53,14 +53,13 @@ export class Place{
         if('photos' in place && place.photos !== undefined) res.photos = place.photos
         if('location' in place && place.location !== undefined) res.location = place.location
 
-        res.day = place.day !== undefined ? place.day : 0
-        res.date_start = place.date_start !== undefined ? new Date(place.date_start) : new Date(0)
-        res.date_end = place.date_end !== undefined ? new Date(place.date_end) : new Date(0)
+        if(place.day !== undefined) res.day = place.day
+        if(place.date_start !== undefined) res.date_start = new Date(place.date_start)
+        if(place.date_end !== undefined) res.date_end = new Date(place.date_end)
 
         if('price' in place) res.price = place.price
         if('duration' in place) res.duration = place.duration
         if('popularity' in place) res.popularity = place.popularity
-
         return res
     }
 

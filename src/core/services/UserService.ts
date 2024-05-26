@@ -41,9 +41,8 @@ export class UserService{
             entity: StoreName.USERS
         })
 
-        await DB.update(StoreName.USERS, user)
-
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.USERS, user)
     }
 
     static async delete(ctx: Context, user:User){
@@ -57,9 +56,8 @@ export class UserService{
             data: {id: user.id}
         })
 
-        await DB.delete(StoreName.USERS, user.id)
-
         await ActionService.create(ctx, action)
+        await DB.delete(StoreName.USERS, user.id)
         return user
     }
 

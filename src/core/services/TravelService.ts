@@ -18,6 +18,7 @@ export class TravelService {
             user_id: ctx.user?.id
         })
 
+        await ActionService.create(ctx, action)
         try {
             await DB.add(StoreName.TRAVEL, travel)
         } catch (e) {
@@ -33,9 +34,6 @@ export class TravelService {
             if(e instanceof TravelError) throw e
             console.error(e)
         }
-
-
-        await ActionService.create(ctx, action)
         return travel
     }
 
@@ -75,12 +73,9 @@ export class TravelService {
                 const t = travels[i]
                 const ex = await DB.getOne<Travel>(StoreName.TRAVEL, t.id)
                 if(!ex) {
-                    console.log(`Found new travel: ${t}`)
                     await DB.add<Travel>(StoreName.TRAVEL, t)
                     await ActionController.loadActionsFromTimestamp(ctx, t.created_at.getTime()).catch(console.error)
                     const recoverTravel = await Recover.travel(t.id)
-                    console.log('recovered travel')
-                    console.log(recoverTravel)
                     if(recoverTravel) {
                         await DB.update<Travel>(StoreName.TRAVEL, recoverTravel)
                         travels[i] = recoverTravel
@@ -89,9 +84,6 @@ export class TravelService {
                 else travels[i] = ex
             }
         } else travels = await DB.getAll<Travel>(StoreName.TRAVEL)
-
-        // let travels = await DB.getAll<Travel>(StoreName.TRAVEL)
-
         return travels.map(t => new Travel(t))
     }
 
@@ -109,8 +101,8 @@ export class TravelService {
             user_id: ctx.user?.id
         })
 
-        await DB.update(StoreName.TRAVEL, travel)
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.TRAVEL, travel)
         return travel
     }
 

@@ -52,7 +52,6 @@ export function actionHandler({
             const action = result.action
 
             if (!action) return
-
             actionSubject?.next(action)
 
             switch (action.entity) {

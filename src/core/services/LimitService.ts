@@ -56,9 +56,8 @@ export class LimitService {
             data: dif
         })
 
-        await DB.update(StoreName.LIMIT, limit)
-
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.LIMIT, limit)
         return limit
     }
 

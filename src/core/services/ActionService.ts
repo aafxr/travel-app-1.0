@@ -7,27 +7,25 @@ import {ActionError} from "../errors";
 import {IndexName} from "../../types/IndexName";
 import {PredicateType} from "../../types/Predicate";
 import {fetchActions} from "../../api/fetch";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 
-export class ActionService{
-    static async create(ctx: Context, action: Action<any>){
+export class ActionService {
+    static async create(ctx: Context, action: Action<any>) {
         await DB.add(StoreName.ACTION, action)
-        try {
-            const dto = new ActionDto(action)
-            const result = await sendActions(dto)
-            if (result.response.ok && result.response.result[action.id]?.ok){
+        const dto = new ActionDto(action)
+        sendActions(dto)
+            .then(async (result) => {
+                if (!result.response.ok || !result.response.result[action.id]?.ok) return
                 action.synced = 1
                 await DB.update(StoreName.ACTION, action)
-            }
-        }catch (e){
-            console.error(e)
-            // throw NetworkError.connectionError()
-        }
+            })
+            .catch(defaultHandleError)
     }
 
-    static async add(ctx: Context, action : Action<any>){
+    static async add(ctx: Context, action: Action<any>) {
         try {
             return await DB.add(StoreName.ACTION, action)
-        }catch (e){
+        } catch (e) {
             console.error(e, action)
             throw ActionError.actionAlreadyExist()
         }
@@ -46,13 +44,14 @@ export class ActionService{
     }
 
 
-    static async loadActionsFromTimestamp(ctx:Context, time_ms: number){
+    static async loadActionsFromTimestamp(ctx: Context, time_ms: number) {
         const actionDtoList = await fetchActions(time_ms)
-         for (const dto of actionDtoList){
-             const action = new Action(dto)
-             try{
-                 await DB.add(StoreName.ACTION, action)
-             }catch (e){}
-         }
+        for (const dto of actionDtoList) {
+            const action = new Action(dto)
+            try {
+                await DB.add(StoreName.ACTION, action)
+            } catch (e) {
+            }
+        }
     }
 }

@@ -17,9 +17,10 @@ export class ExpenseService{
             user_id: user.id,
             data: expense
         })
-        await DB.add(StoreName.EXPENSE, expense)
 
         await ActionService.create(ctx, action)
+        await DB.add(StoreName.EXPENSE, expense)
+        return expense
     }
 
     static async read(ctx: Context, expenseID:string){
@@ -52,9 +53,8 @@ export class ExpenseService{
             data: dif,
         })
 
-        await DB.update(StoreName.EXPENSE, expense)
-
         await ActionService.create(ctx, action)
+        await DB.update(StoreName.EXPENSE, expense)
         return expense
     }
 
@@ -73,9 +73,8 @@ export class ExpenseService{
             data: {id, primary_entity_id},
         })
 
-        await DB.delete(StoreName.EXPENSE, expense.id)
-
         await ActionService.create(ctx, action)
+        await DB.delete(StoreName.EXPENSE, expense.id)
         return expense
     }
 }
