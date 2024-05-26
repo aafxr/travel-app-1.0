@@ -30,7 +30,6 @@ import {
 } from "../../components/svg";
 
 import './CurrentTravel.css'
-import {current} from "@reduxjs/toolkit";
 
 
 
