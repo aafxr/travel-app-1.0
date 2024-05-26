@@ -74,6 +74,12 @@ export class Recover {
                     // @ts-ignore
                     target[key] = Array.from(data[key])
                 } else if (data[key] !== undefined && typeof data[key] === 'object') {
+                        // @ts-ignore
+                    if(data[key] instanceof Date){
+                        // @ts-ignore
+                        target[key] = new Date(data[key])
+                        continue
+                    }
                     // @ts-ignore
                     if (!target[key]) target[key] = {}
                     assign(target[key], data[key]!)

@@ -67,7 +67,6 @@ export class PlaceService{
     }
 
     static async update(ctx: Context, place: Place){
-        if (place.day === 0) debugger
         const ext = await DB.getOne<Place>(StoreName.PLACE, place.id) || new Place({})
         const dif = Compare.place(ext, place)
         const action = new Action({
