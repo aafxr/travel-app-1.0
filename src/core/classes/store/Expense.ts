@@ -5,6 +5,7 @@ import {StoreName} from "../../../types/StoreName";
 import {ExpenseDTO} from "../dto";
 import {CurrencyType} from "../../../types/CurrencyType";
 import {DEFAULT_CURRENCY} from "../../../constants";
+import {Context} from "../Context";
 
 /**
  * данный класс позволяет работать с расходами
@@ -105,5 +106,18 @@ export class Expense {
 
     static isCommon(expense: Expense){
         return expense.personal === 0 && expense.id.split(':').length === 1
+    }
+
+    static commonId(id: string){
+        return id.split(':').pop() || id
+    }
+
+    static personalID(ctx: Context, id: string){
+        const {user} = ctx
+        if(!user){
+            console.error('user undefined', ctx)
+            return id
+        }
+        return `${user.id}:${id}`
     }
 }

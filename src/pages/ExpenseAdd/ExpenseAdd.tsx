@@ -84,6 +84,12 @@ export function ExpenseAdd() {
 
     function handlePersonalChange(personal: Boolean) {
         expense.personal = personal ? 1 : 0
+        const isPersonal = !!expense.personal
+        if(isPersonal){
+            expense.id = Expense.personalID(context, expense.id)
+        } else {
+            expense.id = Expense.commonId(expense.id)
+        }
         setExpense(new Expense(expense))
         if (!change) setChange(true)
     }
