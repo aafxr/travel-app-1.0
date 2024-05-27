@@ -91,7 +91,7 @@ export function PlaceEdite() {
         PlaceController
             .update(context, place)
             .then(() => dispatch(addPlace(place)))
-            .then(() => navigate(`/travel/${context.travel?.id}/`))
+            .then(() => navigate(`/travel/${context.travel?.id}/${place.day}/`))
             .catch(defaultHandleError)
     }
 
