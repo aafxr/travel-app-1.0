@@ -10,7 +10,7 @@ interface SelectPropsType  {
     defaultValue: string
     value: string
     options: string[]
-    className: string
+    className?: string
     size?: number
     border?: boolean
     onChange: (value: string) => void

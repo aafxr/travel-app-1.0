@@ -40,6 +40,7 @@ import {TravelAddPlace} from "./pages/TravelAddPlace/TravelAddPlace";
 import {compare} from "./utils/compare";
 import {assign} from "./utils/assign";
 import {PlaceEdite} from "./pages/PlaceEdite/PlaceEdite";
+import {UserSettings} from "./pages/UserSettings/UserSettings";
 
 
 function App() {
@@ -96,7 +97,6 @@ function App() {
                 <Route element={<SocketContextProvider/>} >
                     <Route path={'/events/'} element={<Events/>}/>
                     <Route path={'/favorite/'} element={<Favorite/>}/>
-                    <Route path={'/profile/'} element={<Profile/>}/>
                     <Route path={'/travels/:travelType/'} element={<TravelRoutes/>}/>
                     <Route path={'/travel/add/'} element={<TravelAdd/>}/>
                     <Route path={'/newTravel/'} element={<NewTravel />}/>
@@ -122,6 +122,9 @@ function App() {
                             <Route path={'/travel/:travelCode/limit/add/:sectionCode/'} element={<LimitAdd/>}/>
                         </Route>
                     </Route>
+
+                    <Route path={'/profile/'} element={<Profile/>}/>
+                    <Route path={'/profile/settings/user/'} element={<UserSettings/>}/>
                 </Route>
             </Route>
             <Route path={'/dev/'} element={<Dev/>}/>

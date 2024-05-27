@@ -1,6 +1,6 @@
 import {ValueOfType} from "./ValueOfType";
 
-enum CurrencyCodeTOSymbol{
+export enum CurrencyCodeTOSymbol{
     'RUB' = '₽',
     'USD' = '$',
     'EUR' = '€',
