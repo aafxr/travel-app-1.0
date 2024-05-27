@@ -5,6 +5,7 @@ import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../db/DB";
 import {assign} from "../../utils/assign";
+import {UpdateStatusType} from "./Update";
 
 
 /**
@@ -60,11 +61,11 @@ export class Recover {
         return Recover._recordFieldsToTarget(actions, p)
     }
 
-    static _recordFieldsToTarget<T extends Record<string, any>>(actions: Action<Partial<T>>[], target: T): T | undefined {
+    static _recordFieldsToTarget<T extends Record<string, any>>(actions: Action<Partial<T>>[], target: T): T | UpdateStatusType  {
         const _actions = actions.sort((a, b) => a.datetime.getTime() - b.datetime.getTime())
 
         for (const a of _actions) {
-            if (a.action === ActionType.DELETE) return
+            if (a.action === ActionType.DELETE) return UpdateStatusType.DELETED
             const data = a.data
             let keys = Object.keys(data) as Array<keyof T>
             keys = keys.filter(k => data[k] !== undefined)

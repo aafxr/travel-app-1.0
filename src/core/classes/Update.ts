@@ -1,11 +1,17 @@
 import {Action, Expense, Hotel, Limit, Photo, Place, Travel} from "./store";
+import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
 import {assign} from "../../utils/assign";
 import {ActionError} from "../errors";
 import {Recover} from "./Recover";
 import {DB} from "../db/DB";
-import {ExpenseVariantType} from "../../types/ExpenseVariantType";
+
+
+export enum UpdateStatusType{
+    DELETED,
+
+}
 
 /**
  * ### важно перед использование класса созранить action в бд
@@ -37,9 +43,17 @@ export class Update{
 
         let travel = await DB.getOne<Travel>(StoreName.TRAVEL, id)
         if(!travel) {
-            travel = await Recover.travel(id)
-            travel && await DB.update(StoreName.TRAVEL, travel)
-            return travel
+            const t = await Recover.travel(id)
+            if(t instanceof Travel) {
+                await DB.update(StoreName.TRAVEL, t)
+            } else{
+                if(t === UpdateStatusType.DELETED){
+                    await DB.delete(StoreName.TRAVEL, id)
+                }else{
+                    console.error(t)
+                }
+            }
+            return t
         }
 
 
@@ -49,10 +63,16 @@ export class Update{
             return new Travel(travel)
         }
 
-        travel = await Recover.travel(id)
-        if(travel) {
-            await DB.update(StoreName.TRAVEL, travel)
-            return travel
+        const t = await Recover.travel(id)
+        if(t instanceof Travel) {
+            await DB.update(StoreName.TRAVEL, t)
+            return t
+        }else{
+            if(t === UpdateStatusType.DELETED){
+                await DB.delete(StoreName.TRAVEL, id)
+            }else{
+                console.error(t)
+            }
         }
     }
 
@@ -65,8 +85,14 @@ export class Update{
         if(!id) return
 
         const e = await Recover.expense(id, action.entity as ExpenseVariantType)
-        if(e){
+        if(e instanceof Expense){
             await DB.update(StoreName.EXPENSE, e)
+        } else{
+            if(e === UpdateStatusType.DELETED){
+                await DB.delete(StoreName.EXPENSE, id)
+            }else{
+                console.error(e)
+            }
         }
         return e
 
@@ -100,7 +126,15 @@ export class Update{
         if(!id) return
 
         let limit = await Recover.limit(id)
-        if(limit) await DB.update(StoreName.LIMIT, limit)
+        if(limit instanceof Limit) {
+            await DB.update(StoreName.LIMIT, limit)
+        } else {
+            if(limit === UpdateStatusType.DELETED){
+                await DB.delete(StoreName.LIMIT, id)
+            }else{
+                console.error(limit)
+            }
+        }
         return limit
     }
 
@@ -110,9 +144,17 @@ export class Update{
 
         const id = action.data.id
         if(!id) return
-        let place = await Recover.place(id)
-        if(place) await DB.update(StoreName.PLACE, place)
-        return place
+        let p = await Recover.place(id)
+        if(p) {
+            await DB.update(StoreName.PLACE, p)
+        } else{
+            if(p === UpdateStatusType.DELETED){
+                await DB.delete(StoreName.PLACE, id)
+            }else{
+                console.error(p)
+            }
+        }
+        return p
     }
 
 
@@ -122,9 +164,17 @@ export class Update{
         const id = action.data.id
         if(!id) return
 
-        let hotel = await Recover.hotel(id)
-        if(hotel) await DB.update(StoreName.HOTELS, hotel)
-        return hotel
+        let h = await Recover.hotel(id)
+        if(h) {
+            await DB.update(StoreName.HOTELS, h)
+        }else{
+            if(h === UpdateStatusType.DELETED){
+                await DB.delete(StoreName.PLACE, id)
+            }else{
+                console.error(h)
+            }
+        }
+        return h
     }
 
 
@@ -135,8 +185,16 @@ export class Update{
         const id = action.data.id
         if(!id) return
 
-        const photo = await Recover.photo(id)
-        if(photo) await DB.update(StoreName.Photo, photo)
-        return photo
+        const p = await Recover.photo(id)
+        if(p) {
+            await DB.update(StoreName.Photo, p)
+        }else{
+            if(p === UpdateStatusType.DELETED){
+                await DB.delete(StoreName.PLACE, id)
+            }else{
+                console.error(p)
+            }
+        }
+        return p
     }
 }

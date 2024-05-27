@@ -54,7 +54,7 @@ export function CurrentTravel() {
 
     useEffect(() => {
         if (!travel) return
-        if (!travelDay) navigate(`/travel/${travel.id}/1/`)
+        if (!Number(travelDay)) navigate(`/travel/${travel.id}/1/`)
     }, [])
 
 

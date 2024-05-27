@@ -41,11 +41,8 @@ export function actionHandler({
     return async (actionDTO: ActionDto) => {
         const dispatch = store.dispatch
         try {
-            const result = await ActionController.add(context, actionDTO)
-            if(actionDTO.entity === StoreName.HOTELS) {
-                console.log('result', result)
-            }
-            if (!result.ok) {
+            const result = await ActionController.add(context, actionDTO).catch(defaultHandleError)
+            if (!result || !result.ok) {
                 return
             }
 
