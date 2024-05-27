@@ -2,21 +2,24 @@ import {useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
+import {Chip, DropDown, Input, PageHeader} from "../../components/ui";
 import {SectionController} from "../../core/service-controllers";
 import {ExpenseController} from "../../core/service-controllers";
-import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
 import Container from "../../components/Container/Container";
 import {addExpense} from "../../redux/slices/expenses-slice";
-import {Chip, Input, PageHeader} from "../../components/ui";
+import {Currency} from "../../core/classes/store/Currency";
 import {loadLimits} from "../../redux/slices/limit-slice";
 import Button from "../../components/ui/Button/Button";
+import {CurrencyType} from "../../types/CurrencyType";
 import {Expense, Section} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
 
 import './ExpenseAdd.css'
+import {CURRENCY_SYMBOL_LIST} from "../../constants";
 
 
 export function ExpenseAdd() {
@@ -26,22 +29,24 @@ export function ExpenseAdd() {
     const {user} = useUser()
     const navigate = useNavigate()
     const {expenseType, expenseCode, travelCode} = useParams()
-    const [expense, setExpense] = useState<Expense>(new Expense({section_id:'misc', primary_entity_id: travelCode}))
+    const [expense, setExpense] = useState<Expense>(new Expense({section_id: 'misc', primary_entity_id: travelCode}))
     const [change, setChange] = useState(false)
     const [sections, setSections] = useState<Section[]>([])
 
     const inputRef = useRef<HTMLInputElement>(null)
     const numberRef = useRef<HTMLInputElement>(null)
 
+    const expenseRef = useRef<HTMLInputElement>(null)
+    const [expenseSelectOpen, setExpenseSelectOpen] = useState(false)
 
 
     useEffect(() => {
-        if(expenseCode){
+        if (expenseCode) {
             ExpenseController.read(context, expenseCode)
                 .then(e => e && setExpense(e))
                 .catch(defaultHandleError)
         } else {
-            expense.variant = expenseType === 'actual' ? StoreName.EXPENSES_ACTUAL: StoreName.EXPENSES_PLAN
+            expense.variant = expenseType === 'actual' ? StoreName.EXPENSES_ACTUAL : StoreName.EXPENSES_PLAN
             expense.user_id = user?.id || 'undefined'
             setExpense(expense)
         }
@@ -55,53 +60,64 @@ export function ExpenseAdd() {
     }, []);
 
 
-    function handleSectionChange(section:Section){
+    function handleSectionChange(section: Section) {
         expense.section_id = section.id
         setExpense(new Expense(expense))
-        if(!change) setChange(true)
+        if (!change) setChange(true)
     }
 
 
-    function handleTitleChange(title:string){
+    function handleTitleChange(title: string) {
         title = title.trim()
         expense.title = title
         setExpense(new Expense(expense))
-        if(!change) setChange(true)
+        if (!change) setChange(true)
     }
 
 
-    function handleValueChange(value:number) {
+    function handleValueChange(value: number) {
         expense.value = value
         setExpense(expense)
-        if(!change) setChange(true)
+        if (!change) setChange(true)
     }
 
 
-    function handlePersonalChange(personal: Boolean){
+    function handlePersonalChange(personal: Boolean) {
         expense.personal = personal ? 1 : 0
         setExpense(new Expense(expense))
-        if(!change) setChange(true)
+        if (!change) setChange(true)
     }
 
 
-    function handleSaveChanges(){
+    function handleExpenseSelectChange(text: string) {
+        const e = new Expense(expense)
+        const code = Currency.getCodeBySymbol(text as CurrencyType['symbol'])
+        if (e.currency !== code) {
+            e.currency = code
+            if (!change) setChange(true)
+            setExpense(e)
+        }
+    }
+
+
+    function handleSaveChanges() {
         if (!travel) return
         inputRef.current?.classList.remove('danger-border')
         numberRef.current?.classList.remove('danger-border')
 
-        if(!expense.title){
+        if (!expense.title) {
             inputRef.current?.classList.add('danger-border')
             inputRef.current?.focus()
             return
         }
 
-        if(!expense.value){
+        if (!expense.value) {
             numberRef.current?.classList.add('danger-border')
             numberRef.current?.focus()
             return
         }
         /**update expense*/
-        if(expenseCode){
+        if (expenseCode) {
             ExpenseController.update(context, expense)
                 .then(() => dispatch(addExpense(expense)))
                 .then(() => navigate(-1))
@@ -109,7 +125,7 @@ export function ExpenseAdd() {
             return
         }
         /**add new expense*/
-        if(!expenseCode){
+        if (!expenseCode) {
             ExpenseController.create(context, expense)
                 .then(() => dispatch(addExpense(expense)))
                 .then(() => dispatch(loadLimits({ctx: context, travel})))
@@ -120,8 +136,7 @@ export function ExpenseAdd() {
     }
 
 
-    console.log({expenseType, expenseCode, travelCode}, expense)
-    return(
+    return (
         <div className='wrapper'>
             <Container>
                 <PageHeader arrowBack title={'Добавить расходы'}/>
@@ -143,11 +158,38 @@ export function ExpenseAdd() {
                 <section className='column block gap-1'>
                     <div>
                         <div className='title-bold'>На что потратили:</div>
-                        <Input ref={inputRef} value={expense.title} onChange={handleTitleChange} delay={300}/>
+                        <Input
+                            ref={inputRef}
+                            value={expense.title}
+                            onChange={handleTitleChange}
+                            delay={300}
+                        />
                     </div>
                     <div>
                         <div className='title-bold'>Сумма расходов:</div>
-                        <NumberInput ref={numberRef} value={expense.value} onChange={handleValueChange} delay={300}/>
+                        <div className='relative'>
+                            <NumberInput
+                                ref={numberRef}
+                                className="expense-input"
+                                value={expense.value}
+                                onChange={handleValueChange}
+                                delay={300}
+                            />
+                            <div
+                                ref={expenseRef}
+                                className='expense-symbol'
+                                onClick={()=> setExpenseSelectOpen(!expenseSelectOpen)}
+                            >{Currency.getSymbolByCode(expense.currency)}</div>
+                        </div>
+
+                        <DropDown
+                            max={5}
+                            visible={expenseSelectOpen}
+                            onVisibleChange={setExpenseSelectOpen}
+                            onSubmit={handleExpenseSelectChange}
+                            node={expenseRef}
+                            items={CURRENCY_SYMBOL_LIST}
+                        />
                     </div>
                     <Checkbox
                         left
@@ -157,7 +199,7 @@ export function ExpenseAdd() {
                 </section>
             </Container>
             <div className='footer-btn-container'>
-            <Button onClick={handleSaveChanges} disabled={!change} >Добавить</Button>
+                <Button onClick={handleSaveChanges} disabled={!change}>Добавить</Button>
             </div>
         </div>
     )

@@ -89,7 +89,7 @@ export function UserSettings() {
                         ref={currencyRef}
                         className='option-select'
                         onClick={() => setCurrencyOpen(!currencyOpen)}
-                    >{Currency.getCurrencySymbolByCode(tmpUser.settings.currency)}</span>
+                    >{Currency.getSymbolByCode(tmpUser.settings.currency)}</span>
                 </div>
                 <DropDown
                     max={5}

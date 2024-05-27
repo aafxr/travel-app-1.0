@@ -11,14 +11,14 @@ export class Currency{
         this.list = c.list
     }
 
-    static getCurrencySymbolByCode(code: CurrencyType['char_code']){
+    static getSymbolByCode(code: CurrencyType['char_code']){
         const res = CURRENCY_SYMBOL_LIST.find(s => s === CurrencyCodeTOSymbol[code])
         return res ? res : "₽" as ValueOfType<typeof CurrencyCodeTOSymbol>
     }
 
-    static getCurrencyCodeBySymbol(sym: CurrencyType['symbol']){
+    static getCodeBySymbol(sym: CurrencyType['symbol']){
         // @ts-ignore
-        const res = CURRENCY_CODE_LIST.find(c => c === CurrencyCodeTOSymbol[sym])
-        return res ? res : "RUB" as CurrencyType['char_code']
+        const idx = CURRENCY_SYMBOL_LIST.findIndex(c => c === sym)
+        return idx !== -1 ? CURRENCY_CODE_LIST[idx] : "RUB" as CurrencyType['char_code']
     }
 }

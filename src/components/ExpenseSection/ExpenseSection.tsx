@@ -9,9 +9,9 @@ import {useLimitContext} from "../../contexts/LimitContextProvider";
 import {Context, Expense, Limit, Section} from "../../core/classes";
 import {SectionController} from "../../core/service-controllers";
 import {useAppContext} from "../../contexts/AppContextProvider";
-import {currencyFormatter} from "../../utils/currencyFormatter";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import {removeExpense} from "../../redux/slices/expenses-slice";
+import {Currency} from "../../core/classes/store/Currency";
 import formatTime from "../../utils/date-utils/formatTime";
 import Swipe from "../ui/Swipe/Swipe";
 import {TrashIcon} from "../svg";
@@ -31,7 +31,10 @@ type SectionState = {
 }
 
 
-const formatter = currencyFormatter()
+const formatter = Intl.NumberFormat(navigator.language, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+})
 
 export function ExpenseSection({
                                    sectionID,
@@ -39,6 +42,7 @@ export function ExpenseSection({
                                    filterType
                                }: ExpenseSectionPropsType) {
     const context = useAppContext()
+    const {user} = context
     const {convertor} = useCurrency()
     const location = useLocation()
     const navigate = useNavigate()
@@ -101,7 +105,7 @@ export function ExpenseSection({
         navigate(`/travel/${travel.id}/limit/add/${sectionID}/`)
     }
 
-    function handleRemoveExpence(e: Expense){
+    function handleRemoveExpense(e: Expense){
         ExpenseController.delete(context, e)
             .then(() => dispatch(removeExpense(e)))
             .catch(defaultHandleError)
@@ -113,7 +117,9 @@ export function ExpenseSection({
             <div className='expense-section'>
                 <div className='expense-section-main' onClick={handleLimitEditeClick}>
                     <div className='expense-section-name'>{state?.section?.title}</div>
-                    <div className='expense-section-total'>{state ? formatter.format(total) : ''}</div>
+                    <div className='expense-section-total'>
+                        {state ? `${formatter.format(total)} ${user ? Currency.getSymbolByCode(user.settings.currency) : ''}` : ''}
+                    </div>
                 </div>
                 {state?.limit
                     && <div className='expense-section-line'>
@@ -131,14 +137,16 @@ export function ExpenseSection({
             <div className='expenses-list'>
                 {filtered.map(e => (
                     <Swipe key={e.id} rightElement={
-                        <div className='h-full center' onClick={() => handleRemoveExpence(e)}>
+                        <div className='h-full center' onClick={() => handleRemoveExpense(e)}>
                             <TrashIcon className='icon'/>
                         </div>}
                     >
                         <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
                             <div className='flex-between'>
                                 <div className='expense-title'>{e.title}</div>
-                                <div className='expense-value'>{formatter.format(e.value)}</div>
+                                <div className='expense-value'>
+                                    {`${formatter.format(e.value)} ${Currency.getSymbolByCode(e.currency)}`}
+                                </div>
                             </div>
                             <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>
                         </div>
