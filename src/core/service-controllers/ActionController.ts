@@ -59,8 +59,8 @@ export class ActionController {
             const action = new Action(actionDto)
             try {
                 await ActionService.add(ctx, action)
+                response.action = action
             } catch (e) {}
-            response.action = action
             return response
         } catch (e) {
             if (e instanceof ActionError && e.code === ErrorCode.ACTION_ALREADY_EXIST) {
