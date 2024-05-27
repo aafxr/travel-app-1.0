@@ -1,5 +1,18 @@
-.currency-symbol{
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-bottom: 2px solid black;
+.option{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}
+
+.option-title{
+    font-weight: 600;
+}
+
+.option-select{
+    color: var(--color-text);
+    padding: 0.2rem 2rem;
+    /*background-color: var(--color-primary-light);*/
+    border-radius: 0.4rem;
+    /*box-shadow: inset 0 0 8px rgba(0,0,0,0.15);*/
 }

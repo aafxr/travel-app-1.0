@@ -8,6 +8,7 @@ import './DropDown.css'
 type DropDownPropsType<T> = {
     items?: string[]
     visible?: boolean
+    onVisibleChange?: (val: boolean) => unknown
     max?: number
     onSelect?: (item: string) => unknown
     onSubmit?: (item: string) => unknown
@@ -21,6 +22,7 @@ type DropDownPropsType<T> = {
  * компонент отображает выпадающий список
  * @param items - массив строк который будет отображен в выподающем списке
  * @param visible - флаг видимости списка
+ * @param onVisibleChange - cb, вызывается при клике вне селекта
  * @param max - максимальное число эллеменото отображаемых в списке
  * @param onSelect - метод, вызывается при навигации по полям при помощи стрелок
  * @param onSubmit - метод, вызывается при клике/enter
@@ -32,12 +34,13 @@ type DropDownPropsType<T> = {
 export default function DropDown<T extends HTMLElement>({
                                   items = [],
                                   visible = false,
+                                  onVisibleChange,
                                   max = 5,
                                   onSelect,
                                   onSubmit,
                                   onDropDownClose,
                                   className,
-                                  node
+                                  node,
                               }: DropDownPropsType<T>
 ) {
     const itemRef = useRef<HTMLLIElement>(null)
@@ -50,6 +53,19 @@ export default function DropDown<T extends HTMLElement>({
         const itemHeight = itemRef.current.offsetHeight
         rootRef.current.style.maxHeight = itemHeight * max + 'px'
     }, [itemRef.current, rootRef.current, max])
+
+
+    useEffect(() => {
+        function handleClick(e: MouseEvent | TouchEvent){
+            const {target} = e
+            if(!target || !(target instanceof Node)) return
+            if(node?.current?.contains(target)) return
+            if(rootRef.current?.contains(target)) return
+            onVisibleChange?.(false)
+        }
+        document.addEventListener('click', handleClick)
+        return () => {document.removeEventListener('click', handleClick)}
+    }, [])
 
 
     useEffect(() => {

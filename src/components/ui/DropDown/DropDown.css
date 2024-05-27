@@ -27,14 +27,14 @@
     font-weight: 600;
     background-color: inherit;
     padding: calc(var(--padding-base) / 1.5) var(--padding-base);
-    border-radius: var(--br-10);
+    border-radius: 4px;
     cursor: pointer;
 }
 
 .dropdown-item.active,
 .dropdown-item:hover,
 .dropdown-item:active{
-    /*color: white;*/
+    color: var(--color-black);
     background-color: var(--color-primary-light);
     transition: color .3s, background .3s;
 }

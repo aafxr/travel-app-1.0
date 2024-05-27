@@ -7,8 +7,8 @@ export type DefaultThemeType = 'dark-theme' | 'light-theme' | 'default'
 
 const defaultThemeContext = {
     theme: defaultThemeClass(),
-    setTheme: (key: DefaultThemeType) => {
-    }
+    setTheme: (key: DefaultThemeType) => {},
+    defaultThemeList: ['default', 'light-theme', 'dark-theme']
 }
 
 
@@ -17,7 +17,6 @@ export const ThemeContext = createContext(defaultThemeContext)
 
 export function ThemeContextProvider({children}: PropsWithChildren) {
     const context = useContext(ThemeContext)
-    const [state, setState] = useState(defaultThemeContext)
 
     const setTheme = (newTheme: DefaultThemeType) => {
         const themeName = newTheme === 'default' ? defaultThemeClass() : newTheme
@@ -27,19 +26,13 @@ export function ThemeContextProvider({children}: PropsWithChildren) {
         document.body.classList.remove('light-theme')
         document.body.classList.add(themeName)
 
-        setState({
-            ...state,
-            theme: themeName
-        })
+        context.theme = newTheme
     }
 
-    useEffect(() => {
-        setState({...state, setTheme})
-    }, [])
-
+    context.setTheme = setTheme
 
     return (
-        <ThemeContext.Provider value={state || context}>
+        <ThemeContext.Provider value={context}>
             {children}
         </ThemeContext.Provider>
     )

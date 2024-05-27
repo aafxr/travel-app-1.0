@@ -43,6 +43,7 @@ export class UserService{
 
         await ActionService.create(ctx, action)
         await DB.update(StoreName.USERS, user)
+        return user
     }
 
     static async delete(ctx: Context, user:User){

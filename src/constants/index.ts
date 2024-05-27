@@ -21,7 +21,7 @@ export const DEFAULT_SECTION = 'misc'
 
 export const DEFAULT_CURRENCY: CurrencyType['char_code'] = "RUB"
 export const CURRENCY_SYMBOL_LIST: CurrencyType['symbol'][] = ["$", "¥", "€", "₸", "₽"] as CurrencyType['symbol'][]
-export const CURRENCY_CURRENCY_LIST: CurrencyType['char_code'][] = ["USD","CNY","EUR","KZT","RUB"]
+export const CURRENCY_CODE_LIST: CurrencyType['char_code'][] = ["USD","CNY","EUR","KZT","RUB"]
 export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
 
 export const ROUTE_FILTER = 'routeFilter'

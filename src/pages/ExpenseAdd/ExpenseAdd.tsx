@@ -9,14 +9,14 @@ import {useAppContext} from "../../contexts/AppContextProvider";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
 import Container from "../../components/Container/Container";
+import {addExpense} from "../../redux/slices/expenses-slice";
 import {Chip, Input, PageHeader} from "../../components/ui";
+import {loadLimits} from "../../redux/slices/limit-slice";
 import Button from "../../components/ui/Button/Button";
 import {Expense, Section} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
 
 import './ExpenseAdd.css'
-import {addExpense} from "../../redux/slices/expenses-slice";
-import {loadLimits} from "../../redux/slices/limit-slice";
 
 
 export function ExpenseAdd() {
