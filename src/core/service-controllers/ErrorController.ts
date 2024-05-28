@@ -1,5 +1,5 @@
 import {Context} from "../classes";
-import {ErrorService} from "../services/ErrorService";
+import {ErrorService} from "../services";
 
 export class ErrorController{
     static async read(ctx: Context, date: Date, count: number = 20, offset?: number){

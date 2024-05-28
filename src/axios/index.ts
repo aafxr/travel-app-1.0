@@ -19,7 +19,7 @@ let refresh  = false
 
 const aFetch = axios.create({
     baseURL,
-    timeout: 2000,
+    timeout: 3000,
 }) as AxiosInstanceWithFlag;
 
 

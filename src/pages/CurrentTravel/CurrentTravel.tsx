@@ -80,7 +80,7 @@ export function CurrentTravel() {
 
 
     function handleDateClick(){
-        navigate(`/travel/${travelCode}/date`)
+        navigate(`/travel/${travelCode}/date/`)
     }
 
 
