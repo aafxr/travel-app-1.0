@@ -1,11 +1,31 @@
+import {CustomError} from "../../core/errors/CustomError";
 import {pushAlertMessage} from "../../components/Alerts";
+import {removeUser} from "../../redux/slices/user-slice";
 import {StoreName} from "../../types/StoreName";
 import {DB} from "../../core/db/DB";
+import {store} from "../../redux";
+import {AxiosError} from "axios";
+
+export type LogErrorType = {time: Date, error: string | Record<string, any>}
 
 
-function saveErrorToDB(e: Error) {
-    const item = {time: Date.now(), error: e}
-    DB.add(StoreName.ERRORS, item).catch(console.error)
+let dispatch: Function | undefined
+
+if(window){
+    dispatch = store.dispatch
+}
+
+
+function saveErrorToDB(e: Error | string) {
+    let item: LogErrorType | undefined
+    if(typeof e === "string"){
+        item = {time: new Date(), error: e}
+    } else if(e && typeof e === "object"){
+        item = {time: new Date(), error: e.message}
+    }
+    if(item){
+        DB.add(StoreName.ERRORS, item).catch(console.error)
+    }
 }
 
 
@@ -20,10 +40,25 @@ function saveErrorToDB(e: Error) {
 export default function defaultHandleError(err: Error, message?: string) {
     if (err.message.match(/Failed to fetch/i)) {
         pushAlertMessage({type: "info", message: 'Проверьте подключение к интернету'})
+        return
     } else {
         // ErrorReport.sendError(err).catch(console.error)
         pushAlertMessage({type: "info", message: message || err.message})
-        saveErrorToDB(err)
     }
+
+
+    if(err instanceof AxiosError){
+        if(err.response?.status === 401 || err.status === 401){
+            if(location.hostname !== 'localhost') dispatch?.(removeUser())
+        }
+    }
+
+
+    if(err instanceof CustomError){
+        /* обработка кастомных ошибок */
+    }
+
+
+    saveErrorToDB(err)
     console.error(err)
 }

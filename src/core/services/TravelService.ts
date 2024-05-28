@@ -7,6 +7,7 @@ import {DB} from "../db/DB";
 import {sendNewTravel} from "../../api/fetch/sendNewTravel";
 import {fetchTravels} from "../../api/fetch";
 import {ActionController} from "../service-controllers";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 
 export class TravelService {
     static async create(ctx: Context, travel: Travel) {
@@ -67,7 +68,7 @@ export class TravelService {
     }
 
     static async getList(ctx: Context) {
-        let travels = await fetchTravels()
+        let travels: Travel[] = await fetchTravels().catch(defaultHandleError) || []
         if(travels.length) {
             for (let i = 0; i < travels.length; i++){
                 const t = travels[i]

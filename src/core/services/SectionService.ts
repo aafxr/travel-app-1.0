@@ -3,6 +3,7 @@ import {StoreName} from "../../types/StoreName";
 import {fetchSections} from "../../api/fetch";
 import {Context, Section} from "../classes";
 import {DB} from "../db/DB";
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 
 export class SectionService{
 
@@ -36,7 +37,7 @@ export class SectionService{
 
 
     static async init(ctx: Context){
-        const sections = await fetchSections()
+        const sections = await fetchSections().catch(defaultHandleError) || []
         for (const section of sections){
             await SectionService.update(ctx, section)
         }

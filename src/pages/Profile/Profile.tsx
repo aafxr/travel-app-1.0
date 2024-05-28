@@ -53,11 +53,12 @@ export function Profile() {
                         <span>{user.last_name}</span>
                     </div>
                 </div>
-                <Curtain minOffset={54} maxOpenPercent={.6} defaultOffsetPercents={.6}>
+                <Curtain minOffset={54} maxOpenPercent={.5} defaultOffsetPercents={.5}>
                     <Container className='column pt-20'>
                         <LinkComponent title='Настройки' to='/profile/settings/user/' arrow/>
                         <LinkComponent title='Действия' to='/profile/actions/' arrow/>
                         <LinkComponent title='Активные сеансы' to='/profile/sessions/' arrow/>
+                        <LinkComponent title='Лог Ошибок' to='/profile/errors/' arrow/>
                     </Container>
                 </Curtain>
             </div>

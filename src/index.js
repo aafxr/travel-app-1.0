@@ -17,6 +17,7 @@ import setFixedVH from "./utils/setFixedVH";
 import {store} from "./redux";
 import App from './App';
 import {LoadCurrencyComponent} from "./components/LoadCurrencyComponent/LoadCurrencyComponent";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 
 let theme = localStorage.getItem(THEME)
@@ -28,20 +29,22 @@ document.body.classList.add(theme)
 const root = ReactDOM.createRoot(document.querySelector('#root'));
 
 root.render(
-    <Provider store={store}>
-        <AppContextProvider>
-            <ThemeContextProvider>
-                <SubjectContextProvider>
-                    <BrowserRouter>
-                        <App/>
-                        <LoadActionsComponent/>
-                        <Alerts/>
-                        <LoadCurrencyComponent/>
-                    </BrowserRouter>
-                </SubjectContextProvider>
-            </ThemeContextProvider>
-        </AppContextProvider>
-    </Provider>
+    <ErrorBoundary>
+        <Provider store={store}>
+            <AppContextProvider>
+                <ThemeContextProvider>
+                    <SubjectContextProvider>
+                        <BrowserRouter>
+                            <App/>
+                            <LoadActionsComponent/>
+                            <Alerts/>
+                            <LoadCurrencyComponent/>
+                        </BrowserRouter>
+                    </SubjectContextProvider>
+                </ThemeContextProvider>
+            </AppContextProvider>
+        </Provider>
+    </ErrorBoundary>
 );
 
 
