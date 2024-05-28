@@ -1,9 +1,25 @@
 .errors{
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .error-item{
-
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
+
+.error-item:not(:last-child){
+    border-bottom: var(--border);
+}
+
+.item-text{
+    font-weight: 500;
+}
+
+.item-time{
+    font-size: 0.7rem;
+    color: var(--color-text-silver);
+}
+

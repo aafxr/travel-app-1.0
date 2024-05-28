@@ -58,7 +58,7 @@ export function Profile() {
                         <LinkComponent title='Настройки' to='/profile/settings/user/' arrow/>
                         <LinkComponent title='Действия' to='/profile/actions/' arrow/>
                         <LinkComponent title='Активные сеансы' to='/profile/sessions/' arrow/>
-                        <LinkComponent title='Лог Ошибок' to='/profile/errors/' arrow/>
+                        <LinkComponent title='Лог ошибок' to='/profile/errors/' arrow/>
                     </Container>
                 </Curtain>
             </div>

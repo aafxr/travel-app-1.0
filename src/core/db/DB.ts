@@ -81,12 +81,13 @@ export class DB {
      * возвращает все записи удовлетворяющие запросу из стор или []
      * @param storeName
      * @param range
+     * @param count
      */
-    static async getMany<T>(storeName: StoreName, range: IDBKeyRange | IDBValidKey): Promise<T[]> {
+    static async getMany<T>(storeName: StoreName, range: IDBKeyRange | IDBValidKey, count?: number): Promise<T[]> {
         const db = await openIDBDatabase()
         const tx = db.transaction(storeName)
         const store = tx.objectStore(storeName)
-        return await store.getAll(range)
+        return await store.getAll(range, count)
     }
 
     /**

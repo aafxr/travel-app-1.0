@@ -41,6 +41,7 @@ import {compare} from "./utils/compare";
 import {assign} from "./utils/assign";
 import {PlaceEdite} from "./pages/PlaceEdite/PlaceEdite";
 import {UserSettings} from "./pages/UserSettings/UserSettings";
+import {ErrorsLogPage} from "./pages/ErrorsLogPage/ErrorsLogPage";
 
 
 function App() {
@@ -124,6 +125,7 @@ function App() {
                     </Route>
 
                     <Route path={'/profile/'} element={<Profile/>}/>
+                    <Route path={'/profile/errors/'} element={<ErrorsLogPage/>}/>
                     <Route path={'/profile/settings/user/'} element={<UserSettings/>}/>
                 </Route>
             </Route>
