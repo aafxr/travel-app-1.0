@@ -44,7 +44,7 @@ aFetch.interceptors.response.use(r => r, async (err) => {
                 const response = await axios.post<APIResponseType<User>>(baseURL + '/user/auth/refresh/', {refresh_token}, {
                     headers: {authorization: `Bearer ${refresh_token}`}
                 })
-                if (response.statusText === 'ok' && response.data.ok) {
+                if (response.status === 200 && response.data.ok) {
                     const {data: userAuth} = response.data
                     u.token = userAuth.token
                     u.refresh_token = userAuth.refresh_token

@@ -18,7 +18,6 @@ import {removeUser, setUser} from "../../redux/slices/user-slice";
  * компонент реализует способы авторизации пользователя
  * @function
  * @name Login
- * @returns {JSX.Element}
  * @category Pages
  */
 export function Login() {
