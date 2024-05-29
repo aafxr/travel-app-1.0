@@ -12,7 +12,7 @@ import {
     travelActionSchema
 } from "../schema-validations";
 import {ControllerResponse} from "./controller-response/ControllerResponse";
-import {ActionService} from "../services/ActionService";
+import {ActionService} from "../services";
 import {ActionError} from "../errors";
 import {ErrorCode} from "../errors/ErrorCode";
 
@@ -86,6 +86,15 @@ export class ActionController {
         try {
             return await ActionService.loadActionsFromTimestamp(ctx, time_ms)
         } catch (e) {
+            throw e
+        }
+    }
+
+
+    static async sendAnsyncedActions(ctx: Context, count?: number ) {
+        try {
+            return ActionService.sendAnsyncedActions(ctx, count)
+        } catch (e){
             throw e
         }
     }

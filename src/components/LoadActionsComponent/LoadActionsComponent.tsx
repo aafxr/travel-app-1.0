@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {actionHandler} from "../../utils/action-handler/action-handler";
 import {ActionController} from "../../core/service-controllers";
 import {useAppContext} from "../../contexts/AppContextProvider";
@@ -13,7 +14,6 @@ import {
     usePlaceSubject,
     useTravelSubject
 } from "../../contexts/SubjectContextProvider";
-import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 
 
 /**
@@ -52,6 +52,10 @@ export function LoadActionsComponent(){
         async function handleOnline(){
             if(!online) setOnline(true)
             else return
+
+            ActionController
+                .sendAnsyncedActions(context)
+                .catch(defaultHandleError)
 
             const time = await ActionController.getLastActionTime()
             const actions = await fetchActions(time.getTime())

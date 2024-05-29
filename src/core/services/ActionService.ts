@@ -1,13 +1,13 @@
+import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {sendActions} from "../../api/fetch/sendActions";
+import {PredicateType} from "../../types/Predicate";
 import {StoreName} from "../../types/StoreName";
+import {IndexName} from "../../types/IndexName";
+import {fetchActions} from "../../api/fetch";
 import {Action, Context} from "../classes";
 import {ActionDto} from "../classes/dto";
-import {DB} from "../db/DB";
 import {ActionError} from "../errors";
-import {IndexName} from "../../types/IndexName";
-import {PredicateType} from "../../types/Predicate";
-import {fetchActions} from "../../api/fetch";
-import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {DB} from "../db/DB";
 
 export class ActionService {
     static async create(ctx: Context, action: Action<any>) {
@@ -51,6 +51,25 @@ export class ActionService {
             try {
                 await DB.add(StoreName.ACTION, action)
             } catch (e) {
+            }
+        }
+    }
+
+
+    static async sendAnsyncedActions(ctx: Context, count: number = 50){
+        let actions = await DB.getManyFromIndex<Action<any>>(StoreName.ACTION, "synced", 0, count)
+        while (actions.length) {
+            const dto = actions.map(a => new ActionDto(a))
+            const res = await sendActions(...dto)
+            if (res.response.ok){
+                const result = res.response.result
+                actions.forEach(a => result[a.id]?.ok && (a.synced = 1))
+                await Promise.all(
+                    actions.map(a => a.synced
+                        ? DB.update(StoreName.ACTION, a)
+                        : DB.delete(StoreName.ACTION, a.id)
+                    )
+                )
             }
         }
     }
