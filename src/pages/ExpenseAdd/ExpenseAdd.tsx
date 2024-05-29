@@ -48,7 +48,8 @@ export function ExpenseAdd() {
         } else {
             expense.variant = expenseType === 'actual' ? StoreName.EXPENSES_ACTUAL : StoreName.EXPENSES_PLAN
             expense.user_id = user?.id || 'undefined'
-            setExpense(expense)
+            if (user) expense.currency = user.settings.currency
+            setExpense(new Expense(expense))
         }
     }, []);
 
@@ -85,7 +86,7 @@ export function ExpenseAdd() {
     function handlePersonalChange(personal: Boolean) {
         expense.personal = personal ? 1 : 0
         const isPersonal = !!expense.personal
-        if(isPersonal){
+        if (isPersonal) {
             expense.id = Expense.personalID(context, expense.id)
         } else {
             expense.id = Expense.commonId(expense.id)
@@ -143,70 +144,72 @@ export function ExpenseAdd() {
 
 
     return (
-        <div className='wrapper'>
-            <Container>
-                <PageHeader arrowBack title={'Добавить расходы'}/>
-            </Container>
-            <Container className='content'>
-                <section className='block column gap-1'>
-                    <div className='title-bold'>Категории</div>
-                    <div className='flex-wrap gap-1'>
-                        {sections.map(s => (
-                            <Chip
-                                key={s.id}
-                                rounded
-                                onClick={() => handleSectionChange(s)}
-                                color={expense.section_id === s.id ? "orange" : "grey"}
-                            >{s.title}</Chip>
-                        ))}
-                    </div>
-                </section>
-                <section className='column block gap-1'>
-                    <div>
-                        <div className='title-bold'>На что потратили:</div>
-                        <Input
-                            ref={inputRef}
-                            value={expense.title}
-                            onChange={handleTitleChange}
-                            delay={300}
-                        />
-                    </div>
-                    <div>
-                        <div className='title-bold'>Сумма расходов:</div>
-                        <div className='relative'>
-                            <NumberInput
-                                ref={numberRef}
-                                className="expense-input"
-                                value={expense.value}
-                                onChange={handleValueChange}
+        <>
+            <div className='wrapper'>
+                <Container>
+                    <PageHeader arrowBack title={'Добавить расходы'}/>
+                </Container>
+                <Container className='content'>
+                    <section className='block column gap-1'>
+                        <div className='title-bold'>Категории</div>
+                        <div className='flex-wrap gap-1'>
+                            {sections.map(s => (
+                                <Chip
+                                    key={s.id}
+                                    rounded
+                                    onClick={() => handleSectionChange(s)}
+                                    color={expense.section_id === s.id ? "orange" : "grey"}
+                                >{s.title}</Chip>
+                            ))}
+                        </div>
+                    </section>
+                    <section className='column block gap-1'>
+                        <div>
+                            <div className='title-bold'>На что потратили:</div>
+                            <Input
+                                ref={inputRef}
+                                value={expense.title}
+                                onChange={handleTitleChange}
                                 delay={300}
                             />
-                            <div
-                                ref={expenseRef}
-                                className='expense-symbol'
-                                onClick={()=> setExpenseSelectOpen(!expenseSelectOpen)}
-                            >{Currency.getSymbolByCode(expense.currency)}</div>
                         </div>
-
-                        <DropDown
-                            max={5}
-                            visible={expenseSelectOpen}
-                            onVisibleChange={setExpenseSelectOpen}
-                            onSubmit={handleExpenseSelectChange}
-                            node={expenseRef}
-                            items={CURRENCY_SYMBOL_LIST}
-                        />
-                    </div>
-                    <Checkbox
-                        left
-                        checked={Boolean(expense.personal)}
-                        onChange={handlePersonalChange}
-                    >Личные</Checkbox>
-                </section>
-            </Container>
-            <div className='footer-btn-container'>
-                <Button onClick={handleSaveChanges} disabled={!change}>Добавить</Button>
+                        <div>
+                            <div className='title-bold'>Сумма расходов:</div>
+                            <div className='relative'>
+                                <NumberInput
+                                    ref={numberRef}
+                                    className="expense-input"
+                                    value={expense.value}
+                                    onChange={handleValueChange}
+                                    delay={300}
+                                />
+                                <div
+                                    ref={expenseRef}
+                                    className='expense-symbol'
+                                    onClick={() => setExpenseSelectOpen(!expenseSelectOpen)}
+                                >{Currency.getSymbolByCode(expense.currency)}</div>
+                            </div>
+                        </div>
+                        <Checkbox
+                            left
+                            checked={Boolean(expense.personal)}
+                            onChange={handlePersonalChange}
+                        >Личные</Checkbox>
+                    </section>
+                </Container>
+                <div className='footer-btn-container'>
+                    <Button onClick={handleSaveChanges} disabled={!change}>Добавить</Button>
+                </div>
             </div>
-        </div>
+            <DropDown
+                max={5}
+                selected={Currency.getSymbolByCode(expense.currency)}
+                visible={expenseSelectOpen}
+                onVisibleChange={setExpenseSelectOpen}
+                onSubmit={handleExpenseSelectChange}
+                node={expenseRef}
+                items={CURRENCY_SYMBOL_LIST}
+            />
+        </>
     )
 }

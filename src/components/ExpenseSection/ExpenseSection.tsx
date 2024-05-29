@@ -6,7 +6,7 @@ import {ExpenseController, LimitController} from "../../core/service-controllers
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {useAppDispatch, useCurrency} from "../../hooks/redux-hooks";
 import {useLimitContext} from "../../contexts/LimitContextProvider";
-import {Context, Expense, Limit, Section} from "../../core/classes";
+import {Context, CurrencyConvertor, Expense, Limit, Section} from "../../core/classes";
 import {SectionController} from "../../core/service-controllers";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
@@ -145,7 +145,10 @@ export function ExpenseSection({
                             <div className='flex-between'>
                                 <div className='expense-title'>{e.title}</div>
                                 <div className='expense-value'>
-                                    {`${formatter.format(e.value)} ${Currency.getSymbolByCode(e.currency)}`}
+                                    <div className='origin'>{`${formatter.format(e.value)} ${Currency.getSymbolByCode(e.currency)}`}</div>
+                                    {!!user &&
+                                        <div className='converted'>{formatter.format(convertor.convert(context, e))}&nbsp;{Currency.getSymbolByCode(user.settings.currency)}</div>
+                                    }
                                 </div>
                             </div>
                             <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>

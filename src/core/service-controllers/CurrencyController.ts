@@ -1,6 +1,6 @@
-import {Context} from "../classes";
 import {Currency} from "../classes/store/Currency";
-import {CurrencyService} from "../services/CurrencyService";
+import {CurrencyService} from "../services";
+import {Context} from "../classes";
 
 export class CurrencyController{
     static async create(ctx: Context, c: Currency){

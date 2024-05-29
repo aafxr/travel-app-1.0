@@ -83,11 +83,23 @@
 
 }
 
-.expense-title,
 .expense-value{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.expense-title,
+.expense-value .origin{
     font-size: 0.875rem;
     font-weight: 600;
 }
+
+.expense-value .converted{
+    font-size: 0.7rem;
+    color: var(--color-text-silver);
+}
+
 
 .expense-date{
     color: var(--color-text-silver);

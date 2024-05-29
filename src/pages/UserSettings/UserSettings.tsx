@@ -93,6 +93,7 @@ export function UserSettings() {
                 </div>
                 <DropDown
                     max={5}
+                    selected={user && Currency.getSymbolByCode(user.settings.currency)}
                     visible={currencyOpen}
                     onVisibleChange={setCurrencyOpen}
                     onSubmit={handleCurrencyChange}
@@ -109,6 +110,7 @@ export function UserSettings() {
                 </div>
                 <DropDown
                     max={3}
+                    selected={theme}
                     visible={themeOpen}
                     onVisibleChange={setThemeOpen}
                     onSubmit={handleThemeChange}

@@ -6,6 +6,7 @@ import './DropDown.css'
 
 
 type DropDownPropsType<T> = {
+    selected?: string
     items?: string[]
     visible?: boolean
     onVisibleChange?: (val: boolean) => unknown
@@ -20,6 +21,7 @@ type DropDownPropsType<T> = {
 
 /**
  * компонент отображает выпадающий список
+ * @param selected - текущий выбранный элемент
  * @param items - массив строк который будет отображен в выподающем списке
  * @param visible - флаг видимости списка
  * @param onVisibleChange - cb, вызывается при клике вне селекта
@@ -32,6 +34,7 @@ type DropDownPropsType<T> = {
  * @constructor
  */
 export default function DropDown<T extends HTMLElement>({
+                                  selected,
                                   items = [],
                                   visible = false,
                                   onVisibleChange,
@@ -45,7 +48,7 @@ export default function DropDown<T extends HTMLElement>({
 ) {
     const itemRef = useRef<HTMLLIElement>(null)
     const rootRef = useRef<HTMLUListElement>(null)
-    const [selected, setSelected] = useState('')
+    // const [selected, setSelected] = useState('')
 
 
     useEffect(() => {
@@ -97,20 +100,20 @@ export default function DropDown<T extends HTMLElement>({
 
             if (code === 'ArrowUp') {
                 if (!selected) {
-                    setSelected(items[items.length - 1])
+                    // setSelected(items[items.length - 1])
                     onSelect && onSelect(items[items.length - 1])
                 } else if (idx !== -1) {
                     const selectedItem = idx === 0 ? items[items.length - 1] : items[idx - 1]
-                    setSelected(selectedItem)
+                    // setSelected(selectedItem)
                     onSelect && onSelect(selectedItem)
                 }
             } else if(code === 'ArrowDown'){
                 if (!selected) {
-                    setSelected(items[0])
+                    // setSelected(items[0])
                     onSelect && onSelect(items[0])
                 } else if (idx !== -1) {
                     const selectedItem = idx === items.length - 1 ? items[0] : items[idx + 1]
-                    setSelected(selectedItem)
+                    // setSelected(selectedItem)
                     onSelect && onSelect(selectedItem)
                 }
             } else if(code === 'Enter' && selected){
@@ -148,7 +151,7 @@ export default function DropDown<T extends HTMLElement>({
 
 
     function handleItemClick(item: string) {
-        setSelected(item)
+        // setSelected(item)
         onSubmit && onSubmit(item)
     }
 
