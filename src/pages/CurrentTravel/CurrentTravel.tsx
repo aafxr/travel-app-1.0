@@ -48,7 +48,9 @@ export function CurrentTravel() {
 
     const filteredPlaces = useMemo(() => {
         const day = Number(travelDay) || 1
-        return [...places, ...hotels].filter(p => p.day === day)
+        return [...places, ...hotels]
+            .sort((a,b) => a.day - b.day || a.date_start.getTime() - b.date_start.getTime())
+            .filter(p => p.day === day)
     }, [places, hotels, travelDay])
 
 

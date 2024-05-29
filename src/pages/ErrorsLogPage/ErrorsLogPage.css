@@ -23,3 +23,9 @@
     color: var(--color-text-silver);
 }
 
+.item-stack{
+    padding-left: 1rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+}
+

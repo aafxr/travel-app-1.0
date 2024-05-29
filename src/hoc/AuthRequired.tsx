@@ -3,9 +3,9 @@ import {Navigate, Outlet} from "react-router-dom";
 
 import PageContainer from "../components/PageContainer/PageContainer";
 import {useAppContext} from "../contexts/AppContextProvider";
-import {useUser} from "../hooks/redux-hooks/useUser";
 import {useAppDispatch} from "../hooks/redux-hooks";
 import Loader from "../components/Loader/Loader";
+import {useUser} from "../hooks/redux-hooks";
 
 /**
  * hoc component обертка, если пользователь не авторизован перенаправляет пользователя на страницу авторизации
@@ -37,7 +37,7 @@ export default function AuthRequired() {
     }
 
 
-    if (user) {
+    if (user && (user.token || user.refresh_token || location.hostname === 'localhost')) {
         return <Outlet/>
     }
 

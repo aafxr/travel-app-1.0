@@ -28,7 +28,17 @@ export function ErrorsLogPage(){
                 <ul className='errors'>
                     {errors.map(({time, error}) => (
                         <li key={time.getTime()} className='error-item'>
-                            <div className='item-text'>{typeof error === 'string' ? error : error.message}</div>
+                            <div className='item-text'>{
+                                typeof error === 'string'
+                                    ? error
+                                    : (
+                                        <>
+                                            {error.message}
+                                            <div className='item-stack'>{error.stack || ''}</div>
+                                        </>
+                                    )
+                            }
+                            </div>
                             <div className='item-time'>{time.toLocaleDateString()}&nbsp;{time.toLocaleTimeString()}</div>
                         </li>
                     ))}

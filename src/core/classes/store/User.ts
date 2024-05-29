@@ -28,12 +28,7 @@ import {DEFAULT_CURRENCY} from "../../../constants";
  * @extends Member
  */
 export class User extends Member {
-
-    token: string;
-    refresh_token: string;
-
-
-    settings: UserSettingsType = {
+    static DEFAULT_SETTINGS: UserSettingsType = {
         curtain: 0,
         routeFilter: "byDays",
         expensesFilter: "all",
@@ -41,14 +36,22 @@ export class User extends Member {
         currency: DEFAULT_CURRENCY,
     };
 
+    token: string;
+    refresh_token: string;
+
+
+    settings: UserSettingsType;
+
     constructor(user: Partial<User> | UserDto) {
         super(user);
 
         this.token = ''
         this.refresh_token = ''
+        this.settings = {...User.DEFAULT_SETTINGS}
 
         if('token' in user && user.token !== undefined) this.token =  user.token
         if('refresh_token' in user && user.refresh_token !== undefined) this.refresh_token = user.refresh_token
+        if('settings' in user) Object.assign(this.settings, user.settings)
     }
 
 

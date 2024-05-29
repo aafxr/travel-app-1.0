@@ -37,8 +37,8 @@ aFetch.interceptors.response.use(r => r, async (err) => {
         originalRequest._retry = true
         refresh = true
 
+        const u = await DB.getStoreItem<User>(USER_AUTH)
         try {
-            const u = await DB.getStoreItem<User>(USER_AUTH)
             if (u) {
                 const {refresh_token} = u
                 const response = await axios.post<APIResponseType<User>>(baseURL + '/user/auth/refresh/', {refresh_token}, {
@@ -56,7 +56,11 @@ aFetch.interceptors.response.use(r => r, async (err) => {
                 return aFetch(originalRequest)
             }
         } catch (e) {
-            DB.deleteStoreItem(USER_AUTH).catch(defaultHandleError)
+            if(u){
+                u.token = ''
+                u.refresh_token = ''
+                DB.setStoreItem(USER_AUTH, u).catch(defaultHandleError)
+            }
         } finally {
             refresh = false
         }

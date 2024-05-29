@@ -9,16 +9,15 @@ import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {UserController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
+import {Currency} from "../../core/classes/store/Currency";
 import {DropDown, PageHeader} from "../../components/ui";
 import Button from "../../components/ui/Button/Button";
 import {setUser} from "../../redux/slices/user-slice";
-import {ValueOfType} from "../../types/ValueOfType";
 import {useTheme} from "../../hooks/theme";
 import {useHasChanges} from "../../hooks";
 import {User} from "../../core/classes";
 
 import './UserSettings.css'
-import {Currency} from "../../core/classes/store/Currency";
 
 export function UserSettings() {
     const context = useAppContext()
@@ -39,10 +38,11 @@ export function UserSettings() {
 
     const [saving, setSaving] = useState(false)
 
+    console.log(tmpUser)
 
     useEffect(() => {
         if (user) setTmpUser(new User(user))
-    }, []);
+    }, [user]);
 
 
     function handleCurrencyChange(val: string) {

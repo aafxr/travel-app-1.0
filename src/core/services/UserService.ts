@@ -43,6 +43,7 @@ export class UserService{
 
         await ActionService.create(ctx, action)
         await DB.update(StoreName.USERS, user)
+        await DB.setStoreItem(USER_AUTH, user)
         return user
     }
 
@@ -88,9 +89,11 @@ export class UserService{
      */
     static async logOut(ctx: Context, user: User) {
         await fetchRemoveUserAuth(user).catch(defaultHandleError)
+        user.token = ''
+        user.refresh_token = ''
         localStorage.removeItem(USER_AUTH)
-        await DB.deleteStoreItem(USER_AUTH)
-        await DB.delete(StoreName.USERS, user.id)
+        await DB.setStoreItem(USER_AUTH, user)
+        // await DB.delete(StoreName.USERS, user.id)
         await DB.delete(StoreName.STORE, ACCESS_TOKEN)
         await DB.delete(StoreName.STORE, REFRESH_TOKEN)
     }

@@ -21,7 +21,7 @@ function saveErrorToDB(e: Error | string) {
     if(typeof e === "string"){
         item = {time: new Date(), error: e}
     } else if(e && typeof e === "object"){
-        item = {time: new Date(), error: e.message}
+        item = {time: new Date(), error: e}
     }
     if(item){
         DB.add(StoreName.ERRORS, item).catch(console.error)
