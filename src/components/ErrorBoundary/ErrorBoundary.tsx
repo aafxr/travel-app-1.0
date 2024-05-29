@@ -3,7 +3,6 @@ import React, {PropsWithChildren} from 'react'
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import Container from "../Container/Container";
-import {Navigate} from "../Navigate/Navigate";
 
 interface ErrorBoundaryStateType {
     hasError: boolean,
@@ -48,6 +47,7 @@ export default class ErrorBoundary extends React.Component<PropsWithChildren, Er
             hasError: false,
             error: undefined
         })
+        history.pushState(null, '',location.origin + '/')
     }
 
     render() {
@@ -56,7 +56,7 @@ export default class ErrorBoundary extends React.Component<PropsWithChildren, Er
                 <div className='wrapper'>
                     <Container className='content center'>
                         Error not founded
-                        <Navigate to={'/'} className='link' beforeNavigate={this.resetState}>Back to home page</Navigate>
+                        <div className='link' onClick={this.resetState}></div>
                     </Container>
                 </div>
 
