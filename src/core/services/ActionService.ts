@@ -71,6 +71,7 @@ export class ActionService {
                     )
                 )
             }
+            actions = await DB.getManyFromIndex<Action<any>>(StoreName.ACTION, "synced", 0, count)
         }
     }
 }
