@@ -20,9 +20,12 @@ const membersSlice = createSlice({
     reducers: {
         addMember(state, action: PayloadAction<Member>) {
             const idx = state.members.findIndex(p => p.id === action.payload.id)
-            idx === -1
-                ? state.members.push(action.payload)
-                : state.members[idx] = action.payload
+            if(idx === -1){
+                state.members.push(action.payload)
+            } else {
+                state.members = [...state.members]
+                state.members[idx] = action.payload
+            }
         },
         removeMember(state, action: PayloadAction<Member>) {
             state.members = state.members.filter(p => p.id !== action.payload.id)

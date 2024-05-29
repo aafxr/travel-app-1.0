@@ -38,7 +38,6 @@ export function UserSettings() {
 
     const [saving, setSaving] = useState(false)
 
-    console.log(tmpUser)
 
     useEffect(() => {
         if (user) setTmpUser(new User(user))

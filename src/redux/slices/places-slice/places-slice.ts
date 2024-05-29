@@ -20,9 +20,12 @@ const placesSlice = createSlice({
     reducers: {
         addPlace(state, action: PayloadAction<Place>) {
             const idx = state.places.findIndex(p => p.id === action.payload.id)
-            idx === -1
-                ? state.places.push(action.payload)
-                : state.places[idx] = action.payload
+            if(idx === -1){
+                state.places.push(action.payload)
+            } else {
+                state.places = [...state.places]
+                state.places[idx] = action.payload
+            }
         },
         removePlace(state, action: PayloadAction<Place>) {
             state.places = state.places.filter(p => p.id !== action.payload.id)

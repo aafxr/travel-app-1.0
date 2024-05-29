@@ -20,9 +20,13 @@ const hotelSlice = createSlice({
     reducers: {
         addHotel(state, action: PayloadAction<Hotel>) {
             const idx = state.hotels.findIndex(p => p.id === action.payload.id)
-            idx === -1
-                ? state.hotels.push(action.payload)
-                : state.hotels[idx] = action.payload
+            if(idx === -1) {
+                 state.hotels.push(action.payload)
+            } else {
+                state.hotels = [...state.hotels]
+                state.hotels[idx] = action.payload
+            }
+
         },
         removeHotel(state, action: PayloadAction<Hotel>) {
             state.hotels = state.hotels.filter(p => p.id !== action.payload.id)

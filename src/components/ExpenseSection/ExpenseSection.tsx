@@ -2,11 +2,10 @@ import clsx from "clsx";
 import {useEffect, useMemo, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
-import {ExpenseController, LimitController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
-import {useAppDispatch, useCurrency} from "../../hooks/redux-hooks";
-import {useLimitContext} from "../../contexts/LimitContextProvider";
-import {Context, CurrencyConvertor, Expense, Limit, Section} from "../../core/classes";
+import {useAppDispatch, useCurrency, useLimits} from "../../hooks/redux-hooks";
+import {Context, Expense, Limit, Section} from "../../core/classes";
+import {ExpenseController} from "../../core/service-controllers";
 import {SectionController} from "../../core/service-controllers";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
@@ -28,6 +27,9 @@ export type ExpenseSectionPropsType = {
 type SectionState = {
     limit?: Limit
     section?: Section
+    total?: number
+    rest?: number
+    restPercent?: number
 }
 
 
@@ -41,38 +43,54 @@ export function ExpenseSection({
                                    expenses,
                                    filterType
                                }: ExpenseSectionPropsType) {
+    const dispatch = useAppDispatch()
     const context = useAppContext()
     const {user} = context
     const {convertor} = useCurrency()
     const location = useLocation()
     const navigate = useNavigate()
-    const limits = useLimitContext()
-    const [state, setState] = useState<SectionState>()
-    const dispatch = useAppDispatch()
+    const {limits} = useLimits()
+    const [state, setState] = useState<SectionState>({})
 
     const filtered = useMemo(() => filteredExpenses(context, expenses, filterType), [expenses, filterType])
-    const total = filtered.reduce((a, el) => a + (convertor.convert(context, el) || el.value), 0)
-    const rest = state?.limit?.value ? state.limit.value - total : 0
 
-    let restPercent = 0
-    if (state && state.limit && state.limit.value) {
-        restPercent = rest >= 0 ? total / state.limit.value : 1
-        restPercent = Math.min(restPercent, 1)
-    }
 
-    const frontLineStyle = clsx('expense-section-line-front',{
-        green: restPercent < 0.5,
-        yellow:  0.5 > restPercent && restPercent < 0.8,
-        red: restPercent > 0.8,
-    })
+    useEffect(() => {
+        if (!state) return
+        let {total, rest, limit, restPercent} = state
+        total = filtered.reduce((a, el) => a + (convertor.convert(context, el) || el.value), 0)
+        if (!limit) {
+            setState(p => ({...p, total}))
+            return
+        }
+        rest = filtered.reduce((a, el) => a + (convertor.convertByCode(limit!.currency, el)), 0)
+        restPercent = 0
+        if (rest !== undefined && limit.value) {
+            restPercent = rest >= 0 ? rest / limit.value : 1
+            restPercent = Math.min(restPercent, 1)
+        }
+        setState(p => ({...p, total, rest, restPercent}))
+    }, [filtered, filterType, limits, convertor]);
 
-    const restStyle = clsx('expense-section-rest',{ red: restPercent > 0.8 })
+
+    const frontLineStyle = (state.restPercent && filterType !== "all")
+        ? clsx('expense-section-line-front', {
+            green: state.restPercent < 0.5,
+            yellow: 0.5 < state.restPercent && state.restPercent < 0.8,
+            red: state.restPercent > 0.8,
+        })
+        : 'expense-section-line-front'
+
+
+    const restStyle = filterType !== "all"
+        ? clsx('expense-section-rest', {red: (state.restPercent || 0) > 0.8})
+        : 'expense-section-rest'
 
 
     useEffect(() => {
         const init = async () => {
             const s = await SectionController.read(context, sectionID)
-            setState({section: s})
+            setState(p => ({...p, section: s}))
         }
         init().catch(defaultHandleError)
     }, []);
@@ -81,16 +99,14 @@ export function ExpenseSection({
     useEffect(() => {
         const user = context.user
         const travel = context.travel
-        if (!user || !travel) return
+        if (!user || !travel || !limits.length) return
         const limitID = filterType === "personal"
             ? Limit.getPersonalLimitID(user.id, sectionID, travel.id)
             : Limit.getCommonLimitID(sectionID, travel.id)
-        LimitController.read(context, limitID)
-            .then(limit => setState(prev => prev ? {...prev, limit} : {limit}))
-            .catch(defaultHandleError)
-        const l = limits[limitID]
-        setState(prev => prev ? {...prev, limit: l} : {limit: l})
-    }, [filterType]);
+
+        const l = limits.find(l => l.id === limitID)
+        if (l) setState(prev => prev ? {...prev, limit: l} : {limit: l})
+    }, [limits, filterType]);
 
 
     function handleEditeExpense(expense: Expense) {
@@ -105,7 +121,7 @@ export function ExpenseSection({
         navigate(`/travel/${travel.id}/limit/add/${sectionID}/`)
     }
 
-    function handleRemoveExpense(e: Expense){
+    function handleRemoveExpense(e: Expense) {
         ExpenseController.delete(context, e)
             .then(() => dispatch(removeExpense(e)))
             .catch(defaultHandleError)
@@ -118,18 +134,24 @@ export function ExpenseSection({
                 <div className='expense-section-main' onClick={handleLimitEditeClick}>
                     <div className='expense-section-name'>{state?.section?.title}</div>
                     <div className='expense-section-total'>
-                        {state ? `${formatter.format(total)} ${user ? Currency.getSymbolByCode(user.settings.currency) : ''}` : ''}
+                        {state ? `${formatter.format(state.total || 0)} ${user ? Currency.getSymbolByCode(user.settings.currency) : ''}` : ''}
                     </div>
                 </div>
-                {state?.limit
-                    && <div className='expense-section-line'>
-                        <div className={frontLineStyle} style={{width: `calc(${restPercent * 100}%)`}}/>
+                {state?.limit && (
+                    <div className='expense-section-line'>
+                        <div className={frontLineStyle} style={{width: `calc(${(state.restPercent || 0) * 100}%)`}}/>
                     </div>
-                }
+                )}
                 {state?.limit && (
                     <div className='expense-section-secondary'>
-                        <div className='expense-section-limit'>Лимит:&nbsp;{state.limit.value}</div>
-                        <div className={restStyle}>Осталось:&nbsp;{rest}</div>
+                        <div
+                            className='expense-section-limit'>Лимит:&nbsp;{`${state.limit.value} ${Currency.getSymbolByCode(state.limit.currency)}`}</div>
+                        {state.rest !== undefined && (
+                            <div
+                                className={restStyle}>
+                                Осталось:&nbsp;{`${formatter.format(state.limit.value - state.rest)} ${Currency.getSymbolByCode(state.limit.currency)}`}
+                            </div>
+                        )}
                     </div>
                 )
                 }
@@ -145,9 +167,11 @@ export function ExpenseSection({
                             <div className='flex-between'>
                                 <div className='expense-title'>{e.title}</div>
                                 <div className='expense-value'>
-                                    <div className='origin'>{`${formatter.format(e.value)} ${Currency.getSymbolByCode(e.currency)}`}</div>
+                                    <div
+                                        className='origin'>{`${formatter.format(e.value)} ${Currency.getSymbolByCode(e.currency)}`}</div>
                                     {!!user &&
-                                        <div className='converted'>{formatter.format(convertor.convert(context, e))}&nbsp;{Currency.getSymbolByCode(user.settings.currency)}</div>
+                                        <div
+                                            className='converted'>{formatter.format(convertor.convert(context, e))}&nbsp;{Currency.getSymbolByCode(user.settings.currency)}</div>
                                     }
                                 </div>
                             </div>

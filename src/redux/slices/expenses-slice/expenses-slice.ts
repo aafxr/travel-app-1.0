@@ -21,9 +21,12 @@ const expensesSlice = createSlice({
         addExpense(state, action: PayloadAction<Expense>) {
             const id = action.payload.id.split(':').pop() || action.payload.id
             const idx = state.expenses.findIndex(p => p.id.endsWith(id))
-            idx === -1
-                ? state.expenses.push(action.payload)
-                : state.expenses[idx] = action.payload
+            if(idx === -1){
+                state.expenses.push(action.payload)
+            } else {
+                state.expenses = [...state.expenses]
+                state.expenses[idx] = action.payload
+            }
         },
         removeExpense(state, action: PayloadAction<Expense>) {
             const id = action.payload.id.split(':').pop() || action.payload.id

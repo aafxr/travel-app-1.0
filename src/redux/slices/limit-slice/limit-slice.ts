@@ -20,9 +20,12 @@ const limitSlice = createSlice({
     reducers: {
         addLimit(state, action: PayloadAction<Limit>) {
             const idx = state.limits.findIndex(p => p.id === action.payload.id)
-            idx === -1
-                ? state.limits.push(action.payload)
-                : state.limits[idx] = action.payload
+            if(idx === -1){
+                state.limits.push(action.payload)
+            } else {
+                state.limits = [...state.limits]
+                state.limits[idx] = action.payload
+            }
         },
         removeLimit(state, action: PayloadAction<Limit>) {
             state.limits = state.limits.filter(p => p.id !== action.payload.id)

@@ -2,3 +2,21 @@
     color: var(--color-text-silver);
     font-size: 0.875rem;
 }
+
+.limit-input{
+    padding-right: 50px;
+}
+
+.limit-symbol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    aspect-ratio: 1/1;
+    color: var(--color-input);
+}

@@ -20,9 +20,12 @@ const messagesSlice = createSlice({
     reducers: {
         addMessage(state, action: PayloadAction<Message>) {
             const idx = state.messages.findIndex(p => p.id === action.payload.id)
-            idx === -1
-                ? state.messages.push(action.payload)
-                : state.messages[idx] = action.payload
+            if(idx === -1){
+                state.messages.push(action.payload)
+            } else {
+                state.messages = [...state.messages]
+                state.messages[idx] = action.payload
+            }
         },
         removeMessage(state, action: PayloadAction<Message>) {
             state.messages = state.messages.filter(p => p.id !== action.payload.id)

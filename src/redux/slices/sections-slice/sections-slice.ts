@@ -21,9 +21,12 @@ const sectionsSlice = createSlice({
     reducers: {
         addSection(state, action: PayloadAction<Section>) {
             const idx = state.sections.findIndex(p => p.id === action.payload.id)
-            idx === -1
-                ? state.sections.push(action.payload)
-                : state.sections[idx] = action.payload
+            if(idx === -1){
+                state.sections.push(action.payload)
+            } else {
+                state.sections = [...state.sections]
+                state.sections[idx] = action.payload
+            }
         },
         removeSection(state, action: PayloadAction<Section>) {
             state.sections = state.sections.filter(p => p.id !== action.payload.id)

@@ -1,6 +1,9 @@
 import {DBFlagType} from "../../../types/DBFlagType";
 import {nanoid} from "nanoid";
 import {LimitDTO} from "../dto/Limit.dto";
+import {CurrencyType} from "../../../types/CurrencyType";
+import {DEFAULT_CURRENCY} from "../../../constants";
+import {Section} from "./Section";
 
 
 /**
@@ -25,6 +28,7 @@ export class Limit {
     section_id: string
     value: number
     primary_entity_id: string;
+    currency: CurrencyType["char_code"]
 
     constructor(limit?: Partial<Limit> | LimitDTO) {
         if(!limit) limit = {}
@@ -34,6 +38,7 @@ export class Limit {
         this.section_id         = limit.section_id !== undefined ? limit.section_id : ''
         this.value              = limit.value !== undefined ? limit.value : 0
         this.primary_entity_id  = limit.primary_entity_id !== undefined ? limit.primary_entity_id : ''
+        this.currency           = limit.currency !== undefined ? limit.currency : DEFAULT_CURRENCY
     }
 
 
@@ -43,5 +48,17 @@ export class Limit {
 
     static getPersonalLimitID(user_id: string, section_id: string, primary_entity_id: string){
         return `${user_id}:${section_id}:${primary_entity_id}`
+    }
+
+    static getIDWithSection(limit:Limit, section: Section){
+        let t = limit.id.split(':')
+        if(t.length === 3){
+            t[1] = section.id
+        }else if(t.length === 2){
+            t[0] = section.id
+        } else{
+            t = [section.id, limit.id]
+        }
+        return t.join(':')
     }
 }
