@@ -113,6 +113,11 @@ export class Travel {
         this.isPublic = travel.isPublic !== undefined ? travel.isPublic : 0
     }
 
+
+    /**
+     * метод возвращает обект на основе полученного "travel" с допустимыми для хранения в indexeddb значениями
+     * @param travel
+     */
     static getPartial(travel: Partial<Travel> | TravelDTO = {}) {
         const res: Partial<Travel> = {}
         if(travel.id !== undefined) res.id = travel.id
@@ -149,24 +154,54 @@ export class Travel {
         return res
     }
 
+
+    /**
+     * данный метод мутирует объект travel
+     *
+     * обновляет запись о начале  поездки и сдвигает дату окончания поезки на указанное в travel количество дней
+     * @param travel
+     * @param start
+     */
     static setDateStart(travel: Travel, start: Date) {
         if (start.getSeconds() || start.getMinutes() || start.getMilliseconds() || start.getHours()) start.setHours(0, 0, 0, 0)
         travel.date_start = new Date(start)
         travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * travel.days)
     }
 
+
+    /**
+     * данный метод мутирует объект travel
+     *
+     * обновляет запись о конце поездки и сдвигает дату начала поезки на указанное в travel количество дней
+     * @param travel
+     * @param end
+     */
     static setDateEnd(travel: Travel, end: Date) {
         if (end.getHours() !== 23 || end.getMilliseconds() !== 999) end.setHours(23, 59, 59, 999)
         travel.date_end = new Date(end)
         travel.date_start = new Date(travel.date_end.getTime() - MS_IN_DAY * travel.days)
     }
 
+
+    /**
+     * данный метод мутирует объект travel
+     *
+     * устанавливает количество дней поездки и сдвигает дату окончания на соответствующее значение
+     * @param travel
+     * @param days
+     */
     static setDays(travel: Travel, days: number) {
         if (days < 1) return
         travel.date_end = new Date(travel.date_start.getTime() + MS_IN_DAY * days)
         travel.days = days
     }
 
+
+    /**
+     * метод позволяет получить интеречы указанные для данной поездки
+     * @param travel
+     * @param key
+     */
     static getInterest(travel: Travel, key: keyof Preference['interests']) {
         if (key in travel.preference.interests)
             return travel.preference.interests[key]
@@ -174,14 +209,31 @@ export class Travel {
             return 0
     }
 
+
+    /**
+     * метод позволяет получить предпочтения поезки (глубина осмотра, интенсивность и тд)
+     * @param travel
+     * @param key
+     */
     static getPreference<T extends keyof Preference>(travel: Travel, key: T) {
         return travel.preference[key]
     }
 
+
+    /**
+     * возвращает id всех участников поездки
+     * @param travel
+     */
     static getMembers(travel: Travel) {
         return [travel.owner_id, ...travel.admins, ...travel.editors, ...travel.commentator]
     }
 
+
+    /**
+     * на основе полученного id пользователя, позволяет получить роль пользователя в данной поездке
+     * @param travel
+     * @param memberID
+     */
     static getMemberRole(travel: Travel, memberID: string): MemberRole {
         if(travel){
             if (travel.owner_id === memberID) return MemberRole.OWNER
@@ -192,11 +244,24 @@ export class Travel {
         return MemberRole.WATCHER
     }
 
+
+    /**
+     * позволяет проверить является ли пользователь участником поездки
+     * @param t
+     * @param m
+     */
     static isMemberInTravel(t: Travel, m: Member) {
         const list = Travel.getMembers(t)
         return list.includes(m.id)
     }
 
+
+    /**
+     * добавляет пользователя в указанную группу поездки
+     * @param t
+     * @param m
+     * @param role
+     */
     static addMember(t: Travel, m: Member, role: MemberRole = MemberRole.COMMENTATOR) {
         const isInTravel = Travel.isMemberInTravel(t, m)
         if (isInTravel) return
