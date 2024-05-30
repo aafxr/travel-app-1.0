@@ -3,13 +3,13 @@
     width: 100%;
     color: var(--color-text);
     /*padding: var(--padding-base);*/
-    max-height: calc(15.325 * 5 * 1rem);
+    max-height: calc(15.325 * 1 * 1rem);
     border: var(--border);
     background-color: inherit;
     border-color: var(--color-grey-light);
     border-top: transparent;
-    border-bottom-left-radius: var(--br-10);
-    border-bottom-right-radius: var(--br-10);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     opacity: 0;
     pointer-events: none;

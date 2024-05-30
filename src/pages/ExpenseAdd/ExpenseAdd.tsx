@@ -201,15 +201,15 @@ export function ExpenseAdd() {
                     <Button onClick={handleSaveChanges} disabled={!change}>Добавить</Button>
                 </div>
             </div>
-            <DropDown
-                max={5}
+            {expenseSelectOpen && <DropDown
+                max={4}
                 selected={Currency.getSymbolByCode(expense.currency)}
                 visible={expenseSelectOpen}
                 onVisibleChange={setExpenseSelectOpen}
                 onSubmit={handleExpenseSelectChange}
                 node={expenseRef}
                 items={CURRENCY_SYMBOL_LIST}
-            />
+            />}
         </>
     )
 }

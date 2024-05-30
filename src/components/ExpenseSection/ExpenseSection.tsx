@@ -56,7 +56,6 @@ export function ExpenseSection({
 
 
     useEffect(() => {
-        if (!state) return
         let {total, rest, limit, restPercent} = state
         total = filtered.reduce((a, el) => a + (convertor.convert(context, el) || el.value), 0)
         if (!limit) {
@@ -165,7 +164,10 @@ export function ExpenseSection({
                     >
                         <div key={e.id} className='expense-item' onClick={() => handleEditeExpense(e)}>
                             <div className='flex-between'>
-                                <div className='expense-title'>{e.title}</div>
+                                <div>
+                                    <div className='expense-title'>{e.title}</div>
+                                    <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>
+                                </div>
                                 <div className='expense-value'>
                                     <div
                                         className='origin'>{`${formatter.format(e.value)} ${Currency.getSymbolByCode(e.currency)}`}</div>
@@ -175,7 +177,6 @@ export function ExpenseSection({
                                     }
                                 </div>
                             </div>
-                            <div className='expense-date'>{formatTime('hh:mm DD.MM', e.created_at)}</div>
                         </div>
                     </Swipe>
                 ))}

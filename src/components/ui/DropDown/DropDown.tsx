@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {createPortal} from "react-dom";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 
 import './DropDown.css'
 
@@ -38,7 +38,7 @@ export default function DropDown<T extends HTMLElement>({
                                   items = [],
                                   visible = false,
                                   onVisibleChange,
-                                  max = 5,
+                                  max = 1,
                                   onSelect,
                                   onSubmit,
                                   onDropDownClose,

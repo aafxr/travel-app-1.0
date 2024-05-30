@@ -1,7 +1,8 @@
 import {Member} from "./Member";
 import {UserSettingsType} from "../../../types/UserSettingsType";
 import {UserDto} from "../dto";
-import {DEFAULT_CURRENCY} from "../../../constants";
+import {DEFAULT_CURRENCY, LANGUAGES, LANGUAGES_DESCRIPTION} from "../../../constants";
+import {LangKeyType, LangValueType} from "../../../contexts/LangContextProvider/LangType";
 
 /**
  * представление пользователя приложения
@@ -34,6 +35,7 @@ export class User extends Member {
         expensesFilter: "all",
         day: 1,
         currency: DEFAULT_CURRENCY,
+        lang: "RUS"
     };
 
     token: string;
@@ -61,4 +63,21 @@ export class User extends Member {
         return res
     }
 
+
+    static getLanguageDescription(key: LangKeyType = "RUS"): LangValueType{
+        const idx = LANGUAGES.findIndex(l => l === key)
+        if(idx !== -1) {
+            return LANGUAGES_DESCRIPTION[idx]
+        }
+        return "RUS - Русский"
+    }
+
+
+    static getLangugeKey(descr: LangValueType = "RUS - Русский"): LangKeyType{
+        const idx = LANGUAGES_DESCRIPTION.findIndex(l => l === descr)
+        if(idx !== -1) {
+            return LANGUAGES[idx]
+        }
+        return "RUS"
+    }
 }

@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {CurrencyCodeTOSymbol, CurrencyType} from "../../types/CurrencyType";
-import {CURRENCY_CODE_LIST, CURRENCY_SYMBOL_LIST} from "../../constants";
+import {CURRENCY_CODE_LIST, CURRENCY_SYMBOL_LIST, LANGUAGES_DESCRIPTION} from "../../constants";
 import {DefaultThemeType} from "../../contexts/ThemeContextProvider";
 import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import {useAppContext} from "../../contexts/AppContextProvider";
@@ -18,6 +18,9 @@ import {useHasChanges} from "../../hooks";
 import {User} from "../../core/classes";
 
 import './UserSettings.css'
+import {LangValueType} from "../../contexts/LangContextProvider/LangType";
+import {Simulate} from "react-dom/test-utils";
+import change = Simulate.change;
 
 export function UserSettings() {
     const context = useAppContext()
@@ -35,6 +38,9 @@ export function UserSettings() {
 
     const [themeOpen, setThemeOpen] = useState(false)
     const themeRef = useRef<HTMLSpanElement>(null)
+
+    const [langOpen, setLangOpen] = useState(false)
+    const langRef = useRef<HTMLSpanElement>(null)
 
     const [saving, setSaving] = useState(false)
 
@@ -60,6 +66,15 @@ export function UserSettings() {
     function handleThemeChange(t: string) {
         setTheme(t as DefaultThemeType)
         setThemeOpen(false)
+    }
+
+
+    function handleLangChange(text: string){
+        if(!user) return
+        const d = text as LangValueType
+        user.settings.lang = User.getLangugeKey(d)
+        setUser(new User(user))
+        setLangOpen(false)
     }
 
 
@@ -116,6 +131,25 @@ export function UserSettings() {
                     node={themeRef}
                     items={defaultThemeList}
                 />
+
+                <div className='option'>
+                    <span className='option-title'>Язык: </span>
+                    <span
+                        ref={langRef}
+                        className='option-select'
+                        onClick={() => setLangOpen(!langOpen)}
+                    >{User.getLanguageDescription(user?.settings.lang)}</span>
+                </div>
+                {langOpen && <DropDown
+                    max={3}
+                    selected={User.getLanguageDescription(user?.settings.lang)}
+                    visible={langOpen}
+                    onVisibleChange={setLangOpen}
+                    onSubmit={handleLangChange}
+                    node={langRef}
+                    items={LANGUAGES_DESCRIPTION}
+                />}
+
             </Container>
             <div className='footer-btn-container footer'>
                 <Button
