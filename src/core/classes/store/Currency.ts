@@ -11,11 +11,20 @@ export class Currency{
         this.list = c.list
     }
 
+    /**
+     * возвращает символ выбранной валюты по предоставленному коду
+     * @param code
+     */
     static getSymbolByCode(code: CurrencyType['char_code']){
         const res = CURRENCY_SYMBOL_LIST.find(s => s === CurrencyCodeTOSymbol[code])
         return res ? res : "₽" as ValueOfType<typeof CurrencyCodeTOSymbol>
     }
 
+
+    /**
+     * возвращает код валюты по предоставленному символу
+     * @param sym
+     */
     static getCodeBySymbol(sym: CurrencyType['symbol']){
         // @ts-ignore
         const idx = CURRENCY_SYMBOL_LIST.findIndex(c => c === sym)

@@ -22,7 +22,11 @@ import {Section} from "./Section";
  * __primary_entity_id__
  */
 export class Limit {
-
+    /**
+     * id лимита формируется как:
+     * - "section_id:primary_entity_id" для общих лимитов
+     * - "user_id:section_id:primary_entity_id" для общих личных
+     */
     id: string
     personal: DBFlagType
     section_id: string
@@ -42,14 +46,34 @@ export class Limit {
     }
 
 
+    /**
+     * return common limit id
+     * @param section_id
+     * @param primary_entity_id
+     */
     static getCommonLimitID(section_id: string, primary_entity_id: string){
         return `${section_id}:${primary_entity_id}`
     }
 
+
+    /**
+     * return personal limit id
+     * @param user_id
+     * @param section_id
+     * @param primary_entity_id
+     */
     static getPersonalLimitID(user_id: string, section_id: string, primary_entity_id: string){
         return `${user_id}:${section_id}:${primary_entity_id}`
     }
 
+
+    /**
+     * change section name in limit id
+     *
+     * return changed id
+     * @param limit
+     * @param section
+     */
     static getIDWithSection(limit:Limit, section: Section){
         let t = limit.id.split(':')
         if(t.length === 3){

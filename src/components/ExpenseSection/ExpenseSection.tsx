@@ -70,7 +70,7 @@ export function ExpenseSection({
             restPercent = Math.min(restPercent, 1)
         }
         setState(p => ({...p, total, rest, restPercent}))
-    }, [filtered, filterType, limits, convertor]);
+    }, [expenses, filterType, limits, convertor]);
 
 
     const frontLineStyle = (state.restPercent && filterType !== "all")

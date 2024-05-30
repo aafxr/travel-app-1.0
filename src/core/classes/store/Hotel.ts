@@ -47,6 +47,10 @@ export class Hotel{
     }
 
 
+    /**
+     * метод возвращает обект на основе полученного "hotel" с допустимыми для хранения в indexeddb значениями
+     * @param hotel
+     */
     static getPartial(hotel: Partial<Hotel> | Partial<HotelDto> = {}) {
         const res: Partial<Hotel> = {}
         if(hotel.id) res.id = hotel.id
@@ -65,6 +69,16 @@ export class Hotel{
     }
 
 
+    /**
+     * позволяет получить id отеля на основе api id
+     *
+     * ---
+     *
+     * возвращает id вида "hash:apiID"
+     *
+     * @param travel
+     * @param apiHotelID
+     */
     static getID(travel: Travel, apiHotelID: string){
         return `${nanoid(7)}:${travel.id}:${apiHotelID}`
     }

@@ -63,7 +63,9 @@ export class Travel {
     updated_at: Date;
 
     movementTypes: MovementType[];
+    /** список id локаций вида:  hash:apiID */
     places_id: string[];
+    /** список id отелей вида:  hash:apiID */
     hotels_id: string[];
     waypoints_id: string[];
 

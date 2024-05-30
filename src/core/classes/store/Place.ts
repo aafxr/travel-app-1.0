@@ -45,6 +45,10 @@ export class Place{
     }
 
 
+    /**
+     * метод возвращает обект на основе полученного "place" с допустимыми для хранения в indexeddb значениями
+     * @param place
+     */
     static getPartial(place: Partial<Place> | Partial<PlaceDto> = {}) {
         const res: Partial<Place> = {}
         if(place.id) res.id = place.id
@@ -64,6 +68,16 @@ export class Place{
     }
 
 
+    /**
+     * позволяет получить id локации на основе api id
+     *
+     * ---
+     *
+     * возвращает id вида "hash:apiID"
+     *
+     * @param travel
+     * @param apiPlaceID
+     */
     static getID(travel: Travel, apiPlaceID: string){
         return `${nanoid(7)}:${travel.id}:${apiPlaceID}`
     }

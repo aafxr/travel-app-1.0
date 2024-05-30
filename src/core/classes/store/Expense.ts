@@ -12,10 +12,6 @@ import {Context} from "../Context";
  *
  * ---
  *
- * ##### id для персональных расходов должно быть вида user_id:random_id
- *
- * ---
- *
  * Содержит поля:
  *
  * __id__,
@@ -35,6 +31,7 @@ import {Context} from "../Context";
  */
 export class Expense {
 
+    /** id расхода, персональные расходы имеют вид: "userID:expenseID" */
     id: string;
     entity_id: string;
     entity_type: string;
@@ -77,6 +74,10 @@ export class Expense {
     }
 
 
+    /**
+     * метод возвращает обект на основе полученного "expense" с допустимыми для хранения в indexeddb значениями
+     * @param expense
+     */
     static getPartial(expense: Partial<Expense> | Partial<ExpenseDTO> = {}) {
         const res: Partial<Expense> = {}
         if(expense.id !==undefined) res.id = expense.id
@@ -96,14 +97,35 @@ export class Expense {
         return res
     }
 
-    static createPersonalID(userID: string){
-        return `${userID}:${nanoid(7)}`
+
+    /**
+     * мутирует expense
+     *
+     * изменяет id expense на вид "userID:expenseID"
+     * @param userID
+     * @param e
+     */
+    static createPersonalID(userID: string, e: Expense){
+        const id = e.id.split(':').pop() || e.id
+        e.id = `${userID}:${id}`
+        return e.id
     }
 
+
+    /**
+     * is expense id look like "userID:expenseID"
+     * @param expense
+     * @param userID
+     */
     static isPersonal(expense:Expense, userID: string){
         return expense.personal && expense.id.startsWith(userID)
     }
 
+
+    /**
+     * is expense id look like "expenseId"
+     * @param expense
+     */
     static isCommon(expense: Expense){
         return expense.personal === 0 && expense.id.split(':').length === 1
     }

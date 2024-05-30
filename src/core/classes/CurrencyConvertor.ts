@@ -3,6 +3,7 @@ import {Expense} from "./store";
 import {Context} from "./Context";
 import {CurrencyType} from "../../types/CurrencyType";
 
+
 export class CurrencyConvertor {
     data: Map<string, Currency>;
 
@@ -14,6 +15,12 @@ export class CurrencyConvertor {
         }
     }
 
+
+    /**
+     * на основе выбранной пользователем валюты возвращает пересчитаное значение expense
+     * @param ctx
+     * @param expense
+     */
     convert(ctx: Context, expense: Expense ){
         const user = ctx.user
         if(!user) return 0
@@ -22,6 +29,11 @@ export class CurrencyConvertor {
     }
 
 
+    /**
+     * возвращает пересчитаное значение валюты по предоставленному коду
+     * @param code
+     * @param expense
+     */
     convertByCode(code: CurrencyType['char_code'], expense: Expense){
         if(code === expense.currency) return expense.value
         const dateKey = expense.created_at.toLocaleDateString()
@@ -32,7 +44,6 @@ export class CurrencyConvertor {
         const expenseCode = c.list.find(e => e.char_code === expense.currency)
 
         if(!selectedCode || !expenseCode) return expense.value
-
 
         const coef = selectedCode.value / expenseCode.value
 
