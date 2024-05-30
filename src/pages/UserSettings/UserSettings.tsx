@@ -1,9 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 
+import {CURRENCY_CODE_LIST, CURRENCY_SYMBOL_LIST, LANGUAGES_DESCRIPTION} from "../../constants";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {CurrencyCodeTOSymbol, CurrencyType} from "../../types/CurrencyType";
-import {CURRENCY_CODE_LIST, CURRENCY_SYMBOL_LIST, LANGUAGES_DESCRIPTION} from "../../constants";
+import {LangValueType} from "../../contexts/LangContextProvider/LangType";
 import {DefaultThemeType} from "../../contexts/ThemeContextProvider";
 import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import {useAppContext} from "../../contexts/AppContextProvider";
@@ -18,9 +19,6 @@ import {useHasChanges} from "../../hooks";
 import {User} from "../../core/classes";
 
 import './UserSettings.css'
-import {LangValueType} from "../../contexts/LangContextProvider/LangType";
-import {Simulate} from "react-dom/test-utils";
-import change = Simulate.change;
 
 export function UserSettings() {
     const context = useAppContext()
@@ -70,10 +68,10 @@ export function UserSettings() {
 
 
     function handleLangChange(text: string){
-        if(!user) return
+        if(!tmpUser) return
         const d = text as LangValueType
-        user.settings.lang = User.getLangugeKey(d)
-        setUser(new User(user))
+        tmpUser.settings.lang = User.getLangugeKey(d)
+        setTmpUser(new User(tmpUser))
         setLangOpen(false)
     }
 
@@ -107,7 +105,7 @@ export function UserSettings() {
                 </div>
                 <DropDown
                     max={5}
-                    selected={user && Currency.getSymbolByCode(user.settings.currency)}
+                    selected={tmpUser && Currency.getSymbolByCode(tmpUser.settings.currency)}
                     visible={currencyOpen}
                     onVisibleChange={setCurrencyOpen}
                     onSubmit={handleCurrencyChange}
@@ -138,11 +136,11 @@ export function UserSettings() {
                         ref={langRef}
                         className='option-select'
                         onClick={() => setLangOpen(!langOpen)}
-                    >{User.getLanguageDescription(user?.settings.lang)}</span>
+                    >{User.getLanguageDescription(tmpUser?.settings.lang)}</span>
                 </div>
                 {langOpen && <DropDown
                     max={3}
-                    selected={User.getLanguageDescription(user?.settings.lang)}
+                    selected={User.getLanguageDescription(tmpUser?.settings.lang)}
                     visible={langOpen}
                     onVisibleChange={setLangOpen}
                     onSubmit={handleLangChange}
