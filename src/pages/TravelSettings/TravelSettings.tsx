@@ -3,9 +3,11 @@ import {useNavigate} from "react-router-dom";
 
 import RadioButtonGroup, {RadioButtonGroupItemType} from "../../components/ui/RadioButtonGroup/RadioButtonGroup";
 import {defaultMovementTags} from "../../components/defaultMovementTags/defaultMovementTags";
+import {LangTranslateType, useLangContext} from "../../contexts/LangContextProvider";
 import TravelInterests from "../../components/TravelInterests/TravelInterests";
-import {useAppContext} from "../../contexts/AppContextProvider";
+import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
 import {TravelPeople} from "../../components/TravelPeople/TravelPeople";
+import {useAppContext} from "../../contexts/AppContextProvider";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import ToggleBox from "../../components/ui/ToggleBox/ToggleBox";
 import {Member, Preference, Travel} from "../../core/classes";
@@ -15,13 +17,11 @@ import {MovementType} from "../../types/MovementType";
 import {Chip, PageHeader} from "../../components/ui";
 import Counter from "../../components/Counter/Counter";
 import Button from "../../components/ui/Button/Button";
-import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
 
 import './TravelSettings.css'
-import {LangContextType, useLangContext} from "../../contexts/LangContextProvider";
 
 
-function selectItems(ctx: LangContextType){
+function selectItems(ctx: LangTranslateType){
     const sightseeingTime: RadioButtonGroupItemType[] = [
         {id: 1, title: ctx.low},
         {id: 2, title: ctx.medium},

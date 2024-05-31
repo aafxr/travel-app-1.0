@@ -8,6 +8,7 @@ export const REFRESH_TOKEN = 'refresh_token'
 export const USER_AUTH = 'user'
 export const THEME = 'theme'
 export const DAY = 'day'
+export const LANG = 'lang'
 
 export const CACHE_VERSION = 39
 export const GLOBAL_DB_VERSION = 39
@@ -28,7 +29,7 @@ export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
 
 export const DEFAULT_LANGUGE: keyof LangType = 'RUS'
 export const LANGUAGES: LangKeyType[] = ["RUS"]
-export const LANGUAGES_DESCRIPTION: LangValueType[] = ["RUS - Русский"]
+export const LANGUAGES_DESCRIPTION: LangValueType[] = ["(rus) Русский"]
 
 
 export const ROUTE_FILTER = 'routeFilter'

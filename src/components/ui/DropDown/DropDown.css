@@ -2,7 +2,6 @@
     position: absolute;
     width: 100%;
     color: var(--color-text);
-    /*padding: var(--padding-base);*/
     max-height: calc(15.325 * 1 * 1rem);
     border: var(--border);
     background-color: inherit;
@@ -15,7 +14,6 @@
     pointer-events: none;
     transition: max-height .3s, opacity .3s;
     overflow-y: auto;
-    /*z-index: 10000;*/
 }
 
 .dropdown.visible{

@@ -53,7 +53,7 @@ export function TravelAdd() {
                                 className='travel-destination-input'
                                 value={title}
                                 onChange={setTitle}
-                                placeholder={lang.tripName}
+                                placeholder={lang.travelName}
                             />
                         </div>
                     </PageHeader>

@@ -69,11 +69,11 @@ export class User extends Member {
         if(idx !== -1) {
             return LANGUAGES_DESCRIPTION[idx]
         }
-        return "RUS - Русский"
+        return "(rus) Русский"
     }
 
 
-    static getLangugeKey(descr: LangValueType = "RUS - Русский"): LangKeyType{
+    static getLangugeKey(descr: LangValueType = "(rus) Русский"): LangKeyType{
         const idx = LANGUAGES_DESCRIPTION.findIndex(l => l === descr)
         if(idx !== -1) {
             return LANGUAGES[idx]

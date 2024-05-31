@@ -1,5 +1,5 @@
 export type LangType = {
-    RUS: 'RUS - Русский'
+    RUS: '(rus) Русский'
 }
 
 export type LangKeyType = keyof LangType

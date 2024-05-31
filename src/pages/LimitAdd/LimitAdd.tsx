@@ -51,9 +51,9 @@ export function LimitAdd() {
                 ? Limit.getPersonalLimitID(user.id, sectionCode, travelCode)
                 : Limit.getCommonLimitID(sectionCode, travelCode)
             const l = limits.find(l => l.id === limit.id)
-            if(l){
+            if (l) {
                 setLimit(new Limit(l))
-            } else{
+            } else {
                 limit.currency = user.settings.currency
                 setLimit(new Limit(limit))
             }
@@ -73,7 +73,7 @@ export function LimitAdd() {
         limit.id = Limit.getIDWithSection(limit, section)
         const l = limits.find(l => l.id === limit.id)
         if (l) setLimit(new Limit(l))
-        else   setLimit(new Limit({...limit, value: 0}))
+        else setLimit(new Limit({...limit, value: 0}))
         if (!change) setChange(true)
     }
 
@@ -134,56 +134,53 @@ export function LimitAdd() {
 
 
     return (
-        <>
-            <div className='wrapper'>
-                <Container>
-                    <PageHeader arrowBack title={lang.addLimit}/>
-                </Container>
-                <Container className='content'>
-                    <section className='block column gap-1'>
-                        <div className='title-bold'>{lang.categories}</div>
-                        <div className='flex-wrap gap-1'>
-                            {sections.map(s => (
-                                <Chip
-                                    key={s.id}
-                                    rounded
-                                    onClick={() => handleSectionChange(s)}
-                                    color={limit.section_id === s.id ? "orange" : "grey"}
-                                >{s.title}</Chip>
-                            ))}
-                        </div>
-                    </section>
-                    <section className='column block gap-1'>
-                        <div>
+        <div className='wrapper'>
+            <Container>
+                <PageHeader arrowBack title={lang.addLimit}/>
+            </Container>
+            <Container className='content'>
+                <section className='block column gap-1'>
+                    <div className='title-bold'>{lang.categories}</div>
+                    <div className='flex-wrap gap-1'>
+                        {sections.map(s => (
+                            <Chip
+                                key={s.id}
+                                rounded
+                                onClick={() => handleSectionChange(s)}
+                                color={limit.section_id === s.id ? "orange" : "grey"}
+                            >{s.title}</Chip>
+                        ))}
+                    </div>
+                </section>
+                <section className='column block gap-1'>
+                    <div>
 
-                            <div className='relative'>
-                                <NumberInput className='limit-input' value={limit.value} onChange={handleValueChange}/>
-                                <div
-                                    ref={limitCurrencyRef}
-                                    className='limit-symbol'
-                                    onClick={() => setLimitSelectOpen(!limitSelectOpen)}
-                                >{Currency.getSymbolByCode(limit.currency)}</div>
-                            </div>
-                            {errorMsg && <div className='limit-message'>{errorMsg}</div>}
+                        <div className='relative'>
+                            <NumberInput className='limit-input' value={limit.value} onChange={handleValueChange}/>
+                            <div
+                                ref={limitCurrencyRef}
+                                className='limit-symbol'
+                                onClick={() => setLimitSelectOpen(!limitSelectOpen)}
+                            >{Currency.getSymbolByCode(limit.currency)}</div>
+                            {limitSelectOpen && <DropDown
+                                max={4}
+                                selected={Currency.getSymbolByCode(limit.currency)}
+                                items={CURRENCY_SYMBOL_LIST}
+                                onSubmit={handleLimitCurrencyChange}
+                                node={limitCurrencyRef}
+                                visible={limitSelectOpen}
+                                onVisibleChange={setLimitSelectOpen}
+                            />}
                         </div>
-                        <Checkbox left checked={Boolean(limit.personal)}
-                                  onChange={handlePersonalChange}>{lang.personal}</Checkbox>
-                    </section>
-                </Container>
-                <div className='footer-btn-container footerr'>
-                    <Button disabled={!change} onClick={handleSaveLimit}>{lang.add}</Button>
-                </div>
+                        {errorMsg && <div className='limit-message'>{errorMsg}</div>}
+                    </div>
+                    <Checkbox left checked={Boolean(limit.personal)}
+                              onChange={handlePersonalChange}>{lang.personal}</Checkbox>
+                </section>
+            </Container>
+            <div className='footer-btn-container footerr'>
+                <Button disabled={!change} onClick={handleSaveLimit}>{lang.add}</Button>
             </div>
-            <DropDown
-                max={5}
-                selected={Currency.getSymbolByCode(limit.currency)}
-                items={CURRENCY_SYMBOL_LIST}
-                onSubmit={handleLimitCurrencyChange}
-                node={limitCurrencyRef}
-                visible={limitSelectOpen}
-                onVisibleChange={setLimitSelectOpen}
-            />
-
-        </>
+        </div>
     )
 }
