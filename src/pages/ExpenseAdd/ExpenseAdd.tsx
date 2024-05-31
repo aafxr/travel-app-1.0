@@ -20,9 +20,11 @@ import {StoreName} from "../../types/StoreName";
 
 import './ExpenseAdd.css'
 import {CURRENCY_SYMBOL_LIST} from "../../constants";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 
 export function ExpenseAdd() {
+    const lang = useLangContext()
     const dispatch = useAppDispatch()
     const context = useAppContext()
     const {travel} = useTravel()
@@ -147,11 +149,11 @@ export function ExpenseAdd() {
         <>
             <div className='wrapper'>
                 <Container>
-                    <PageHeader arrowBack title={'Добавить расходы'}/>
+                    <PageHeader arrowBack title={lang.addExpense}/>
                 </Container>
                 <Container className='content'>
                     <section className='block column gap-1'>
-                        <div className='title-bold'>Категории</div>
+                        <div className='title-bold'>{lang.categories}</div>
                         <div className='flex-wrap gap-1'>
                             {sections.map(s => (
                                 <Chip
@@ -165,7 +167,7 @@ export function ExpenseAdd() {
                     </section>
                     <section className='column block gap-1'>
                         <div>
-                            <div className='title-bold'>На что потратили:</div>
+                            <div className='title-bold'>{lang.spendOn}:</div>
                             <Input
                                 ref={inputRef}
                                 value={expense.title}
@@ -174,7 +176,7 @@ export function ExpenseAdd() {
                             />
                         </div>
                         <div>
-                            <div className='title-bold'>Сумма расходов:</div>
+                            <div className='title-bold'>{lang.expensesAmount}:</div>
                             <div className='relative'>
                                 <NumberInput
                                     ref={numberRef}
@@ -194,11 +196,11 @@ export function ExpenseAdd() {
                             left
                             checked={Boolean(expense.personal)}
                             onChange={handlePersonalChange}
-                        >Личные</Checkbox>
+                        >{lang.personal}</Checkbox>
                     </section>
                 </Container>
                 <div className='footer-btn-container'>
-                    <Button onClick={handleSaveChanges} disabled={!change}>Добавить</Button>
+                    <Button onClick={handleSaveChanges} disabled={!change}>{lang.add}</Button>
                 </div>
             </div>
             {expenseSelectOpen && <DropDown

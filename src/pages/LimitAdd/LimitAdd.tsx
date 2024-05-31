@@ -3,30 +3,32 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import {ExpenseController, LimitController} from "../../core/service-controllers";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {useAppDispatch, useLimits, useUser} from "../../hooks/redux-hooks";
+import {CURRENCY_SYMBOL_LIST, EXPENSE_FILTER_tYPE} from "../../constants";
 import {SectionController} from "../../core/service-controllers";
 import NumberInput from "../../components/ui/Input/NumberInput";
 import {currencyFormatter} from "../../utils/currencyFormatter";
+import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {Chip, DropDown, PageHeader} from "../../components/ui";
 import Container from "../../components/Container/Container";
 import Checkbox from "../../components/ui/Checkbox/Checkbox";
 import {Currency} from "../../core/classes/store/Currency";
 import {addLimit} from "../../redux/slices/limit-slice";
-import {useAppDispatch, useLimits, useUser} from "../../hooks/redux-hooks";
 import Button from "../../components/ui/Button/Button";
 import {CurrencyType} from "../../types/CurrencyType";
-import {CURRENCY_SYMBOL_LIST, EXPENSE_FILTER_tYPE} from "../../constants";
 import {Limit, Section} from "../../core/classes";
 import {StoreName} from "../../types/StoreName";
 
 import './LimitAdd.css'
-import {ExpenseFilterType} from "../../types/ExpenseFilterType";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 
 const formatter = currencyFormatter()
 
 
 export function LimitAdd() {
+    const lang = useLangContext()
     const dispatch = useAppDispatch()
     const context = useAppContext()
     const navigate = useNavigate()
@@ -135,11 +137,11 @@ export function LimitAdd() {
         <>
             <div className='wrapper'>
                 <Container>
-                    <PageHeader arrowBack title={'Добавить расходы'}/>
+                    <PageHeader arrowBack title={lang.addLimit}/>
                 </Container>
                 <Container className='content'>
                     <section className='block column gap-1'>
-                        <div className='title-bold'>Категории</div>
+                        <div className='title-bold'>{lang.categories}</div>
                         <div className='flex-wrap gap-1'>
                             {sections.map(s => (
                                 <Chip
@@ -165,11 +167,11 @@ export function LimitAdd() {
                             {errorMsg && <div className='limit-message'>{errorMsg}</div>}
                         </div>
                         <Checkbox left checked={Boolean(limit.personal)}
-                                  onChange={handlePersonalChange}>Личный</Checkbox>
+                                  onChange={handlePersonalChange}>{lang.personal}</Checkbox>
                     </section>
                 </Container>
                 <div className='footer-btn-container footerr'>
-                    <Button disabled={!change} onClick={handleSaveLimit}>Добавить</Button>
+                    <Button disabled={!change} onClick={handleSaveLimit}>{lang.add}</Button>
                 </div>
             </div>
             <DropDown

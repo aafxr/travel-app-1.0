@@ -40,7 +40,7 @@ import {TravelAddPlace} from "./pages/TravelAddPlace/TravelAddPlace";
 import {compare} from "./utils/compare";
 import {assign} from "./utils/assign";
 import {PlaceEdite} from "./pages/PlaceEdite/PlaceEdite";
-import {UserSettings} from "./pages/UserSettings/UserSettings";
+import {UserSettings} from "./pages";
 import {ErrorsLogPage} from "./pages/ErrorsLogPage/ErrorsLogPage";
 
 

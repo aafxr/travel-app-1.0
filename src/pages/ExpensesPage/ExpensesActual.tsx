@@ -1,6 +1,7 @@
 import {useLocation, useNavigate} from "react-router-dom";
 
 import {ExpenseSection} from "../../components/ExpenseSection/ExpenseSection";
+import {useLangContext} from "../../contexts/LangContextProvider";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
 import {useExpensesActualSorted} from "../../hooks/redux-hooks";
 import Loader from "../../components/Loader/Loader";
@@ -12,6 +13,7 @@ type ExpensesActualPropsType = {
 
 
 export function ExpensesActual({filterType}: ExpensesActualPropsType) {
+    const lang = useLangContext()
     const location = useLocation()
     const navigate = useNavigate()
     const {sortedExpenses, loading, error} = useExpensesActualSorted()
@@ -31,7 +33,7 @@ export function ExpensesActual({filterType}: ExpensesActualPropsType) {
                 <div className='expense-btn-icon'>
                     <PlusIcon className='icon'/>
                 </div>
-                Записать расходы
+                {lang.recordExpenses}
             </button>
             {Object.entries(sortedExpenses)
                 .map(([sectionID, expenses]) => (

@@ -6,6 +6,7 @@ import Navigation from "../../components/Navigation/Navigation";
 import Container from "../../components/Container/Container";
 import {useUser} from "../../hooks/redux-hooks";
 import {PageHeader} from "../../components/ui";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 
 
@@ -17,6 +18,7 @@ import {PageHeader} from "../../components/ui";
  * @category Pages
  */
 export function Favorite() {
+    const lang = useLangContext()
     const navigate = useNavigate()
     const user = useUser()
 
@@ -24,17 +26,17 @@ export function Favorite() {
     return (
         <div className='wrapper'>
             <Container className='content'>
-                <PageHeader title={'Избранное'} />
+                <PageHeader title={lang.favorite} />
                 {
                     user
                         ? (
                             <div className='column gap-1'>
-                                В разработке
+                                {lang.inDeveloping}
                             </div>
                         ) : (
                             <IconButton
                                 border={false}
-                                title='Авторизоваться'
+                                title={lang.authorize}
                                 className='link'
                                 onClick={() => navigate('/login/')}
                             />

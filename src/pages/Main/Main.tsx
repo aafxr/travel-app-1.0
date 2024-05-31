@@ -8,6 +8,7 @@ import {PageHeader} from "../../components/ui";
 import {useUser} from "../../hooks/redux-hooks";
 
 import './Main.css'
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 /**
  * компонент отображает главную страницу приложения
@@ -18,6 +19,7 @@ import './Main.css'
 export function Main() {
     const navigate = useNavigate()
     const {user} = useUser()
+    const lang = useLangContext()
     // const context = useAppContext()
 
     function handleNewTravel() {
@@ -36,18 +38,18 @@ export function Main() {
     return (
         <div className='wrapper'>
             <Container>
-                <PageHeader title={'Главная страница'} MenuEl={<Menu/>}/>
+                <PageHeader title={lang.mainPage} MenuEl={<Menu/>}/>
             </Container>
             <Container className='content pb-20'>
                 <div className='banner' style={{
                     backgroundImage: 'url(/images/main.jpg)'
                 }}>
-                    <h2 className='banner-title'>Спланируйте поездку за минуты</h2>
+                    <h2 className='banner-title'>{lang.planYourTriprInAMinute}</h2>
                     <button
                         className='banner-button'
                         onClick={handleNewTravel}
                     >
-                        {user ? 'Новая поездка' : 'Авторизоваться'}
+                        {user ? lang.newTrip : lang.authorize}
                     </button>
                     {/*{Boolean(user) && (*/}
                     {/*    <button*/}

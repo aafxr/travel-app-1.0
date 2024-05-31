@@ -6,6 +6,7 @@ import {useHotels, useMembers, usePlaces, useTravel} from "../../hooks/redux-hoo
 import {DAY, DEFAULT_ROUTE_FILTER, ROUTE_FILTER, TRAVEL_TYPE} from "../../constants";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {CurrentTravelMenu} from "../../components/menu/CurrentTravelMenu";
+import {useLangContext} from "../../contexts/LangContextProvider";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {TravelController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
@@ -34,6 +35,7 @@ import './CurrentTravel.css'
 
 
 export function CurrentTravel() {
+    const lang = useLangContext()
     const context = useAppContext()
     const {travelCode, travelDay} = useParams()
     const navigate = useNavigate()
@@ -144,12 +146,12 @@ export function CurrentTravel() {
                         >
                             <MoneyIcon className='icon'/>
                             &nbsp;
-                            Расходы
+                            {lang.expenses}
                         </button>}
                         {!!travel?.permission.showCheckList && <button className='rounded-button c2'>
                             <ChecklistIcon className='icon'/>
                             &nbsp;
-                            Чек-лист
+                            {lang.checkList}
                         </button>}
                         <button className='chat-btn c3'>
                             <ChatIcon className='icon'/>
@@ -166,21 +168,21 @@ export function CurrentTravel() {
                                 onClick={() => handleRouteFilterChange("byDays")}
                                 active={routeFilter === "byDays"}>
                                 <CalendarIcon className='icon'/>
-                                по дням
+                                {lang.byDay}
                             </Button>
                             <Button
                                 className='route-filter-btn'
                                 onClick={() => handleRouteFilterChange("onMap")}
                                 active={routeFilter === "onMap"}>
                                 <MapIcon className='icon'/>
-                                на карте
+                                {lang.onMap}
                             </Button>
                             <Button
                                 className='route-filter-btn'
                                 onClick={() => handleRouteFilterChange("allPlaces")}
                                 active={routeFilter === 'allPlaces'}>
                                 <FlagIcon className='icon'/>
-                                все места
+                                {lang.allPlaces}
                             </Button>
                         </div>
                     </Container>

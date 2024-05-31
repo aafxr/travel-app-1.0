@@ -12,9 +12,11 @@ import {ExpensesPlan} from "./ExpensesPlan";
 
 import './ExpensesPage.css'
 import {useTravel} from "../../hooks/redux-hooks";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 
 export function ExpensesPage() {
+    const lang = useLangContext()
     const navigate = useNavigate()
     const {travel} = useTravel()
     const {travelCode, expenseType} = useParams()
@@ -38,11 +40,11 @@ export function ExpensesPage() {
     return (
         <div className='wrapper'>
             <Container>
-                <PageHeader to={`/travel/${travelCode}/`} title={'Бюджет'} arrowBack/>
+                <PageHeader to={`/travel/${travelCode}/`} title={lang.budget} arrowBack/>
             </Container>
             <div className='expenses-tabs'>
-                <Tab name={'Расходы'} to={`/travel/${travelCode}/expenses/actual/`}/>
-                <Tab name={'Планы'} to={`/travel/${travelCode}/expenses/plan/`}/>
+                <Tab name={lang.expenses} to={`/travel/${travelCode}/expenses/actual/`}/>
+                <Tab name={lang.plans} to={`/travel/${travelCode}/expenses/plan/`}/>
             </div>
             <Container className='expenses-content content'>
                 {expenseType === 'actual'
@@ -53,10 +55,10 @@ export function ExpensesPage() {
             {Boolean(travel?.members_count) && (
                 <div className='footer-btn-container footer flex-between gap-1'>
                     <Button active={type === "personal"}
-                            onClick={() => handleExpensesFilterTypeChange("personal")}>Личные</Button>
+                            onClick={() => handleExpensesFilterTypeChange("personal")}>{lang.personal}</Button>
                     <Button active={type === "common"}
-                            onClick={() => handleExpensesFilterTypeChange("common")}>Общие</Button>
-                    <Button active={type === "all"} onClick={() => handleExpensesFilterTypeChange("all")}>Все</Button>
+                            onClick={() => handleExpensesFilterTypeChange("common")}>{lang.common}</Button>
+                    <Button active={type === "all"} onClick={() => handleExpensesFilterTypeChange("all")}>{lang.all}</Button>
                 </div>
             )
             }

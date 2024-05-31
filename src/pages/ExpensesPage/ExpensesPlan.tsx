@@ -1,11 +1,11 @@
 import {useLocation, useNavigate} from "react-router-dom";
 
 import {ExpenseSection} from "../../components/ExpenseSection/ExpenseSection";
+import {useLangContext} from "../../contexts/LangContextProvider";
 import {ExpenseFilterType} from "../../types/ExpenseFilterType";
-import {SortedExpensesType} from "../../hooks";
-import {PlusIcon} from "../../components/svg";
-import Loader from "../../components/Loader/Loader";
 import {useExpensesPlanSorted} from "../../hooks/redux-hooks";
+import Loader from "../../components/Loader/Loader";
+import {PlusIcon} from "../../components/svg";
 
 type ExpensesPlanPropsType = {
     filterType: ExpenseFilterType
@@ -13,6 +13,7 @@ type ExpensesPlanPropsType = {
 
 
 export function ExpensesPlan({filterType}: ExpensesPlanPropsType){
+    const lang = useLangContext()
     const location = useLocation()
     const navigate = useNavigate()
     const {sortedExpenses, loading, error} = useExpensesPlanSorted()
@@ -32,7 +33,7 @@ export function ExpensesPlan({filterType}: ExpensesPlanPropsType){
                 <div className='expense-btn-icon'>
                     <PlusIcon className='icon' />
                 </div>
-                Запланировать расходы
+                {lang.planExpenses}
             </button>
             { Object.entries(sortedExpenses)
                 .map(([sectionID, expenses]) => (

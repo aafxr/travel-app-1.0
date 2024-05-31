@@ -12,6 +12,7 @@ import {useOutside} from "../../../hooks";
 
 import './Menu.css'
 import {removeUser} from "../../../redux/slices/user-slice";
+import {useLangContext} from "../../../contexts/LangContextProvider";
 
 type MenuPropsType = {
     children?: ReactNode,
@@ -25,6 +26,7 @@ type MenuPropsType = {
  * @category Components
  */
 function Menu({children, className}: MenuPropsType) {
+    const lang = useLangContext()
     const {user} = useUser()
     const ctx = useAppContext()
     const navigate = useNavigate()
@@ -54,7 +56,7 @@ function Menu({children, className}: MenuPropsType) {
                 </div>
                 {children}
                 <div className='menu-item title-semi-bold' onClick={handleLogin}>
-                    {user ? 'Выйти' : 'Войти'}
+                    {user ? lang.logout : lang.login}
                 </div>
             </div>
         </div>

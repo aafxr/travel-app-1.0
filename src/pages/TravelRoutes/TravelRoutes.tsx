@@ -14,8 +14,8 @@ import Container from "../../components/Container/Container";
 import {PageHeader, Tab} from "../../components/ui";
 import Navigation from "../../components/Navigation/Navigation";
 import {TRAVEL_TYPE} from "../../constants";
-import {useUser} from "../../hooks/redux-hooks/useUser";
-import {pushAlertMessage} from "../../components/Alerts";
+import {useUser} from "../../hooks/redux-hooks";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 /**
  * @typedef {'old' | 'current' | 'plan'} TravelDateStatus
@@ -28,6 +28,7 @@ import {pushAlertMessage} from "../../components/Alerts";
  * @category Pages
  */
 export function TravelRoutes() {
+    const lang = useLangContext()
     const {user} = useUser()
     const ctx = useAppContext()
     const actionSubject = useActionSubject()
@@ -117,12 +118,12 @@ export function TravelRoutes() {
                 <PageHeader title={'Маршруты'}/>
             </Container>
             <div className='flex-stretch'>
-                <Tab name={'Прошедшие'} to={'/travels/old/'}/>
-                <Tab name={'Текущие'} to={'/travels/current/'}/>
-                <Tab name={'Будущие'} to={'/travels/plan/'}/>
+                <Tab name={lang.past} to={'/travels/old/'}/>
+                <Tab name={lang.current} to={'/travels/current/'}/>
+                <Tab name={lang.future} to={'/travels/plan/'}/>
             </div>
             <Container className='overflow-x-hidden content pt-20 pb-20' loading={loading}>
-                {!travels.length && <div className='link' onClick={handleNewTrip}>Запланировать поездку</div>}
+                {!travels.length && <div className='link' onClick={handleNewTrip}>{lang.planeTrip}</div>}
                 {!!travels.length && <ShowTravelsList travels={actualTravels} onRemove={handleRemove}/>}
             </Container>
             <Navigation className='footer'/>

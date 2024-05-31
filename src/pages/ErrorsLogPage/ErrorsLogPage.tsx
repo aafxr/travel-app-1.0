@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import defaultHandleError, {LogErrorType} from "../../utils/error-handlers/defaultHandleError";
+import {useLangContext} from "../../contexts/LangContextProvider";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {ErrorController} from "../../core/service-controllers";
 import Container from "../../components/Container/Container";
@@ -8,6 +9,7 @@ import {PageHeader} from "../../components/ui";
 import './ErrorsLogPage.css'
 
 export function ErrorsLogPage(){
+    const lang = useLangContext()
     const context = useAppContext()
     const [errors, setErrors] = useState<LogErrorType[]>([])
 
@@ -22,7 +24,7 @@ export function ErrorsLogPage(){
     return (
         <div className='wrapper'>
             <Container>
-                <PageHeader arrowBack title={'Лог ошибок'} />
+                <PageHeader arrowBack title={lang.errorLog} />
             </Container>
             <Container className='content'>
                 <ul className='errors'>

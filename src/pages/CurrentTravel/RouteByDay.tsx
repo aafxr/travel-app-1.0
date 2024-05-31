@@ -7,6 +7,7 @@ import {Hotel, Place, Travel} from "../../core/classes";
 import Loader from "../../components/Loader/Loader";
 import Swipe from "../../components/ui/Swipe/Swipe";
 import {Tab} from "../../components/ui";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 type RouteByDayPropsType = {
     travel?: Travel | null,
@@ -20,6 +21,7 @@ export function RouteByDay({
                                places,
                                placesLoading,
                            }: RouteByDayPropsType) {
+    const lang = useLangContext()
     const navigate = useNavigate()
 
     function handleAddHotelClick(){
@@ -29,12 +31,11 @@ export function RouteByDay({
 
     return (
         <>
-
             <div className='route-tabs'>
                 <div className='row'>
                     {Array.from({length: travel?.days || 0})
                         .map((_, i) =>
-                            <Tab key={i} name={`День ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
+                            <Tab key={i} name={`${lang.day} ${i + 1}`} to={`/travel/${travel?.id}/${i + 1}/`}/>
                         )
                     }
                 </div>

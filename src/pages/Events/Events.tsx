@@ -6,6 +6,7 @@ import {PageHeader} from "../../components/ui";
 import IconButton from "../../components/ui/IconButton/IconButton";
 import Navigation from "../../components/Navigation/Navigation";
 import {useUser} from "../../hooks/redux-hooks";
+import {useLangContext} from "../../contexts/LangContextProvider";
 
 
 
@@ -13,27 +14,27 @@ import {useUser} from "../../hooks/redux-hooks";
  * Страница отображения ближайших рекомендуемых событий
  * @function
  * @name Events
- * @returns {JSX.Element}
  * @category Pages
  */
 export function Events() {
+    const lang = useLangContext();
     const navigate = useNavigate()
     const {user} = useUser()
 
     return (
         <div className='wrapper'>
             <Container className='content'>
-                <PageHeader title={'События'} />
+                <PageHeader title={lang.events} />
                 {
                     user
                         ? (
                             <div className='column gap-1'>
-                                В разработке
+                                {lang.inDeveloping}
                             </div>
                         ) : (
                             <IconButton
                                 border={false}
-                                title='Авторизоваться'
+                                title={lang.authorize}
                                 className='link'
                                 onClick={() => navigate('/login/')}
                             />

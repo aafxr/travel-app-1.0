@@ -6,6 +6,7 @@ import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
 import {CurrencyCodeTOSymbol, CurrencyType} from "../../types/CurrencyType";
 import {LangValueType} from "../../contexts/LangContextProvider/LangType";
 import {DefaultThemeType} from "../../contexts/ThemeContextProvider";
+import {useLangContext} from "../../contexts/LangContextProvider";
 import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import {useAppContext} from "../../contexts/AppContextProvider";
 import {UserController} from "../../core/service-controllers";
@@ -21,6 +22,7 @@ import {User} from "../../core/classes";
 import './UserSettings.css'
 
 export function UserSettings() {
+    const lang = useLangContext()
     const context = useAppContext()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -92,16 +94,16 @@ export function UserSettings() {
     return (
         <div className='wrapper'>
             <Container>
-                <PageHeader arrowBack title={'Настройки'}/>
+                <PageHeader arrowBack title={lang.settings}/>
             </Container>
             <Container className='content column gap-1'>
                 <div className='option'>
-                    <span className='option-title'>Валюта: </span>
+                    <span className='option-title'>{lang.currency} </span>
                     <span
                         ref={currencyRef}
                         className='option-select'
                         onClick={() => setCurrencyOpen(!currencyOpen)}
-                    >{Currency.getSymbolByCode(tmpUser.settings.currency)}</span>
+                    >{Currency.getSymbolByCode(tmpUser.settings.currency)}:</span>
                 </div>
                 <DropDown
                     max={5}
@@ -113,7 +115,7 @@ export function UserSettings() {
                     items={CURRENCY_SYMBOL_LIST}
                 />
                 <div className='option'>
-                    <span className='option-title'>Тема: </span>
+                    <span className='option-title'>{lang.theme}: </span>
                     <span
                         ref={themeRef}
                         className='option-select'
@@ -131,7 +133,7 @@ export function UserSettings() {
                 />
 
                 <div className='option'>
-                    <span className='option-title'>Язык: </span>
+                    <span className='option-title'>{lang.language}: </span>
                     <span
                         ref={langRef}
                         className='option-select'
@@ -154,7 +156,7 @@ export function UserSettings() {
                     onClick={handleSaveChanges}
                     loading={saving}
                     disabled={hasChanges || saving}
-                >Сохранить</Button>
+                >{lang.save}</Button>
             </div>
         </div>
     )
