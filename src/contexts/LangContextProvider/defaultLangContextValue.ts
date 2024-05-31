@@ -57,6 +57,33 @@ export const defaultLangContextValue = {
     expensesAmount: 'Сумма расходов',
     add: 'Добавить',
 
-    addLimit: 'Добавить лимит'
+    addLimit: 'Добавить лимит',
+
+    next: 'Продолжить',
+
+    travelName: 'Название поездки',
+    params: 'Параметры',
+    direction: 'Направление',
+    travelDate: 'Дата поездки',
+    daysCount: 'Количество дней',
+    movementPreferences: 'Предпочитаемый способ передвижения',
+    makeTripPublic: 'Сделать видимым для всех',
+    members: 'Участники',
+    adult: 'Взрослые',
+    children: 'Дети',
+    travelDensity: 'Насыщенность путешествия',
+    inspectionDepth: 'Глубина осмотра',
+    interests: 'Интересы',
+    travelDetails: 'детали поездки',
+    buildTravel: 'Построить маршрут',
+    addDetails: 'Добавить детали поездки',
+
+    low: 'Низкая',
+    medium: 'Средняя',
+    high: 'Высокая',
+
+    externally: 'Поверхностно',
+    regular: 'Обычно',
+    detail: 'Детально',
 
 }

@@ -18,19 +18,23 @@ import Button from "../../components/ui/Button/Button";
 import {useAppDispatch, useTravel, useUser} from "../../hooks/redux-hooks";
 
 import './TravelSettings.css'
+import {LangContextType, useLangContext} from "../../contexts/LangContextProvider";
 
 
-const sightseeingTime: RadioButtonGroupItemType[] = [
-    {id: 1, title: 'Низкая'},
-    {id: 2, title: 'Средняя'},
-    {id: 3, title: 'Высокая'},
-]
+function selectItems(ctx: LangContextType){
+    const sightseeingTime: RadioButtonGroupItemType[] = [
+        {id: 1, title: ctx.low},
+        {id: 2, title: ctx.medium},
+        {id: 3, title: ctx.high},
+    ]
 
-const depth: RadioButtonGroupItemType[] = [
-    {id: 1, title: 'Поверхностно'},
-    {id: 2, title: 'Обычно'},
-    {id: 3, title: 'Детально'},
-]
+    const depth: RadioButtonGroupItemType[] = [
+        {id: 1, title: ctx.externally},
+        {id: 2, title: ctx.recordExpenses},
+        {id: 3, title: ctx.detail},
+    ]
+    return {sightseeingTime, depth}
+}
 
 /**
  * Страница формирования путешествия ( добавление даты / отели / встречи / участники)
@@ -39,6 +43,8 @@ const depth: RadioButtonGroupItemType[] = [
  * @category Pages
  */
 export function TravelSettings() {
+    const lang = useLangContext()
+    const {depth, sightseeingTime} = selectItems(lang)
     const user = useUser()!
     const {actions} = useTravel()
     const dispatch = useAppDispatch()
@@ -169,12 +175,12 @@ export function TravelSettings() {
         <>
             <div className='travel-settings wrapper'>
                 <Container>
-                    <PageHeader arrowBack title={'Параметры'}/>
+                    <PageHeader arrowBack title={lang.params}/>
                 </Container>
                 <Container className='content overflow-x-hidden'>
                     <div className='content column'>
                         <section className='travel-settings-dirrection block'>
-                            <h4 className='title-semi-bold'>Направление</h4>
+                            <h4 className='title-semi-bold'>{lang.direction}</h4>
                             <div className='travel-settings-dirrection-title row'>
                                 <Chip color='light-orange' rounded>
                                     {travel.direction || travel.title}
@@ -183,9 +189,9 @@ export function TravelSettings() {
                         </section>
 
                         <section className='travel-settings-date column gap-0.5 block'>
-                            <h4 className='title-semi-bold'>Дата поездки</h4>
+                            <h4 className='title-semi-bold'>{lang.travelDetails}</h4>
                             <div className='travel-edit-days'>
-                                <span className='title-semi-bold'>Количество дней</span>
+                                <span className='title-semi-bold'>{lang.daysCount}</span>
                                 <NumberInput
                                     className='travel-edit-days-input'
                                     value={travel.days}
@@ -204,7 +210,7 @@ export function TravelSettings() {
                         </section>
 
                         <section className='travel-settings-movement column gap-0.5 block'>
-                            <h4 className='title-semi-bold'>Предпочитаемый способ передвижения</h4>
+                            <h4 className='title-semi-bold'>{lang.movementPreferences}</h4>
                             <div className='flex-wrap gap-1'>
                                 {
                                     defaultMovementTags.map(dmt => (
@@ -227,12 +233,12 @@ export function TravelSettings() {
                                 className='block'
                                 init={Boolean(travel.isPublic)}
                                 onChange={handleToggleBoxChanged}
-                                title={"Сделать видимым для всех"}
+                                title={lang.makeTripPublic}
                             />
                         </section>
 
                         <section className='travel-settings-members column gap-0.5 block'>
-                            <h4 className='title-semi-bold'>Участники</h4>
+                            <h4 className='title-semi-bold'>{lang.members}</h4>
                             {Travel.getMembers(travel).map(mid => (
                                 <TravelPeople key={mid} memberID={mid} onClick={handleUserClick}/>
                             ))}
@@ -241,7 +247,7 @@ export function TravelSettings() {
                                 {/*    участника</AddButton>*/}
                             </div>
                             <div className='flex-between'>
-                                <span>Взрослые</span>
+                                <span>{lang.adult}</span>
                                 <Counter
                                     init={travel.members_count}
                                     min={travel.admins.length + travel.editors.length + travel.commentator.length || 1}
@@ -249,7 +255,7 @@ export function TravelSettings() {
                                 />
                             </div>
                             <div className='flex-between'>
-                                <span>Дети</span>
+                                <span>{lang.children}</span>
                                 <Counter
                                     init={travel.children_count}
                                     min={0}
@@ -260,7 +266,7 @@ export function TravelSettings() {
 
                         <section className='block'>
                             <RadioButtonGroup
-                                title={'Насыщенность путешествия'}
+                                title={lang.travelDensity}
                                 checklist={sightseeingTime}
                                 onChange={handleDensityChange}
                                 init={sightseeingTime.find(st => st.id === context.travel?.preference.density)!}
@@ -269,7 +275,7 @@ export function TravelSettings() {
 
                         <section className='block'>
                             <RadioButtonGroup
-                                title={'Глубина осмотра '}
+                                title={lang.inspectionDepth}
                                 checklist={depth}
                                 onChange={handleDepthChange}
                                 init={depth.find(d => d.id === context.travel?.preference.depth)!}
@@ -277,7 +283,7 @@ export function TravelSettings() {
                         </section>
 
                         <section className='block'>
-                            <div className='title-semi-bold'>Интересы</div>
+                            <div className='title-semi-bold'>{lang.interests}</div>
                             <TravelInterests
                                 interests={travel.preference.interests}
                                 onClick={handleInterestsChange}
@@ -285,8 +291,7 @@ export function TravelSettings() {
                         </section>
 
                         <section className='block'>
-                            <div className='link' onClick={() => navigate(`/travel/${travel.id}/details/`)}>+ Добавить
-                                детали поездки
+                            <div className='link' onClick={() => navigate(`/travel/${travel.id}/details/`)}>+ {lang.addDetails}
                             </div>
                         </section>
 
@@ -349,7 +354,7 @@ export function TravelSettings() {
                     </div>
                 </Container>
                 <div className='footer-btn-container footer'>
-                    <Button onClick={handleSaveTravelButton} disabled={!change}>Построить маршрут</Button>
+                    <Button onClick={handleSaveTravelButton} disabled={!change}>{lang.buildTravel}</Button>
                 </div>
             </div>
             {/*<FlatButton*/}

@@ -2,7 +2,7 @@ import {createContext, PropsWithChildren, useContext, useEffect} from "react";
 import {defaultLangContextValue} from "./defaultLangContextValue";
 import {useUser} from "../../hooks/redux-hooks";
 
-type LangContextType = typeof defaultLangContextValue
+export type LangContextType = typeof defaultLangContextValue
 
 export const LangContext = createContext<LangContextType>(defaultLangContextValue)
 

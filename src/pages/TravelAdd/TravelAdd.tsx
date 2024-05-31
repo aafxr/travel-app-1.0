@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
+import {useLangContext} from "../../contexts/LangContextProvider";
+import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import Container from "../../components/Container/Container";
 import {updateTravel} from "../../redux/slices/travel-slice";
 import {pushAlertMessage} from "../../components/Alerts";
 import Button from "../../components/ui/Button/Button";
-import {useAppDispatch, useUser} from "../../hooks/redux-hooks";
 import {Input, PageHeader} from "../../components/ui";
 import {Travel} from "../../core/classes";
 
@@ -17,6 +18,7 @@ import './TravelAdd.css'
  * @category Pages
  */
 export function TravelAdd() {
+    const lang = useLangContext()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {user} = useUser()
@@ -51,7 +53,7 @@ export function TravelAdd() {
                                 className='travel-destination-input'
                                 value={title}
                                 onChange={setTitle}
-                                placeholder='Название поездки'
+                                placeholder={lang.tripName}
                             />
                         </div>
                     </PageHeader>
@@ -65,7 +67,7 @@ export function TravelAdd() {
                     </div>
                 </Container>
                 <div className='footer-btn-container footer'>
-                    <Button onClick={handleAddRoute} disabled={!title}>Продолжить</Button>
+                    <Button onClick={handleAddRoute} disabled={!title}>{lang.next}</Button>
                 </div>
             </div>
         </>
