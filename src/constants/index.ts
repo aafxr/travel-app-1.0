@@ -27,9 +27,9 @@ export const CURRENCY_CODE_LIST: CurrencyType['char_code'][] = ["USD","CNY","EUR
 export const EXPENSE_FILTER_tYPE = 'expense_filter_type'
 
 
-export const DEFAULT_LANGUGE: keyof LangType = 'RUS'
-export const LANGUAGES: LangKeyType[] = ["RUS"]
-export const LANGUAGES_DESCRIPTION: LangValueType[] = ["(rus) Русский"]
+export const DEFAULT_LANGUGE: keyof LangType = 'rus'
+export const LANGUAGES: LangKeyType[] = ["rus", "en"]
+export const LANGUAGES_DESCRIPTION: LangValueType[] = ["(rus) Русский", "(en) English"]
 
 
 export const ROUTE_FILTER = 'routeFilter'

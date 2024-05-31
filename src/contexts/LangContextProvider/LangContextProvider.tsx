@@ -30,22 +30,27 @@ export const LangContext = createContext(defaultLangContextValue)
 export function LangContextProvider({children}: PropsWithChildren) {
     const {user} = useUser()
     const [state, setState] = useState<LangContextType>(defaultState)
+    const [lang, setLang] = useState(defaultLangContextValue)
 
 
     useEffect(() => {
         if (!user) return
+        console.log(user.settings.lang)
         setState(p => ({...p, loading: true}))
         LangController.getLangList()
-            .then((r) => setState({...r, loading: false}))
+            .then((r) => {
+                setState({...r, loading: false})
+                if (r.langs[user.settings.lang]) {
+                    setLang(r.langs[user.settings.lang]!)
+                }
+            })
             .catch(defaultHandleError)
-            .finally(() => setState({...state, loading: false}))
+            .finally(() => setState(p => ({...p, loading: false})))
     }, [user]);
 
-
-    let lang: LangTranslateType = defaultLangContextValue
-
+    console.log(lang)
     return (
-        <LangContext.Provider value={state.langs[]}>
+        <LangContext.Provider value={lang}>
             {children}
         </LangContext.Provider>
     )

@@ -29,8 +29,8 @@ export class LangService {
         }
 
         if(!langs){
-            langs = {'RUS': defaultLangContextValue}
-            codes = ['RUS']
+            langs = {'rus': defaultLangContextValue}
+            codes = ['rus']
             codeDescription = ["(rus) Русский"]
         }
 

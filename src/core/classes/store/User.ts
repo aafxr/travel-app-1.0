@@ -35,7 +35,7 @@ export class User extends Member {
         expensesFilter: "all",
         day: 1,
         currency: DEFAULT_CURRENCY,
-        lang: "RUS"
+        lang: "rus"
     };
 
     token: string;
@@ -64,7 +64,7 @@ export class User extends Member {
     }
 
 
-    static getLanguageDescription(key: LangKeyType = "RUS"): LangValueType{
+    static getLanguageDescription(key: LangKeyType = "rus"): LangValueType{
         const idx = LANGUAGES.findIndex(l => l === key)
         if(idx !== -1) {
             return LANGUAGES_DESCRIPTION[idx]
@@ -78,6 +78,6 @@ export class User extends Member {
         if(idx !== -1) {
             return LANGUAGES[idx]
         }
-        return "RUS"
+        return "rus"
     }
 }
