@@ -25,7 +25,7 @@ export class Recover {
 
     static async expense(id: string, entityType: ExpenseVariantType) {
         const e = new Expense({id: id, variant: entityType})
-        const predicate = (a: Action<Partial<Expense>>) => a.synced === 1 && a.entity === StoreName.EXPENSE && a.data.id === id
+        const predicate = (a: Action<Partial<Expense>>) => a.synced === 1 && a.entity === entityType && a.data.id === id
         let actions = await DB.getLocalActions(predicate)
         return Recover._recordFieldsToTarget(actions, e)
     }
