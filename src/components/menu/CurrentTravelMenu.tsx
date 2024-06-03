@@ -1,9 +1,11 @@
 import {useNavigate} from "react-router-dom";
 
+import {useLangContext} from "../../contexts/LangContextProvider";
 import {useTravel} from "../../hooks/redux-hooks";
 import Menu from "../ui/Menu/Menu";
 
 export function CurrentTravelMenu(){
+    const lang = useLangContext()
     const navigate = useNavigate()
     const {travel} = useTravel()
 
@@ -39,12 +41,12 @@ export function CurrentTravelMenu(){
 
     return (
         <Menu>
-            <Menu.Item arrow onClick={handleAddPlace}>Добавить локацию</Menu.Item>
+            <Menu.Item arrow onClick={handleAddPlace}>{lang.addLocation}</Menu.Item>
             <hr/>
-            <Menu.Item arrow onClick={handleEditeTravelChange}>Редактировать описание</Menu.Item>
-            <Menu.Item arrow onClick={handleDateChange}>Дата поездки</Menu.Item>
-            <Menu.Item arrow onClick={handleMembersChange}>Участники</Menu.Item>
-            <Menu.Item arrow onClick={handleSettingsChange}>Настройки</Menu.Item>
+            <Menu.Item arrow onClick={handleEditeTravelChange}>{lang.editeDescription}</Menu.Item>
+            <Menu.Item arrow onClick={handleDateChange}>{lang.travelDate}</Menu.Item>
+            <Menu.Item arrow onClick={handleMembersChange}>{lang.travelDate}</Menu.Item>
+            <Menu.Item arrow onClick={handleSettingsChange}>{lang.settings}</Menu.Item>
         </Menu>
     )
 }

@@ -86,4 +86,7 @@ export const defaultLangContextValue = {
     regular: 'Обычно',
     detail: 'Детально',
 
+    addLocation: 'Добавить локацию',
+    editeDescription: 'Редактировать описание',
+
 }
