@@ -1,0 +1,50 @@
+.dp{
+    padding: 0.25rem;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+
+}
+
+.dp-header{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.dp-arrow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dp-arrow.left{
+    grid-column: 1 / 2;
+    transform: rotate(180deg);
+}
+
+.dp-arrow.right{
+    grid-column: 7 / 8;
+}
+
+.dp-arrow.selected{
+    background-color: var(--color-primary);
+}
+
+.dp-title{
+    grid-column: 2 / 7;
+    font-weight: 600;
+    text-align: center;
+}
+
+.dp-callendar{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.dp-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+}
+

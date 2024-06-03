@@ -5,4 +5,4 @@ export {default as DropDown} from './DropDown/DropDown'
 export {default as Input} from './Input/Input'
 export {default as Chip} from './Chip/Chip'
 export {default as Tab} from './Tab/Tab'
-
+export * from './Portal/Portal'
