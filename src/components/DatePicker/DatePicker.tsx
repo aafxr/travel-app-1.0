@@ -97,7 +97,7 @@ export function DatePicker({
     }
 
 
-    function handleDateSubmite() {
+    function handleDateSubmit() {
         onSubmit?.(current)
     }
 
@@ -136,7 +136,7 @@ export function DatePicker({
 
             <div className='dp-footer'>
                 <button className='dp-btn' onClick={handleDateReset}>Сбросить</button>
-                <button className='dp-btn' onClick={handleDateSubmite}>Установить</button>
+                <button className='dp-btn' onClick={handleDateSubmit}>Установить</button>
             </div>
         </div>
     )

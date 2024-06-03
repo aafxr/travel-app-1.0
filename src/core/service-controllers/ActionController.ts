@@ -9,7 +9,7 @@ import {
     limitActionSchema,
     photoActionSchema,
     placeActionSchema,
-    travelActionSchema
+    travelActionSchema, userActionSchema
 } from "../schema-validations";
 import {ControllerResponse} from "./controller-response/ControllerResponse";
 import {ActionService} from "../services";
@@ -42,6 +42,9 @@ export class ActionController {
                     break
                 case StoreName.HOTELS:
                     validation = hotelActionSchema.validate(actionDto)
+                    break
+                case StoreName.USERS:
+                    validation = userActionSchema.validate(actionDto)
                     break
                 default:
                     response.ok = false
