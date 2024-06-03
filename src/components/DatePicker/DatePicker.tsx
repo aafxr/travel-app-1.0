@@ -8,6 +8,8 @@ import clsx from "clsx";
 interface DatePickerPropsType {
     className?: string
     init: Date
+    min?: Date
+    max?: Date
     onChange?: (d: Date) => unknown
     onSubmit?: (d: Date) => unknown
 }
@@ -25,6 +27,8 @@ const legend = ['Пн', "Вт", "Ср", "ЧТ", "ПТ", "Сб", "Вс"]
 
 export function DatePicker({
                                init,
+                               min,
+                               max,
                                onChange,
                                onSubmit,
                                className
@@ -61,6 +65,8 @@ export function DatePicker({
     function handlePrevMonthClick() {
         const pm = getPrevMonth(current)
         const d = new Date(current)
+        if(min && d.getTime() < min.getTime()) return
+
         d.setMonth(pm)
         onChange?.(d)
         setCurrent(d)
@@ -70,6 +76,7 @@ export function DatePicker({
     function handleNextMonthClick() {
         const nm = getNextMonth(current)
         const d = new Date(current)
+        if(max && d.getTime() < max.getTime()) return
         d.setMonth(nm)
         onChange?.(d)
         setCurrent(d)
