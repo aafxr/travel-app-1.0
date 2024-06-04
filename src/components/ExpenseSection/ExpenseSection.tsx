@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
@@ -52,8 +52,20 @@ export function ExpenseSection({
     const {limits} = useLimits()
     const [state, setState] = useState<SectionState>({})
     const [collapsed, setCollapsed] = useState(false)
+    const expensesListRef = useRef <HTMLDivElement>(null)
 
     const filtered = useMemo(() => filteredExpenses(context, expenses, filterType), [expenses, filterType])
+
+
+    useEffect(() => {
+        const el = expensesListRef.current
+        if(!el) return
+        if (collapsed){
+            el.style.maxHeight = 0 + 'px'
+        }else{
+            el.style.maxHeight = el.scrollHeight + 'px'
+        }
+    }, [])
 
 
     useEffect(() => {
@@ -121,10 +133,24 @@ export function ExpenseSection({
         navigate(`/travel/${travel.id}/limit/add/${sectionID}/`)
     }
 
+
     function handleRemoveExpense(e: Expense) {
         ExpenseController.delete(context, e)
             .then(() => dispatch(removeExpense(e)))
             .catch(defaultHandleError)
+    }
+
+
+    function handleCollapseClick(){
+        const el = expensesListRef.current
+        if(!el) return
+        if (collapsed){
+            el.style.maxHeight = el.scrollHeight + 'px'
+            setCollapsed(false)
+        }else{
+            el.style.maxHeight = 0 + 'px'
+            setCollapsed(true)
+        }
     }
 
 
@@ -155,7 +181,7 @@ export function ExpenseSection({
                     </div>
                 )}
             </div>
-            <div className={clsx('expenses-list', {collapsed})}>
+            <div ref={expensesListRef} className={'expenses-list'}>
                 {filtered.map(e => (
                     <Swipe key={e.id} rightElement={
                         <div className='h-full center' onClick={() => handleRemoveExpense(e)}>
@@ -183,7 +209,7 @@ export function ExpenseSection({
             </div>
             <div
                 className={clsx('collapse-btn', {collapsed})}
-                onClick={() => setCollapsed(!collapsed)}
+                onClick={handleCollapseClick}
             >
                 <ChevronRightIcon className='icon' />
             </div>

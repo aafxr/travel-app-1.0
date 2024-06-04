@@ -69,7 +69,7 @@
 .expenses-list{
     margin-top: 1rem;
     /*display: flex;*/
-    max-height: 9999px;
+    /*max-height: 9999px;*/
     flex-direction: column;
     gap: 0.75rem;
     transition: max-height 0.3s ease-out;
