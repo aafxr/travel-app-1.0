@@ -151,6 +151,7 @@ export function DatePicker({
 
     function handleDateSubmit() {
         if (!current) return
+        setShowPicker(false)
         onSubmit?.(current)
     }
 
