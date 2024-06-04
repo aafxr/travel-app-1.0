@@ -29,8 +29,9 @@ export default function socketManagement(context: Context) {
 
         const travelID = msg.data.id
         const travel = await Recover.travel(travelID)
-        await DB.update(StoreName.TRAVEL, travel)
-        if (travel) context.setTravel(travel)
+        if (travel instanceof Travel) {
+            await DB.update(StoreName.TRAVEL, travel)
+        }
     }
 
 
@@ -54,7 +55,7 @@ export default function socketManagement(context: Context) {
         }catch (e){}
         const expense = await Recover.expense(eID, msg.entity as ExpenseVariantType)
 
-        if (expense) await DB.update(StoreName.EXPENSE, expense)
+        if (expense instanceof Expense) await DB.update(StoreName.EXPENSE, expense)
 
         return expense
     }
@@ -75,7 +76,7 @@ export default function socketManagement(context: Context) {
         if(!limitID) return
         if (primary_entity_id) {
             const limit = await Recover.limit(limitID)
-            if (limit) await DB.update(StoreName.LIMIT, limit)
+            if (limit instanceof Limit) await DB.update(StoreName.LIMIT, limit)
             return limit
         }
     }

@@ -77,7 +77,7 @@ export class TravelService {
                     await DB.add<Travel>(StoreName.TRAVEL, t)
                     await ActionController.loadActionsFromTimestamp(ctx, t.created_at.getTime()).catch(console.error)
                     const recoverTravel = await Recover.travel(t.id)
-                    if(recoverTravel) {
+                    if(recoverTravel instanceof Travel) {
                         await DB.update<Travel>(StoreName.TRAVEL, recoverTravel)
                         travels[i] = recoverTravel
                     }

@@ -5,6 +5,7 @@ import {Currency} from "../classes/store/Currency";
 import {fetchCurrency} from "../../api/fetch";
 import {CurrencyController} from "../service-controllers/CurrencyController";
 import defaultHandleError from "../../utils/error-handlers/defaultHandleError";
+import {MS_IN_DAY} from "../../constants";
 
 export class CurrencyService {
     static async create(ctx: Context, c: Currency) {
@@ -21,7 +22,8 @@ export class CurrencyService {
 
     static async readByRange(ctx: Context, from: Date, to: Date) {
         let val = await DB.getMany<Currency>(StoreName.CURRENCY, IDBKeyRange.bound(from, to))
-        if(!val.length){
+        const days = Math.floor((to.getTime() - from.getTime() ) / MS_IN_DAY)
+        if(!val.length || val.length < days){
             const res = await fetchCurrency(from, to)
             if(res && res.ok){
                 const data = res.data

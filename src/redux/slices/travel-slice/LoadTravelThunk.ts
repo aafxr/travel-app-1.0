@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-import {TravelController} from "../../../core/service-controllers";
+import {ExpenseController, TravelController} from "../../../core/service-controllers";
 import {TravelError} from "../../../core/errors";
 import {Context} from "../../../core/classes";
 import {loadPlaces} from "../places-slice";
@@ -36,13 +36,24 @@ export const loadTravel = createAsyncThunk('travel/loadTravel', async ({
         dispatch(loadExpenses({ctx, travel}))
         dispatch(loadLimits({ctx, travel}))
         dispatch(loadSections({ctx, travel}))
-        if(travel.date_start.getTime()) {
-            dispatch(loadCurrency({
-                ctx,
-                from: new Date(travel.date_start),
-                to: new Date(travel.date_end)
-            }))
+
+
+        let from = new Date(travel.date_start)
+        let to = new Date(travel.date_end)
+
+        let expensesList = await ExpenseController.readByTravelID(ctx, travelID)
+        if (expensesList.length) {
+            expensesList = expensesList.sort((a, b) => a.created_at.getTime() - b.created_at.getTime())
+            if (expensesList[0].created_at.getTime() < from.getTime()) {
+                from = new Date(expensesList[0].created_at)
+            }
+            if (expensesList[expensesList.length - 1].created_at.getTime() > to.getTime()) {
+                to = new Date(expensesList[expensesList.length - 1].created_at)
+            }
+
         }
+
+        dispatch(loadCurrency({ctx, from, to}))
 
         return {travel}
 

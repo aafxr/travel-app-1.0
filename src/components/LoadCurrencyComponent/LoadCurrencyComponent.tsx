@@ -9,8 +9,10 @@ export function LoadCurrencyComponent(){
     useEffect(() => {
         (async () => {
             try {
-                const d = new Date()
-                await CurrencyController.readByRange(context, d, d)
+                const to = new Date()
+                const from = new Date(to.getFullYear(), 0, 1)
+
+                await CurrencyController.readByRange(context, from, to)
             } catch (e){
                 defaultHandleError(e as Error)
             }

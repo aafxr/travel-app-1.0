@@ -4,11 +4,10 @@ import {Action, Context, Expense, Hotel, Limit, Photo, Place, Travel} from "../.
 import defaultHandleError from "../error-handlers/defaultHandleError";
 import {ActionController} from "../../core/service-controllers";
 import {ActionDto} from "../../core/classes/dto";
-import {Update} from "../../core/classes/Update";
+import {Update, UpdateStatusType} from "../../core/classes/Update";
 import {StoreName} from "../../types/StoreName";
 import {store} from "../../redux";
 import {updateTravel} from "../../redux/slices/travel-slice";
-import {ActionType} from "../../types/ActionType";
 import {addExpense, removeExpense} from "../../redux/slices/expenses-slice";
 import {addLimit, removeLimit} from "../../redux/slices/limit-slice";
 import {addPlace, removePlace} from "../../redux/slices/places-slice";
@@ -53,57 +52,71 @@ export function actionHandler({
 
             switch (action.entity) {
                 case StoreName.TRAVEL:
-                    const travel = await Update.travel(action)
-                    if (travel) {
-                        travelSubject?.next(travel)
-                        dispatch(updateTravel(travel))
+                    const r = await Update.travel(action)
+                    if (r.status === UpdateStatusType.UPDATED && r.result) {
+                        travelSubject?.next(r.result)
+                        dispatch(updateTravel(r.result))
+                    }
+                    else if(r.status === UpdateStatusType.DELETED){
+                        //delete logic
                     }
                     break
+
 
                 case StoreName.EXPENSES_ACTUAL:
                 case StoreName.EXPENSES_PLAN:
-                    const expense = await Update.expense(action)
-                    if (expense) {
-                        expenseSubject?.next(expense)
-                        action.action === ActionType.DELETE
-                            ? dispatch(removeExpense(expense))
-                            : dispatch(addExpense(expense))
+                    const er = await Update.expense(action)
+                    if (er.status === UpdateStatusType.UPDATED && er.result) {
+                        expenseSubject?.next(er.result)
+                        dispatch(addExpense(er.result))
+                    }
+                    else if(er.status === UpdateStatusType.DELETED){
+                        dispatch(removeExpense(action.data))
                     }
                     break
+
 
                 case StoreName.LIMIT:
-                    const limit = await Update.limit(action)
-                    if (limit) {
-                        limitSubject?.next(limit)
-                        action.action === ActionType.DELETE
-                            ? dispatch(removeLimit(limit))
-                            : dispatch(addLimit(limit))
+                    const lr = await Update.limit(action)
+                    if (lr.status === UpdateStatusType.UPDATED && lr.result) {
+                        limitSubject?.next(lr.result)
+                        dispatch(addLimit(lr.result))
+                    }
+                    else if(lr.status === UpdateStatusType.DELETED){
+                        dispatch(removeLimit(action.data))
                     }
                     break
+
 
                 case StoreName.PLACE:
-                    const place = await Update.place(action)
-                    if (place) {
-                        placeSubject?.next(place)
-                        action.action === ActionType.DELETE
-                            ? dispatch(removePlace(place))
-                            : dispatch(addPlace(place))
+                    const pr = await Update.place(action)
+                    if (pr.status === UpdateStatusType.UPDATED && pr.result) {
+                        placeSubject?.next(pr.result)
+                        dispatch(addPlace(pr.result))
+                    }
+                        else if(pr.status === UpdateStatusType.DELETED){
+                            dispatch(removePlace(action.data))
                     }
                     break
+
 
                 case StoreName.HOTELS:
-                    const hotel = await Update.hotel(action)
-                    if (hotel) {
-                        hotelSubject?.next(hotel)
-                        action.action === ActionType.DELETE
-                            ? dispatch(removeHotel(hotel))
-                            : dispatch(addHotel(hotel))
+                    const hr = await Update.hotel(action)
+                    if (hr.status === UpdateStatusType.UPDATED && hr.result) {
+                        hotelSubject?.next(hr.result)
+                        dispatch(addHotel(hr.result))
+                    }
+                    else if(hr.status === UpdateStatusType.DELETED){
+                        dispatch(removeHotel(action.data))
                     }
                     break
 
+
                 case StoreName.Photo:
-                    const photo = await Update.photo(action)
-                    if (photo) photoSubject?.next(photo)
+                    const phr = await Update.photo(action)
+                    if (phr.status === UpdateStatusType.UPDATED && phr.result) {
+                        photoSubject?.next(phr.result)
+                    }
                     break
             }
 
