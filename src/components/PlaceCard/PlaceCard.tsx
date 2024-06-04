@@ -1,13 +1,18 @@
 import clsx from "clsx";
 
 import {DEFAULT_IMG_URL, month} from "../../constants";
+import {useTravel} from "../../hooks/redux-hooks";
 import {Place} from "../../core/classes";
 import {StarIcon} from "../svg";
 import {Chip} from "../ui";
 
 import './PlaceCard.css'
-import {useTravel} from "../../hooks/redux-hooks";
 
+
+const timeFormatOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+}
 
 
 export interface PlaceCardPropsType {
@@ -36,8 +41,8 @@ export function PlaceCard({
                         </Chip>}
 
                     <Chip color={"grey"} rounded>
-                        {place.date_start.toLocaleTimeString().slice(0,5)}&nbsp;
-                        {place.date_end.toLocaleTimeString().slice(0,5)}
+                        {place.date_start.toLocaleTimeString(navigator.language, timeFormatOptions)}&nbsp;
+                        {place.date_end.toLocaleTimeString(navigator.language, timeFormatOptions)}
                     </Chip>
                 </div>
             </div>

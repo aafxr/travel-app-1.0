@@ -23,6 +23,12 @@ export class Recover {
         return Recover._recordFieldsToTarget(actions, t)
     }
 
+
+    /**
+     * на основе ID расхода метод делает выборку actions и на их основе востанавливает актуальное значение расхода
+     * @param id
+     * @param entityType - expensesActual | expensesPlan
+     */
     static async expense(id: string, entityType: ExpenseVariantType) {
         const e = new Expense({id: id, variant: entityType})
         const predicate = (a: Action<Partial<Expense>>) => a.synced === 1 && a.entity === entityType && a.data.id === id
@@ -30,6 +36,11 @@ export class Recover {
         return Recover._recordFieldsToTarget(actions, e)
     }
 
+
+    /**
+     * на основе ID лимита метод делает выборку actions и на их основе востанавливает актуальное значение лимита
+     * @param id
+     */
     static async limit(id: string) {
         const l = new Limit({id})
         const predicate: PredicateType<Action<Partial<Limit>>> = (item) => item.synced === 1 && item.entity === StoreName.LIMIT && item.data.id === id
@@ -38,6 +49,10 @@ export class Recover {
     }
 
 
+    /**
+     * на основе ID локации метод делает выборку actions и на их основе востанавливает актуальное значение локации
+     * @param id
+     */
     static async place(id: string) {
         const p = new Place({id})
         const predicate: PredicateType<Action<Partial<Place>>> = (item) => item.synced === 1 && item.entity === StoreName.PLACE && item.data.id === id
@@ -46,6 +61,10 @@ export class Recover {
     }
 
 
+    /**
+     * на основе ID отеля метод делает выборку actions и на их основе востанавливает актуальное значение отеля
+     * @param id
+     */
     static async hotel(id: string) {
         const h = new Hotel({id})
         const predicate: PredicateType<Action<Partial<Hotel>>> = (item) => item.synced === 1 && item.entity === StoreName.HOTELS && item.data.id === id
@@ -54,6 +73,10 @@ export class Recover {
     }
 
 
+    /**
+     * на основе ID фото метод делает выборку actions и на их основе востанавливает актуальное значение фото
+     * @param id
+     */
     static async photo(id: string) {
         const p = new Photo({id, base64: ''})
         const predicate: PredicateType<Action<Partial<Photo>>> = (item) => item.synced === 1 && item.entity === StoreName.Photo && item.data.id === id
@@ -61,6 +84,12 @@ export class Recover {
         return Recover._recordFieldsToTarget(actions, p)
     }
 
+
+    /**
+     * записывает в target обновленные поля actions
+     * @param actions список action's
+     * @param target
+     */
     static _recordFieldsToTarget<T extends Record<string, any>>(actions: Action<Partial<T>>[], target: T): T | UpdateStatusType  {
         const _actions = actions.sort((a, b) => a.datetime.getTime() - b.datetime.getTime())
 

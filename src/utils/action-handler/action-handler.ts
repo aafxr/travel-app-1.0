@@ -125,7 +125,7 @@ export function actionHandler({
                     if(ur.status === UpdateStatusType.UPDATED && ur.result){
                         dispatch(setUser(ur.result))
                     } else if(ur.status === UpdateStatusType.ERROR && ur.error){
-                        defaultHandleError(ur.error)
+                        console.error(ur.error)
                     }
             }
 
