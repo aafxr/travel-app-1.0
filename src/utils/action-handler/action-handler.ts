@@ -2,7 +2,7 @@ import {Subject} from "rxjs";
 
 import {Action, Context, Expense, Hotel, Limit, Photo, Place, Travel} from "../../core/classes";
 import defaultHandleError from "../error-handlers/defaultHandleError";
-import {ActionController} from "../../core/service-controllers";
+import {ActionController, ErrorController} from "../../core/service-controllers";
 import {ActionDto} from "../../core/classes/dto";
 import {Update, UpdateStatusType} from "../../core/classes/Update";
 import {StoreName} from "../../types/StoreName";
@@ -12,6 +12,7 @@ import {addExpense, removeExpense} from "../../redux/slices/expenses-slice";
 import {addLimit, removeLimit} from "../../redux/slices/limit-slice";
 import {addPlace, removePlace} from "../../redux/slices/places-slice";
 import {addHotel, removeHotel} from "../../redux/slices/hotel-slice";
+import {setUser} from "../../redux/slices/user-slice";
 
 
 export type ActionHandlerOptionsType = {
@@ -118,6 +119,14 @@ export function actionHandler({
                         photoSubject?.next(phr.result)
                     }
                     break
+
+                case StoreName.USERS:
+                    const ur = await Update.user(action)
+                    if(ur.status === UpdateStatusType.UPDATED && ur.result){
+                        dispatch(setUser(ur.result))
+                    } else if(ur.status === UpdateStatusType.ERROR && ur.error){
+                        defaultHandleError(ur.error)
+                    }
             }
 
         } catch (e) {

@@ -1,4 +1,4 @@
-import {Action, Expense, Hotel, Limit, Photo, Place, Travel} from "./store";
+import {Action, Expense, Hotel, Limit, Photo, Place, Travel, User} from "./store";
 import {ExpenseVariantType} from "../../types/ExpenseVariantType";
 import {ActionType} from "../../types/ActionType";
 import {StoreName} from "../../types/StoreName";
@@ -6,6 +6,7 @@ import {assign} from "../../utils/assign";
 import {ActionError} from "../errors";
 import {Recover} from "./Recover";
 import {DB} from "../db/DB";
+import {USER_AUTH} from "../../constants";
 
 
 export enum UpdateStatusType{
@@ -19,9 +20,9 @@ export enum UpdateStatusType{
 export class UpdateResult<T extends {}>{
     result?: T
     status: UpdateStatusType
-    error?: Error | string
+    error?: Error
 
-    constructor(result?: T, status = UpdateStatusType.CREATED, error?: Error | string) {
+    constructor(result?: T, status = UpdateStatusType.CREATED, error?: Error) {
         this.result = result
         this.status = status
         this.error = error
@@ -51,7 +52,7 @@ export class Update{
                 return new UpdateResult(travel)
             }catch(e){
                 const result = new UpdateResult<Travel>(undefined, UpdateStatusType.ERROR)
-                if(e instanceof Error || typeof e === 'string'){
+                if(e instanceof Error){
                     result.error = e
                 }
                 return result
@@ -240,5 +241,26 @@ export class Update{
             }
         }
         return result
+    }
+
+    static async user(action: Action<User>){
+        if (action.entity !== StoreName.USERS) ActionError.tryToUpdateEntityByWrongAction(StoreName.USERS, action)
+
+        const id = action.data.id
+        if(!id) return new UpdateResult<User>(undefined, UpdateStatusType.ERROR, new Error('id is undefined'))
+
+        const user = await DB.getOne<User>(StoreName.USERS, action.data.id)
+        if(!user) return new UpdateResult<User>(undefined, UpdateStatusType.ERROR, new Error(`User with id=${id} is not found`))
+
+        assign(user, action.data)
+
+        const loggedInUser = await DB.getStoreItem<User>(USER_AUTH)
+        if(loggedInUser){
+            assign(loggedInUser, action.data)
+            await DB.setStoreItem(USER_AUTH, loggedInUser)
+        }
+        await DB.update(StoreName.USERS, user)
+
+        return new UpdateResult(user, UpdateStatusType.UPDATED)
     }
 }
