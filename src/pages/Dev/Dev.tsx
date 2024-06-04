@@ -6,7 +6,7 @@ import './Dev.css'
 
 
 export function Dev(){
-    const [date, setDate] = useState<Date>(() => new Date())
+    const [date, setDate] = useState<Date>()
 
 
     console.log(date)
@@ -14,7 +14,11 @@ export function Dev(){
 
     return (
         <Container className='pt-20'>
-            <DatePicker init={date} onSubmit={setDate} />
+            <div className='grid'>
+                <DatePicker className={'w-full'} value={date} onSubmit={setDate} />
+                <DatePicker className={'w-full'} value={date} onSubmit={setDate} />
+
+            </div>
 
         </Container>
     )

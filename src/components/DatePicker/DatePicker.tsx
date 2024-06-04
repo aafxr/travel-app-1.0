@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from "react";
-
-import {ChevronRightIcon} from "../svg";
-import './DatePicker.css'
 import clsx from "clsx";
+import {createPortal} from "react-dom";
+import React, {useEffect, useRef, useState} from "react";
+
+import {CalendarIcon, ChevronRightIcon} from "../svg";
+import './DatePicker.css'
 
 
 interface DatePickerPropsType {
     className?: string
-    init: Date
+    value?: Date
+    placeholder?: string
     min?: Date
     max?: Date
     onChange?: (d: Date) => unknown
@@ -18,15 +20,27 @@ interface DatePickerPropsType {
 const dateOptions: Intl.DateTimeFormatOptions = {
     day: 'numeric',
     month: 'long',
-    year: 'numeric'
+    year: '2-digit'
 }
 
 
 const legend = ['Пн', "Вт", "Ср", "ЧТ", "ПТ", "Сб", "Вс"]
 
 
+/**
+ *
+ * @param value
+ * @param placeholder
+ * @param min
+ * @param max
+ * @param onChange
+ * @param onSubmit
+ * @param className
+ * @constructor
+ */
 export function DatePicker({
-                               init,
+                               value,
+                               placeholder,
                                min,
                                max,
                                onChange,
@@ -34,8 +48,11 @@ export function DatePicker({
                                className
                            }: DatePickerPropsType) {
 
-    const [current, setCurrent] = useState<Date>(init)
+    const [current, setCurrent] = useState<Date>(new Date())
     const [range, setRange] = useState<number[]>([])
+    const [showPicker, setShowPicker] = useState(false)
+    const dpHeaderRef = useRef<HTMLDivElement>(null)
+    const dpPickerRef = useRef<HTMLDivElement>(null)
 
 
     const getPrevMonth = (d: Date) => d.getMonth() <= 0 ? 11 : d.getMonth() - 1
@@ -43,9 +60,8 @@ export function DatePicker({
 
 
     useEffect(() => {
-        if (init) setCurrent(new Date(init))
-        else setCurrent(new Date())
-    }, []);
+        if (value) setCurrent(new Date(value))
+    }, [value]);
 
 
     useEffect(() => {
@@ -62,10 +78,45 @@ export function DatePicker({
     }, [current]);
 
 
+    useEffect(() => {
+        if(!showPicker) return
+        const picker = dpPickerRef.current
+        const header = dpHeaderRef.current
+        if(!picker || !header) return
+
+        const rect = header.getBoundingClientRect()
+        picker.style.top = rect.bottom + 'px'
+        if(rect.left + picker.offsetWidth > window.innerWidth){
+            picker.style.right = window.innerWidth - rect.right + 'px'
+        } else {
+            picker.style.left = rect.left + 'px'
+        }
+    }, [showPicker])
+
+
+    useEffect(() => {
+        const clickOutside = (e: MouseEvent) => {
+            const picker = dpPickerRef.current
+            const header = dpHeaderRef.current
+            if(!picker || !header) return
+
+            const el = e.target
+            if(!el || !(el instanceof Node)) return
+
+            if(picker.contains(el)) return
+            if(header.contains(el)) return
+            setShowPicker(false)
+        }
+
+        document.addEventListener('click', clickOutside)
+        return () => {document.removeEventListener('click', clickOutside)}
+    }, []);
+
+
     function handlePrevMonthClick() {
         const pm = getPrevMonth(current)
         const d = new Date(current)
-        if(min && d.getTime() < min.getTime()) return
+        if (min && d.getTime() < min.getTime()) return
 
         d.setMonth(pm)
         onChange?.(d)
@@ -76,7 +127,7 @@ export function DatePicker({
     function handleNextMonthClick() {
         const nm = getNextMonth(current)
         const d = new Date(current)
-        if(max && d.getTime() < max.getTime()) return
+        if (max && d.getTime() < max.getTime()) return
         d.setMonth(nm)
         onChange?.(d)
         setCurrent(d)
@@ -84,6 +135,7 @@ export function DatePicker({
 
 
     function handleSetDayClick(day: number) {
+        if(!current) return
         if (!day) return
         const d = new Date(current)
         d.setDate(day)
@@ -93,51 +145,70 @@ export function DatePicker({
 
 
     function handleDateReset() {
-        setCurrent(init ? new Date(init) : new Date())
+        setCurrent(value ? new Date(value) : new Date())
     }
 
 
     function handleDateSubmit() {
+        if (!current) return
         onSubmit?.(current)
     }
 
 
     return (
-        <div className={clsx('dp', className)}>
-            <div className='dp-header'>
-                <div
-                    className='dp-arrow left'
-                    onClick={handlePrevMonthClick}
-                >
-                    <ChevronRightIcon className='icon'/>
+        <div className={clsx('date', className)}>
+
+            <div
+                ref={dpHeaderRef}
+                className='date-header'
+                onClick={() => setShowPicker(!showPicker)}
+            >
+                <div className='date-text'>
+                    {value ? current.toLocaleDateString(navigator.language, dateOptions) : placeholder || '-/-'}
                 </div>
-                <div className='dp-title'>
-                    {current.toLocaleDateString(navigator.language, dateOptions)}
+                <div className='date-icon'>
+                    <CalendarIcon className='icon'/>
                 </div>
-                <div
-                    className='dp-arrow right'
-                    onClick={handleNextMonthClick}
-                >
-                    <ChevronRightIcon className='icon'/>
-                </div>
-            </div>
-            <div className='dp-callendar'>
-                {legend.map(l => (
-                    <div className='dp-item'>{l}</div>
-                ))}
-                {range.map((idx) => (
-                    <div
-                        className={clsx('dp-item', {selected: idx === current.getDate()})}
-                        onClick={() => handleSetDayClick(idx)}
-                    >{idx ? idx : ''}</div>
-                ))
-                }
             </div>
 
-            <div className='dp-footer'>
-                <button className='dp-btn' onClick={handleDateReset}>Сбросить</button>
-                <button className='dp-btn' onClick={handleDateSubmit}>Установить</button>
-            </div>
+            {showPicker && createPortal(
+                <div ref={dpPickerRef} className={'dp'}>
+                    <div className='dp-header'>
+                        <div
+                            className='dp-arrow left'
+                            onClick={handlePrevMonthClick}
+                        >
+                            <ChevronRightIcon className='icon'/>
+                        </div>
+                        <div className='dp-title'>
+                            {current.toLocaleDateString(navigator.language, dateOptions) || '-/-'}
+                        </div>
+                        <div
+                            className='dp-arrow right'
+                            onClick={handleNextMonthClick}
+                        >
+                            <ChevronRightIcon className='icon'/>
+                        </div>
+                    </div>
+                    <div className='dp-calendar'>
+                        {legend.map(l => (
+                            <div className='dp-item'>{l}</div>
+                        ))}
+                        {range.map((idx) => (
+                            <div
+                                className={clsx('dp-item', {selected: idx === current.getDate()})}
+                                onClick={() => handleSetDayClick(idx)}
+                            >{idx ? idx : ''}</div>
+                        ))
+                        }
+                    </div>
+
+                    <div className='dp-footer'>
+                        <button className='dp-btn' onClick={handleDateReset}>Сбросить</button>
+                        <button className='dp-btn' onClick={handleDateSubmit}>Установить</button>
+                    </div>
+                </div>,
+                document.body)}
         </div>
     )
 }

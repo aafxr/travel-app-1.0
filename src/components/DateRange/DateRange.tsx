@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import DateInput from "../ui/Input/DateInput";
+import {DatePicker} from "../DatePicker/DatePicker";
 
 
 type DateRangeType = { start: Date | undefined, end: Date | undefined }
@@ -59,12 +60,14 @@ export default function DateRange({
 
     return (
         <div className='flex-stretch gap-0.25'>
-            <DateInput
+            <DatePicker
+                className='w-full'
                 placeholder={'Начало'}
                 value={range?.start ? new Date(range?.start?.getTime() - range?.start?.getTimezoneOffset() * 60 * 1000) : undefined}
                 onChange={date => handleDateChange(date, "start")}
             />
-            <DateInput
+            <DatePicker
+                className='w-full'
                 placeholder={'Завершение'}
                 value={range?.end ? new Date(range?.end?.getTime() - range?.end?.getTimezoneOffset() * 60 *1000) : undefined}
                 min={range?.start}

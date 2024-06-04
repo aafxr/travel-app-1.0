@@ -1,4 +1,7 @@
 .toggle-box{
+    --toggle-thum-size: 1rem;
+    --toggle-transition: 0.3s;
+
     display: flex;
     justify-content: stretch;
     align-items: center;

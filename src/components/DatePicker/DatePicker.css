@@ -1,9 +1,50 @@
+.date{
+    position: relative;
+}
+
+.date-header{
+    width: 100%;
+}
+
+.date-header{
+    position: relative;
+    padding: 12px;
+    color: var(--color-input);
+    font-weight: 600;
+    background-color: var(--color-background-input);
+    border-radius: var(--border-radius);
+}
+
+.date-text{
+    /*padding-right: 50px;*/
+    max-width: calc(100% - 50px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.date-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    height: 100%;
+    max-height: 50px;
+    top: 50%;
+    right: 0;
+    aspect-ratio: 1/1;
+    transform: translateY(-50%);
+}
+
 .dp{
+    position: absolute;
     padding: 0.25rem;
     border: var(--border);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-
+    background-color: var(--color-background);
+    z-index: 100;
 }
 
 .dp-header{
@@ -34,7 +75,7 @@
     text-align: center;
 }
 
-.dp-callendar{
+.dp-calendar{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 }
