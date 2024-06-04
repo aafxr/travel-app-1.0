@@ -60,6 +60,10 @@ export class User extends Member {
     static getPartial(user: Partial<User> | UserDto = {}){
         let res: Partial<User> = {}
         res = Member.getPartial(user)
+        if('settings' in user) {
+            res.settings = {} as UserSettingsType
+            Object.assign(res.settings, user.settings)
+        }
         return res
     }
 
