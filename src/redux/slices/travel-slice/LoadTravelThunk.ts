@@ -50,6 +50,9 @@ export const loadTravel = createAsyncThunk('travel/loadTravel', async ({
             if (expensesList[expensesList.length - 1].created_at.getTime() > to.getTime()) {
                 to = new Date(expensesList[expensesList.length - 1].created_at)
             }
+            if(to.getTime() < Date.now()){
+                to = new Date()
+            }
 
         }
 

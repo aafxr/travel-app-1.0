@@ -1,5 +1,4 @@
 .expenses{
-
 }
 
 .expense-section{
@@ -69,9 +68,16 @@
 
 .expenses-list{
     margin-top: 1rem;
-    display: flex;
+    /*display: flex;*/
+    max-height: 9999px;
     flex-direction: column;
     gap: 0.75rem;
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+}
+
+.expenses-list.collapsed{
+    max-height: 0;
 }
 
 .expense-item{
@@ -105,6 +111,25 @@
     color: var(--color-text-silver);
     font-weight: 600;
     font-size: 0.7rem;
+}
+
+.collapse-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-silver);
+    background-color: var(--color-background);
+    /*border: 2px solid var(--color-text-silver);*/
+    /*border-radius: 4px;*/
+}
+
+.collapse-btn .icon{
+    transform: rotate(-90deg);
+    transition: transform 0.3s linear;
+}
+
+.collapse-btn.collapsed .icon{
+    transform: rotate(90deg);
 }
 
 

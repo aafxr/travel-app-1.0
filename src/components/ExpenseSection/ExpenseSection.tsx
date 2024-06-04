@@ -13,7 +13,7 @@ import {removeExpense} from "../../redux/slices/expenses-slice";
 import {Currency} from "../../core/classes/store/Currency";
 import formatTime from "../../utils/date-utils/formatTime";
 import Swipe from "../ui/Swipe/Swipe";
-import {TrashIcon} from "../svg";
+import {ChevronRightIcon, TrashIcon} from "../svg";
 
 import './ExpenseSection.css'
 
@@ -51,6 +51,7 @@ export function ExpenseSection({
     const navigate = useNavigate()
     const {limits} = useLimits()
     const [state, setState] = useState<SectionState>({})
+    const [collapsed, setCollapsed] = useState(false)
 
     const filtered = useMemo(() => filteredExpenses(context, expenses, filterType), [expenses, filterType])
 
@@ -128,7 +129,7 @@ export function ExpenseSection({
 
 
     return (
-        <div className='expenses'>
+        <div className='expenses block'>
             <div className='expense-section'>
                 <div className='expense-section-main' onClick={handleLimitEditeClick}>
                     <div className='expense-section-name'>{state?.section?.title}</div>
@@ -152,10 +153,9 @@ export function ExpenseSection({
                             </div>
                         )}
                     </div>
-                )
-                }
+                )}
             </div>
-            <div className='expenses-list'>
+            <div className={clsx('expenses-list', {collapsed})}>
                 {filtered.map(e => (
                     <Swipe key={e.id} rightElement={
                         <div className='h-full center' onClick={() => handleRemoveExpense(e)}>
@@ -180,6 +180,12 @@ export function ExpenseSection({
                         </div>
                     </Swipe>
                 ))}
+            </div>
+            <div
+                className={clsx('collapse-btn', {collapsed})}
+                onClick={() => setCollapsed(!collapsed)}
+            >
+                <ChevronRightIcon className='icon' />
             </div>
         </div>
     )
