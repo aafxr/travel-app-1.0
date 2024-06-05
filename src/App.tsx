@@ -2,6 +2,7 @@ import {useEffect} from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 
 import {
+    ActionsList,
     CurrentTravel,
     Dev,
     Events,
@@ -126,7 +127,8 @@ function App() {
                     </Route>
 
                     <Route path={'/profile/'} element={<Profile/>}/>
-                    <Route path={'/profile/sessions'} element={<SessionListPage/>}/>
+                    <Route path={'/profile/sessions/'} element={<SessionListPage/>}/>
+                    <Route path={'/profile/actions/'} element={<ActionsList/>}/>
                     <Route path={'/profile/errors/'} element={<ErrorsLogPage/>}/>
                     <Route path={'/profile/settings/user/'} element={<UserSettings/>}/>
                 </Route>

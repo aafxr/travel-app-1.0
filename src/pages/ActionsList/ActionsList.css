@@ -1,0 +1,39 @@
+.action{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 0.25rem 0;
+    padding: 4px;
+    color: var(--color-text-silver);
+    font-size: 0.7rem;
+    border-radius: 4px;
+    background-color: var(--color-background);
+}
+
+.action-title{
+    grid-column: 1 / 8;
+    grid-row: 1 / 2;
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.action-type{
+    grid-column: 1 / 8;
+    grid-row: 2 / 3;
+}
+
+.action-time{
+    text-align: right;
+    grid-column: 8 / -1;
+    grid-row: 1 / 2;
+}
+
+.action-synced{
+    text-align: right;
+    grid-column: 8 / -1;
+    grid-row: 2 / 3;
+}
+
+.action-synced .success{
+    color: var(--color-success);
+}
