@@ -42,6 +42,7 @@ import {assign} from "./utils/assign";
 import {PlaceEdite} from "./pages/PlaceEdite/PlaceEdite";
 import {UserSettings} from "./pages";
 import {ErrorsLogPage} from "./pages/ErrorsLogPage/ErrorsLogPage";
+import {SessionListPage} from "./pages/SessionListPage/SessionListPage";
 
 
 function App() {
@@ -125,6 +126,7 @@ function App() {
                     </Route>
 
                     <Route path={'/profile/'} element={<Profile/>}/>
+                    <Route path={'/profile/sessions'} element={<SessionListPage/>}/>
                     <Route path={'/profile/errors/'} element={<ErrorsLogPage/>}/>
                     <Route path={'/profile/settings/user/'} element={<UserSettings/>}/>
                 </Route>

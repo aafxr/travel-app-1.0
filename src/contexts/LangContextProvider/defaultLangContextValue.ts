@@ -89,4 +89,6 @@ export const defaultLangContextValue = {
     addLocation: 'Добавить локацию',
     editeDescription: 'Редактировать описание',
 
+    currentSession: 'Текущая',
+    tryAgain: 'Попробовать еще раз'
 }

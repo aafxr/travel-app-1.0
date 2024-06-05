@@ -48,7 +48,7 @@ export function LangContextProvider({children}: PropsWithChildren) {
             .finally(() => setState(p => ({...p, loading: false})))
     }, [user]);
 
-    console.log(lang)
+
     return (
         <LangContext.Provider value={lang}>
             {children}

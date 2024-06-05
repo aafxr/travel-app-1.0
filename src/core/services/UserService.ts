@@ -1,6 +1,6 @@
 import {TelegramAuthPayloadType} from "../../types/TelegramAuthPayloadType";
 import {ACCESS_TOKEN, REFRESH_TOKEN, USER_AUTH} from "../../constants";
-import {fetchRemoveUserAuth, fetchUserAuthTg} from "../../api/fetch";
+import {fetchRemoveUserAuth, fetchSessionList, fetchUserAuthTg} from "../../api/fetch";
 import {Action, Compare, Context, User} from "../classes";
 import {UserError} from "../errors";
 import {ActionType} from "../../types/ActionType";
@@ -121,5 +121,17 @@ export class UserService{
 
         const u =  await DB.getStoreItem(USER_AUTH)
         if(u) return new User(u)
+    }
+
+
+    /**
+     * получение списка сессий пользователя
+     * @param ctx
+     */
+    static async getSessionList(ctx: Context){
+        const {user} = ctx
+        if(!user) throw UserError.unauthorized()
+
+        return await fetchSessionList(user.refresh_token) || []
     }
 }

@@ -39,7 +39,7 @@ root.render(
                             <BrowserRouter>
                                 <App/>
                                 <LoadActionsComponent/>
-                                <Alerts/>
+                                {/*<Alerts/>*/}
                                 <LoadCurrencyComponent/>
                             </BrowserRouter>
                         </SubjectContextProvider>

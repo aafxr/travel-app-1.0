@@ -26,3 +26,5 @@ export default function browserName(agent: string) {
             return "other";
     }
 }
+
+export type BrowserNameType = ReturnType<typeof browserName>

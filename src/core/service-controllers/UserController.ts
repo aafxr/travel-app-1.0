@@ -58,4 +58,12 @@ export class UserController{
             throw e
         }
     }
+
+    static async getSessionList(ctx: Context){
+        try {
+            return await UserService.getSessionList(ctx)
+        }catch (e) {
+            throw e
+        }
+    }
 }
