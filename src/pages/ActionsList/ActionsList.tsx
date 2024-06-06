@@ -82,7 +82,7 @@ export function ActionsList() {
             </Container>
             <Container className='content' loading={loading}>
                 {list.map(a => (
-                    <div className='action'>
+                    <div key={a.id} className='action'>
                         <div className='action-title'>
                             <span>{a.data.id}</span>
                         </div>
@@ -106,18 +106,3 @@ export function ActionsList() {
         </div>
     )
 }
-
-
-// {
-//     !!list.length && list.map(e => (
-//             <ListItem
-//                 key={e.id}
-//                 topDescription={e.entity + ' - ' + e.action}
-//                 time={e.datetime}
-//                 icon={e.synced ? <CheckIcon success/> : <Loader/>}
-//             >
-//                 {e.data.title || e.data.value || ''}
-//             </ListItem>
-//         )
-//     )
-// }

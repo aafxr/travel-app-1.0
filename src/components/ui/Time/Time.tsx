@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import {ClockIcon} from "../../svg/ClockIcon";
 import range from "../../../utils/range";
@@ -64,19 +64,17 @@ export function Time({value, onChange, className, placeholder = '--:--'}: TimePr
     }
 
 
-
-    function handleTimeClick(){
+    function handleTimeClick() {
         setActive(true)
         document.addEventListener('click', checkOutsideClick)
-
     }
 
 
     function checkOutsideClick(this: Document, e: MouseEvent) {
         const el = e.target
-        if(!el || !(el instanceof Node)) return
-        if(timeRef.current?.contains(el)) return
-        if(popupRef.current?.contains(el)) return
+        if (!el || !(el instanceof Node)) return
+        if (timeRef.current?.contains(el)) return
+        if (popupRef.current?.contains(el)) return
 
         setActive(false)
         document.removeEventListener('click', checkOutsideClick)
@@ -85,15 +83,15 @@ export function Time({value, onChange, className, placeholder = '--:--'}: TimePr
 
     return (
         <>
-        <div
-            ref={timeRef}
-            className={clsx('time', className)}
-             onClick={handleTimeClick}
-        >
-            <div className='time-inner'>{date ? `${hh}:${mm}` : placeholder}</div>
-            <ClockIcon className='time-clock icon'/>
-            {/*{active && <TimeList ref={listRef}/>}*/}
-        </div>
+            <div
+                ref={timeRef}
+                className={clsx('time', className)}
+                onClick={handleTimeClick}
+            >
+                <div className='time-inner'>{date ? `${hh}:${mm}` : placeholder}</div>
+                <ClockIcon className='time-clock icon'/>
+                {/*{active && <TimeList ref={listRef}/>}*/}
+            </div>
             {active && <Popup ref={popupRef} style={{
                 position: 'absolute',
                 top: (rect?.bottom || 0) + 5 + 'px',
@@ -133,7 +131,6 @@ const TimeList = ({hour, minute, onHourChange, onMinuteChange}: TimeListPropsTyp
     useEffect(() => {
         handleRowItemUpdate('.mm')
     }, [minute]);
-
 
 
     function handleRowItemUpdate(tag: string, behavior: ScrollIntoViewOptions['behavior'] = "smooth") {
